@@ -1,0 +1,35 @@
+{
+  "registration_url": "https://app.quandora.ai/auth/signin",
+  "required_sections": [
+    "START HERE",
+    "TEST YOUR FIRST IDEA",
+    "UNDERSTAND THE RESULT",
+    "IMPROVE AND RERUN",
+    "BUILD AND EVALUATE A STRATEGY",
+    "PAPER TRADE A STRATEGY",
+    "AVAILABILITY AND LIMITATIONS",
+    "CONCEPTS AND REFERENCE",
+    "SECURITY, PRIVACY AND SUPPORT"
+  ],
+  "markdown_exclusions": [
+    "AGENTS.md",
+    "SUMMARY.md"
+  ],
+  "handoffs": {
+    "guides/improve-and-rerun.md": "plugin-and-product-backend",
+    "guides/strategy-tutorial.md": "plugin-and-product-backend",
+    "guides/paper-trading-tutorial.md": "plugin-and-product-backend",
+    "trust/security-privacy-and-support.md": "researcher"
+  },
+  "public_term_exclusions": [
+    "AGENTS.md"
+  ],
+  "forbidden_public_terms": [
+    "staging",
+    "production"
+  ],
+  "deprecated_claim_patterns": [
+    "cost viability.{0,40}(gate|success/fail)",
+    "(gate|success/fail).{0,40}cost viability"
+  ]
+}

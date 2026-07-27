@@ -96,4 +96,10 @@ These labels keep a promising backtest from being mistaken for a proven live str
 
 ### Where This Leads
 
-A strategy that survives evaluation can be deployed to paper trading in one click, to be watched forward. Next: [Paper Trading & Monitoring](paper-trading-and-monitoring.md).
+A strategy that survives evaluation can move to paper trading to be watched
+forward. Next: [Paper Trading & Monitoring](paper-trading-and-monitoring.md).
+
+Strategy composition and backtesting are available to public users. The
+step-by-step product interface is reserved in the
+[Strategy Tutorial](../guides/strategy-tutorial.md) and will be completed by the
+plugin and Product Backend owners.

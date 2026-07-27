@@ -6,35 +6,38 @@ description: >-
 
 # Factor Card
 
-Every completed run returns a factor card: a structured report designed to be read by both humans and AI agents. The card is the trust artifact — it turns a raw backtest into something you can review, question, and build on.
+Every completed run returns a Factor Card: a structured report designed to be read by both humans and AI agents. The card is the trust artifact — it turns a raw backtest into something you can review, question, and build on.
 
 #### How To Read A Card
 
 Read in this order:
 
 ```
-grade first
+Success / Fail first
 -> evidence second
 -> risk / caveats third
 -> next improvement fourth
 ```
 
-#### The Grade
+#### Success And Grade
 
-Every evaluated factor gets a single grade instead of a pass/fail label:
+Every evaluated factor has a Success/Fail result and a grade:
 
 ```
-SSS, SS, S, A, B, C, D   cleared the evaluation gate, strongest to weakest evidence
-F                        failed the gate
+Success / Fail             whether all required evidence checks passed
+SSS, SS, S, A, B, C, D, F cross-sectional Sharpe grade
 ```
 
-SSS is the strongest result and D is the weakest that still cleared the gate. A factor that fails the gate is graded F. A low grade is not a wasted run — it becomes memory that steers the next attempt. See [How Factors Are Judged](how-factors-are-judged.md) for the gate checks behind the grade.
+Success requires IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe
+stability to pass together. Grade is a separate Sharpe band. See
+[How Factors Are Judged](how-factors-are-judged.md) for the exact rules.
 
 #### Card Fields
 
 | Field           | Meaning                                                         |
 | --------------- | --------------------------------------------------------------- |
-| grade           | SSS, SS, S, A, B, C, D (cleared the gate) or F (failed it)      |
+| Success / Fail  | Whether all required evidence checks passed                       |
+| grade           | SSS, SS, S, A, B, C, D, or F from cross-sectional Sharpe         |
 | factor idea     | One-sentence explanation of what the factor tries to capture    |
 | formula         | The human-readable version of the factor logic                  |
 | data used       | Data headers, bar size, forward horizon, and evaluation windows |
@@ -43,24 +46,30 @@ SSS is the strongest result and D is the weakest that still cleared the gate. A 
 | caveats         | Why the signal may decay or fail                                |
 | next experiment | What the agent or user should test next                         |
 
-#### A Real Example
+#### Example
 
-From a real run on the microstructure task — factor: "Taker Trade Size Imbalance", daily bars, 7-day forward horizon:
+For a microstructure factor on daily bars with a 7-day forward horizon:
 
 | Field                   | Value                              | Plain English                                            |
 | ----------------------- | ---------------------------------- | -------------------------------------------------------- |
-| Grade                   | D                                  | Cleared the gate, but the weakest passing tier           |
-| Sharpe (CS)             | 0.81 (gate 0.8)                    | Just cleared the bar — real but not spectacular          |
-| Rank IC                 | 0.012 (gate 0.01)                  | Weak but genuinely positive predictive ranking           |
+| Success                 | Fail                               | At least one required check did not pass                  |
+| Grade                   | D                                  | Cross-sectional Sharpe falls in the D band                |
+| IS Sharpe (CS)          | 0.81                               | Above the strict 0.8 Success threshold                    |
+| Absolute IS Rank IC     | 0.012                              | Below the strict 0.02 Success threshold                   |
 | Autocorrelation (lag 1) | 0.89                               | Very stable signal, not bar-to-bar noise                 |
 | Max drawdown            | −32%                               | The worst peak-to-trough loss in the backtest            |
 | Turnover                | 0.63                               | How much the portfolio churns — this drives trading cost |
 | Cost viable             | ❌                                  | The edge does not survive realistic trading costs        |
 | Validation regime       | Bear 51% / Sideways 16% / Bull 32% | Tested across mixed market conditions                    |
 
-Reading it the card's way: **grade** — D, it cleared the gate but sits at the weakest passing tier. **Evidence** — weak-but-real predictive power with a very stable signal. **Caveat** — it fails cost viability, so it is not tradeable as-is. **Next experiment** — reduce turnover or slow the signal down so more of the edge survives costs.
+Reading it the card's way: **Success** — Fail because absolute IS Rank IC did
+not exceed 0.02. **Grade** — D because cross-sectional Sharpe was 0.81.
+**Caveat** — cost viability also failed, which is not a Success check but is a
+strong warning against treating the factor as tradeable. **Next experiment** —
+improve predictive ranking without increasing turnover.
 
-This is exactly what a factor card is for: a result that cleared the gate but still tells you the honest, load-bearing caveat before you risk anything on it.
+This is exactly what a Factor Card is for: Success, grade, and practical risks
+answer different questions and should be read together.
 
 #### Charts
 
@@ -90,3 +99,8 @@ Quandora result/factor-mining/<factor_slug>/
 ```
 
 Ask your agent to explain any field — the card is designed to be pasted into an AI conversation for critique and next steps.
+
+Some charts or downloadable files can finish preparing after the run reaches
+its terminal calculation state. A pending artifact is not necessarily absent.
+Use the returned readiness state and check the same result again instead of
+starting a duplicate run.

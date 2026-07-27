@@ -6,7 +6,9 @@ description: >-
 
 # Paper Trading & Monitoring
 
-When a strategy passes evaluation, you can deploy it to paper trading in one click. Paper trading is the next trust ladder after a backtest: the strategy runs forward on live market conditions, but with simulated orders — no real money at risk. The question it answers is simple and important:
+Strategy paper trading is available to public users. When a strategy passes
+evaluation, you can run it on live market conditions with simulated orders —
+no real money at risk. The question it answers is simple and important:
 
 ```
 Does the strategy keep working after the backtest?
@@ -31,7 +33,9 @@ A backtest describes the past. Paper trading tests whether the strategy behaves 
 
 Paper trading / monitoring is where the workflow forks.
 
-**If the strategy stays stable**, it can move toward supervised deployment — see [Deployment & Live Trading](deployment-and-live-trading.md).
+**If the strategy stays stable**, keep monitoring it. Users with separate
+invite-only access may also review the controlled
+[Deployment & Live Trading](deployment-and-live-trading.md) process.
 
 **If performance decays**, the loop restarts. Decay can mean weaker performance, larger-than-expected drawdown, rising turnover or costs, a changed market regime, or the signal drifting from its backtest behavior.
 
@@ -44,3 +48,7 @@ paper trading / monitoring detects decay
 ```
 
 Quandora does not treat a decaying strategy as permanently valid. The old result becomes memory, and the agent receives a refreshed research task. The goal is not to keep a weak strategy alive — it is to keep you inside an evidence loop.
+
+The step-by-step product interface is reserved in the
+[Paper Trading Tutorial](../guides/paper-trading-tutorial.md) and will be
+completed by the plugin and Product Backend owners.
