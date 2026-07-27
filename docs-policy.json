@@ -1,18 +1,52 @@
 {
   "registration_url": "https://app.quandora.ai/auth/signin",
-  "required_sections": [
-    "START HERE",
-    "TEST YOUR FIRST IDEA",
-    "UNDERSTAND THE RESULT",
-    "IMPROVE AND RERUN",
-    "BUILD AND EVALUATE A STRATEGY",
-    "PAPER TRADE A STRATEGY",
-    "AVAILABILITY AND LIMITATIONS",
-    "CONCEPTS AND REFERENCE",
-    "SECURITY, PRIVACY AND SUPPORT"
-  ],
+  "section_headings": {
+    "en": [
+      "START HERE",
+      "TEST YOUR FIRST IDEA",
+      "UNDERSTAND THE RESULT",
+      "IMPROVE AND RERUN",
+      "BUILD AND EVALUATE A STRATEGY",
+      "PAPER TRADE A STRATEGY",
+      "AVAILABILITY AND LIMITATIONS",
+      "CONCEPTS AND REFERENCE",
+      "SECURITY, PRIVACY AND SUPPORT"
+    ],
+    "zh-CN": [
+      "从这里开始",
+      "测试你的第一个想法",
+      "理解测试结果",
+      "改进并重新运行",
+      "构建并评估策略",
+      "运行策略模拟盘",
+      "功能可用性与限制",
+      "概念与参考资料",
+      "安全、隐私与支持"
+    ]
+  },
+  "document_roots": {
+    "compatibility": {
+      "path": ".",
+      "language": "en",
+      "exclude_directories": ["en", "zh"],
+      "temporary": true
+    },
+    "en": {
+      "path": "en",
+      "language": "en",
+      "authoritative": true
+    },
+    "zh": {
+      "path": "zh",
+      "language": "zh-CN",
+      "translation_statuses": ["draft", "reviewed", "pending"]
+    }
+  },
+  "locale_parity": ["en", "zh"],
+  "compatibility_mirror": ["compatibility", "en"],
   "markdown_exclusions": [
     "AGENTS.md",
+    "LOCALIZATION.md",
     "SUMMARY.md"
   ],
   "handoffs": {
@@ -22,7 +56,8 @@
     "trust/security-privacy-and-support.md": "researcher"
   },
   "public_term_exclusions": [
-    "AGENTS.md"
+    "AGENTS.md",
+    "LOCALIZATION.md"
   ],
   "forbidden_public_terms": [
     "staging",

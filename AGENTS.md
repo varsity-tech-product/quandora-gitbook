@@ -2,9 +2,9 @@
 
 ## Living Map
 
-This repository owns Quandora's public, user-facing GitBook. Organize content by
-user journey and keep public language independent of internal deployment
-topology.
+This repository owns Quandora's public, user-facing GitBook in English and
+Simplified Chinese. Organize content by user journey and keep public language
+independent of internal deployment topology.
 
 Canonical navigation lives in `SUMMARY.md` and follows this order:
 
@@ -20,11 +20,16 @@ Canonical navigation lives in `SUMMARY.md` and follows this order:
 
 Page responsibilities:
 
-- `README.md` is the public introduction and audience router.
-- `getting-started/` owns installation and first-run activation.
-- `guides/` owns task-oriented user journeys and content-owner handoffs.
-- `understanding-quandora/` owns durable concepts and reference material.
-- `trust/` owns public availability, limitations, security, privacy, and support.
+- `en/` is the authoritative English GitBook source.
+- `zh/` is the repository-owned Simplified Chinese GitBook source.
+- Root public Markdown is a temporary compatibility mirror of `en/` until the
+  existing GitBook Space is repointed and validated.
+- Within each language, `README.md` is the introduction and audience router;
+  `getting-started/` owns activation; `guides/` owns task-oriented journeys;
+  `understanding-quandora/` owns durable concepts; and `trust/` owns public
+  availability, limitations, security, privacy, and support.
+- `localization/glossary.json` owns approved bilingual product terminology.
+- `LOCALIZATION.md` owns the GitBook migration and rollback runbook.
 - `docs-policy.json` is the machine-readable documentation policy.
 - `scripts/verify_docs.py` enforces the policy locally and in CI.
 
@@ -63,6 +68,17 @@ content_owner: plugin-and-product-backend
 Allowed handoff owners and expected pages are declared in `docs-policy.json`.
 Remove the handoff status only when the owning team supplies and approves the
 complete user procedure or policy.
+
+Chinese pages declare one translation state:
+
+- `draft`: translated in Git but awaiting final language-owner approval;
+- `reviewed`: approved Chinese copy;
+- `pending`: Chinese copy is not ready and the page temporarily shows the
+  English source with a visible notice.
+
+Keep corresponding `en/` and `zh/` relative paths identical. During migration,
+apply every English content change to both root compatibility Markdown and
+`en/`; CI rejects drift.
 
 ## Verify
 

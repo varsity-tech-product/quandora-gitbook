@@ -1,0 +1,29 @@
+{
+  "source_language": "en",
+  "target_language": "zh-CN",
+  "terms": [
+    {"en": "Factor", "zh-CN": "因子"},
+    {"en": "Factor Mining", "zh-CN": "因子挖掘"},
+    {"en": "Factor Card", "zh-CN": "因子卡"},
+    {"en": "Strategy", "zh-CN": "策略"},
+    {"en": "Strategy Version", "zh-CN": "策略版本"},
+    {"en": "Strategy Run", "zh-CN": "策略回测运行"},
+    {"en": "Paper Trading", "zh-CN": "模拟盘"},
+    {"en": "Live Trading", "zh-CN": "实盘交易"},
+    {"en": "Success / Fail", "zh-CN": "成功 / 失败"},
+    {"en": "Rank IC", "zh-CN": "Rank IC"},
+    {"en": "Active Universe", "zh-CN": "有效交易标的池"},
+    {"en": "Create", "zh-CN": "新建"},
+    {"en": "Revise", "zh-CN": "修订"},
+    {"en": "Fork", "zh-CN": "分叉"},
+    {"en": "Rerun", "zh-CN": "重新运行"},
+    {"en": "Archive", "zh-CN": "归档"},
+    {"en": "Kill Switch", "zh-CN": "紧急停止"}
+  ],
+  "literal_rules": [
+    "Do not translate commands, code, file paths, JSON keys, IDs, metric keys, or URLs.",
+    "Keep product and host names such as Quandora, Codex, Claude, and OpenClaw unchanged.",
+    "Keep Rank IC in English and explain it in Chinese prose when first introduced.",
+    "Use direct, natural Chinese and avoid unnecessary negative-then-positive constructions such as 不是……而是…… and 并非……而是……."
+  ]
+}
