@@ -1,38 +1,39 @@
 ---
-translation_status: pending
-description: >-
-  What Quandora is in plain English — an open, agent-native way to test trading
-  ideas with evidence instead of vibes.
+translation_status: reviewed
+description: 用简单易懂的方式认识 Quandora，以及如何用可验证的证据测试交易想法。
 icon: user-vneck
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# Quandora 101（面向非量化用户）
 
-# Quandora 101 (For Non-Quants)
+Quandora 帮助更多人用量化研究的方法验证交易想法。你可以让 AI Agent 生成因子逻辑、运行回测并阅读结构化结果，也可以沿着清晰的步骤继续修改和验证。
 
-Quandora is an open infrastructure designed to make quant-style trading research more accessible, transparent, and agent-native. For decades, the serious trading research workflow lived inside hedge funds, prop shops, expensive platforms, and private notebooks. Market data, backtesting, overfit checks, cost modeling, signal memory, and research reports were treated as gated infrastructure. Quandora opens that workflow up.
+这套工作流关注证据。每次研究都会说明测试了什么、结果如何、哪些检查通过，以及下一步可以怎样改进。你能够据此判断一个想法在历史数据中的表现、样本外稳定性、与已有因子的相似程度，以及交易成本、换手和流动性对结果的影响。
 
-Quandora makes systematic trading research more inspectable and repeatable. The product is not the “magic alpha.” The product is the validation layer: the process that shows whether an idea worked historically, whether it survived costs, whether it was overfit, whether it duplicated something already tested, and what should be improved next.
+## Quandora 提供什么
 
-Quandora modernizes quant trading through:
+**清晰的研究过程：** 因子卡会呈现研究假设、关键指标、健康检查和结论，方便你理解结果并追溯依据。
 
-**Transparency:** Users can see the research process behind an idea: the assumptions, metrics, caveats, and verdict. The goal is to replace black-box signals with visible evidence.
+**开放的 Agent 工作流：** 插件、Skills 和任务模板采用 Apache 2.0 开源协议。交易者、开发者和 AI Agent 用户可以查看并调整研究生成方式。Quandora 在托管服务中绑定市场数据并执行评估，让不同用户的运行结果保持可比。
 
-**Open access:** The agent workflow — plugins, skills, and task templates — is open source under Apache 2.0, so serious traders, coders, and AI-agent users can inspect, run, and modify how research is generated. Market-data binding and backtest evaluation run on Quandora's hosted servers, which keeps the changing market data controlled and makes results comparable across everyone's runs.
+**面向 Agent 的研究能力：** AI Agent 擅长生成想法和代码。Quandora 为它补充数据、回测、验证、研究记录、错误反馈和结果卡等金融研究能力。
 
-**Agent-native research:** AI agents are good at generating ideas and code. Quandora gives them the missing finance infrastructure: data, backtests, validation, memory, error feedback, and result cards.
+**完整的风险视角：** 回测结果会结合回撤、换手、流动性、重复性、过拟合风险和交易成本等信息进行解释。成本可行性用于提供诊断证据，不参与因子 Success/Fail 判定。
 
-**Risk awareness:** A backtest is only useful if it survives real-world questions. Quandora checks for costs, drawdowns, turnover, liquidity, duplicated ideas, and overfitting risk.
+## 从市场直觉到可验证的想法
 
-For non-systematic traders, Quandora is a bridge from intuition to discipline. You do not need to stop having market instincts. The point is to test them. If you believe a breakout pattern works, a funding signal matters, or a market setup repeats, Quandora helps you ask the serious question: did this actually work before, and is it still worth testing?
+市场经验仍然很有价值。Quandora 帮助你把经验转化成可以测试的问题。
 
-Quandora’s larger vision is to open up the gated infrastructure behind systematic trading research. Backtesting, overfit checks, liquidity awareness, cost realism, repeatable workflows, and research reports should not only belong to closed institutions. Quandora makes that validation layer open, transparent, and accessible to the next generation of AI-powered market participants.
+例如，你可能认为：
+
+* 突破形态具有延续性；
+* 资金费率包含方向信息；
+* 某种市场状态会周期性出现。
+
+你可以把这些判断交给 Agent，编写因子逻辑并运行评估。随后查看因子卡，确认它在历史数据中的表现、样本外结果和健康检查，再决定继续修订、分叉尝试或归档。
+
+这一过程让研究更容易复现、比较和积累。每次运行都会留下结构化结果，后续研究可以在已有证据上继续推进。
 
 {% hint style="info" %}
-Quandora is finance-agent infrastructure. It is not a guaranteed-profit tool or
-copy-trading product. Public users can research factors, backtest strategies,
-and paper trade with simulated orders. Live trading is internal invitation only
-and never acts on Quandora's own discretionary judgment.
+因子挖掘、策略组合回测和策略模拟盘已经向公众用户开放。实盘交易采用内部邀请制，暂未向一般公众开放。所有研究结果仅用于评估历史或模拟表现，不构成收益承诺、投资建议或跟单指令。
 {% endhint %}
