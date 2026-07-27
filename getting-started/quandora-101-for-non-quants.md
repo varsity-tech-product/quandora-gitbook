@@ -26,5 +26,8 @@ For non-systematic traders, Quandora is a bridge from intuition to discipline. Y
 Quandora’s larger vision is to open up the gated infrastructure behind systematic trading research. Backtesting, overfit checks, liquidity awareness, cost realism, repeatable workflows, and research reports should not only belong to closed institutions. Quandora makes that validation layer open, transparent, and accessible to the next generation of AI-powered market participants.
 
 {% hint style="info" %}
-Quandora is finance-agent infrastructure. It is not a guaranteed-profit tool or copy-trading product, and it never trades on its own judgment — execution follows the strategy you define, under your risk limits and kill switch.
+Quandora is finance-agent infrastructure. It is not a guaranteed-profit tool or
+copy-trading product. Public users can research factors, backtest strategies,
+and paper trade with simulated orders. Live trading is internal invitation only
+and never acts on Quandora's own discretionary judgment.
 {% endhint %}

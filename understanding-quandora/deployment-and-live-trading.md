@@ -6,16 +6,25 @@ description: >-
 
 # Deployment & Live Trading
 
-Deployment is the stage after a strategy has been researched, evaluated, and paper-tracked.
+{% hint style="warning" %}
+Live trading is internal invitation only and is not open to general public
+users. Public accounts can use Factor Mining, strategy backtesting, and strategy
+paper trading, but those results do not grant live-trading access.
+{% endhint %}
 
-Quandora can execute the user's strategy, never its own judgment. That distinction is the whole point:
+For invited users, deployment is the stage after a strategy has been researched,
+evaluated, paper-tracked, and separately approved for real-money execution.
+
+Invite-only live trading can execute the user's approved strategy, never its
+own judgment. That distinction is the whole point:
 
 ```
 Trade call     = "you should buy / sell / hold this."
 Execution rail = "run the strategy you approved, inside the limits you set."
 ```
 
-Quandora provides execution rails. It does not make discretionary trade calls.
+The invite-only capability provides execution rails. It does not make
+discretionary trade calls.
 
 ### Where Deployment Fits
 

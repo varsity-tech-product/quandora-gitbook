@@ -1,14 +1,18 @@
 ---
 description: >-
-  The full Quandora workflow — from factor mining to live trading, and when the
-  loop restarts.
+  The Quandora research workflow — from Factor Mining through strategy paper
+  trading, and when the loop restarts.
 ---
 
 # Quandora Workflow
 
-Quandora turns AI-generated market ideas into tested research artifacts, strategy cards, paper-tracked deployments, and live trading deployments.
+Quandora turns AI-generated market ideas into tested research artifacts,
+evaluated strategies, and paper-trading runs. Live trading is a separate,
+internal invitation-only capability.
 
-The workflow starts with factor mining, moves through evaluation and strategy construction, then paper-tracks the result. If performance decays, the system goes back to mining. If the strategy stays stable, it can move into supervised deployment and live execution.
+The public workflow starts with Factor Mining, moves through evaluation and
+strategy construction, then paper-tracks the result. If performance decays, the
+research loop can return to Factor Mining.
 
 In plain English:
 
@@ -17,10 +21,14 @@ Your AI agent proposes a market idea.
 Quandora makes the idea prove itself.
 ```
 
-Quandora is not a trade-calling system. It is a complete workflow for testing whether a market idea has evidence before capital is risked, then executing only the user's approved strategy inside explicit limits.
+Quandora is not a trade-calling system. It is a workflow for testing whether a
+market idea has evidence before capital is risked.
 
 {% hint style="info" %}
-**What's available today:** the full workflow from factor mining to live trading. That includes factor mining, factor evaluation, factor cards, strategy construction, strategy evaluation, paper trading / monitoring, supervised deployment, and live trading. Execution always runs the strategy you define, paper-verified first, under your approvals, risk limits, monitoring, audit logs, and kill switch.
+**Available to public users:** Factor Mining, factor evaluation, Factor Cards,
+strategy composition and backtesting, and strategy paper trading. Live trading
+is internal invitation only and is not open to general public users. See
+[Product Availability](../trust/product-availability.md).
 {% endhint %}
 
 ### The System Loop
@@ -57,18 +65,6 @@ Quandora is not a trade-calling system. It is a complete workflow for testing wh
         +----------------------+                 |
         | paper trading /      |-----------------+
         | monitoring           |
-        +----------------------+
-                  |
-                  | stable
-                  v
-        +----------------------+
-        | supervised           |
-        | deployment           |
-        +----------------------+
-                  |
-                  v
-        +----------------------+
-        | live trading         |
         +----------------------+
 ```
 
@@ -109,7 +105,7 @@ Answers: _Did this factor show useful evidence?_ — not _Will it make money in 
 
 ### Step 3: Factor / Strategy Card
 
-Quandora returns a [factor / strategy card](factor-card.md) — the trust artifact. It may include:
+Quandora returns a [Factor Card](factor-card.md) — the trust artifact. It may include:
 
 * grade
 * factor idea
@@ -121,14 +117,16 @@ Quandora returns a [factor / strategy card](factor-card.md) — the trust artifa
 * reason for a low grade
 * suggested next experiment
 
-Every evaluated factor is graded:
+Every evaluated factor receives a Success/Fail result and a Sharpe-based grade:
 
 ```
-SSS, SS, S, A, B, C, D   cleared the gate, strongest to weakest
-F                        failed the gate
+Success / Fail             required evidence checks
+SSS, SS, S, A, B, C, D, F cross-sectional Sharpe grade
 ```
 
-If it is weak, too costly, or fails the gate, the workflow can stop or return to mining. If it grades well, it can move into strategy construction.
+If required evidence is weak or the diagnostics show material risk, the
+workflow can stop or return to mining. If the evidence supports the next
+experiment, the factor can move into strategy construction.
 
 ### Step 4: Strategy Construction
 
@@ -199,13 +197,16 @@ paper trading / monitoring detects decay
 
 This is what makes Quandora a living research loop instead of a static backtest report.
 
-### Step 7B: If Stable, Move To Supervised Deployment
+### Step 7B: If Stable, Continue Monitoring
 
-The system packages the strategy, prepares configuration, and supports monitoring — and requires approval or delegated permission plus risk controls before real-money execution. See [Deployment & Live Trading](deployment-and-live-trading.md).
+Stable simulated performance is evidence for continued monitoring. It does not
+grant access to real-money execution.
 
-### Step 8: Live Trading
+### Invite-Only Live Trading
 
-The final stage of the complete workflow, not a shortcut around research. It requires:
+Live trading is available only through an internal invitation and is not part
+of the general public workflow. For invited users, it is not a shortcut around
+research. It requires:
 
 * human approval
 * strict limits
@@ -214,7 +215,9 @@ The final stage of the complete workflow, not a shortcut around research. It req
 * risk controls
 * the ability to stop execution
 
-This stage executes the user's strategy, never Quandora's own judgment. The product principle remains: **report rails, not direct trade calls.** See [Deployment & Live Trading](deployment-and-live-trading.md) and [Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md).
+This capability executes the user's approved strategy, never Quandora's own
+judgment. See [Deployment & Live Trading](deployment-and-live-trading.md) and
+[Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md).
 
 ### How To Use The Workflow
 
@@ -229,8 +232,6 @@ local agent
 -> factor card
 -> strategy construction and evaluation
 -> paper trading / monitoring
--> supervised deployment
--> live trading inside your limits
 ```
 
 The agent creates the factor artifact locally, then submits it for evaluation. The server is the source of truth for data and grades.
@@ -243,6 +244,6 @@ Quandora is agentic quant infrastructure. It does not provide guaranteed returns
 * A high grade is a research output, not guaranteed profit.
 * A low grade is useful negative evidence.
 * A result card is not financial advice.
-* Live execution requires human approval or explicit delegated permission, enforced risk controls, monitoring, logs, and a kill switch.
+* Live trading is internal invitation only and requires separate authorization.
 
 See [Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md) for the full control model.

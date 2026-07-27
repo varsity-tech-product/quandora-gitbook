@@ -6,6 +6,11 @@ description: >-
 
 # Safety, Risk Limits & Kill Switch
 
+{% hint style="warning" %}
+The controls on this page apply to the internal invitation-only live-trading
+capability. Live trading is not open to general public users.
+{% endhint %}
+
 Everything Quandora executes runs inside a control model. This page states it plainly so there is no ambiguity about what the system can and cannot do with your capital.
 
 ### The Control Clause

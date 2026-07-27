@@ -14,7 +14,7 @@ Solo systematic traders, AI power users, and market-curious builders who already
 ### Before You Start
 
 * An agent host: Claude Code, Codex, or OpenClaw
-* A Quandora account — authorization happens in your browser
+* A [Quandora account](https://app.quandora.ai/auth/signin) — authorization happens in your browser
 * 10–15 minutes
 * No exchange API key — the first research workflow doesn't touch trading. Authorization is browser OAuth only.
 
@@ -48,7 +48,13 @@ Your agent will read the [task card](../understanding-quandora/task-card.md), ch
 
 ### 3. Read Your Result
 
-The run returns a [factor card](../understanding-quandora/factor-card.md) — verdict first, then evidence, risks, and a suggested next experiment — plus charts and result files saved to your workspace:
+The run returns a [factor card](../understanding-quandora/factor-card.md) —
+verdict first, then evidence, risks, and a suggested next experiment. When your
+host supports local files, it also saves charts and result files in:
+
+```
+Quandora result/factor-mining/<factor_slug>/
+```
 
 See [How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md) to understand why your factor passed or failed.
 
@@ -59,11 +65,15 @@ Your agent ran one Quandora research task and returned a report you can understa
 A rejected verdict still counts — rejections become memory and sharpen the next attempt.
 
 {% hint style="info" %}
-Factor mining tests ideas — it does not place trades. Execution comes later in the workflow: your strategy, paper-verified first, under your risk limits and kill switch. A factor card is evidence about the past, not a promise about the future.
+Factor Mining tests ideas — it does not place trades. Strategy paper trading
+uses simulated orders. Live trading is a separate, internal invitation-only
+capability. A Factor Card is evidence about the past, not a promise about the
+future.
 {% endhint %}
 
 ### Next Steps
 
 * Browse the [research task families](../understanding-quandora/research-tasks.md)
 * See what data your agent can use in [Our Data](../understanding-quandora/our-data.md)
+* Learn how to [improve and rerun](../guides/improve-and-rerun.md) one factor
 * New to the jargon? Keep the [Glossary](../understanding-quandora/glossary.md) open

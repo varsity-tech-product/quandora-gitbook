@@ -20,13 +20,20 @@ Definitions are intentionally plain English. Ask your AI agent to expand any of 
 
 **Factor card** — The structured result report: grade, evidence, caveats, next experiment. See [Factor Card](factor-card.md).
 
-**Grade (SSS–F)** — A factor card's verdict. Factors that clear the evaluation gate are graded SSS (strongest) down through SS, S, A, B, C, D; a factor that fails the gate is graded F.
+**Success / Fail** — Whether a factor passed all four required evidence checks:
+IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe stability.
+
+**Grade (SSS–F)** — A cross-sectional Sharpe band. Grade describes backtest
+strength separately from the Success/Fail result.
 
 **Factor vs strategy vs deployment** — A factor is a research artifact. A strategy is a factor packaged with entry/exit rules, sizing, and risk limits. A deployment is a running instance of a strategy (paper or live).
 
 **Trade call** — Discretionary advice on what to buy, sell, or hold. Quandora does **not** make trade calls. It runs the strategy you defined; it never tells you what to trade.
 
-**Live trading** — Execution of the user's approved strategy on a real account, inside explicit permissions and risk limits, with monitoring, audit logs, and a kill switch. Never Quandora's own judgment.
+**Live trading** — An internal invitation-only capability that executes an
+approved user strategy on a real account inside explicit permissions and risk
+limits. It is not open to general public users and never represents Quandora's
+own discretionary judgment.
 
 #### Testing Terms
 
@@ -44,11 +51,14 @@ Definitions are intentionally plain English. Ask your AI agent to expand any of 
 
 #### Metrics
 
-**Sharpe ratio** — Return per unit of risk. Higher is better; the evaluation gate currently looks for ≥ 0.8 cross-sectional Sharpe.
+**Sharpe ratio** — Return per unit of risk. Higher is better. Factor Success
+requires IS cross-sectional Sharpe to be strictly greater than 0.8.
 
 **IC (Information Coefficient)** — Correlation between factor scores and actual forward returns. Positive means the factor points the right way.
 
-**Rank IC** — IC computed on rankings instead of raw values, so outliers don't distort it. The main "does it predict?" metric.
+**Rank IC** — IC computed on rankings instead of raw values, so outliers have
+less influence. Factor Success requires absolute IS Rank IC to be strictly
+greater than 0.02.
 
 **ICIR** — IC divided by its variability: is the predictive power consistent or streaky?
 
@@ -68,6 +78,8 @@ Definitions are intentionally plain English. Ask your AI agent to expand any of 
 
 **Net vs gross** — Gross performance is before trading costs; net is after fees, turnover cost, and funding. The gap between them is what costs eat.
 
-**Cost viability** — Whether the factor's edge survives realistic trading costs. A great signal that costs more than it earns is not tradeable.
+**Cost viability** — Whether the factor's edge survives realistic trading
+costs. It is diagnostic evidence rather than a Factor Success/Fail check. A
+great signal that costs more than it earns is still not tradeable as-is.
 
 **Regime** — The prevailing market condition (bull / bear / sideways, calm / volatile). Factor cards report the regime mix of the validation window.
