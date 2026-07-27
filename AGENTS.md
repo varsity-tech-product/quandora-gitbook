@@ -28,6 +28,15 @@ Page responsibilities:
 - `docs-policy.json` is the machine-readable documentation policy.
 - `scripts/verify_docs.py` enforces the policy locally and in CI.
 
+Internal engineering scenario guides may be used as product-fact inputs, but
+must be translated before appearing here:
+
+- start from the user's goal, choice, and visible outcome;
+- preserve meaningful distinctions such as revise, fork, and rerun;
+- explain pending, failed, stopped, and archived states in user language;
+- hide RPC ordering, service identities, cursors, idempotency mechanics,
+  provider topology, internal identifiers, and rollout controls.
+
 ## Public Language
 
 - Factor Mining, strategy composition/backtesting, and strategy paper trading
@@ -66,4 +75,3 @@ make verify
 The verifier checks navigation order and coverage, local links and assets,
 handoff ownership, public-language restrictions, deprecated gate claims, and
 the canonical registration URL.
-

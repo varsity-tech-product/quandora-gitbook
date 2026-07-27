@@ -99,3 +99,8 @@ Quandora result/factor-mining/<factor_slug>/
 ```
 
 Ask your agent to explain any field — the card is designed to be pasted into an AI conversation for critique and next steps.
+
+Some charts or downloadable files can finish preparing after the run reaches
+its terminal calculation state. A pending artifact is not necessarily absent.
+Use the returned readiness state and check the same result again instead of
+starting a duplicate run.

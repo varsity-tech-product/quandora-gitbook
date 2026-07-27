@@ -21,6 +21,13 @@ describe your own idea to your agent. After the run, use
 [How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md)
 to understand the result.
 
+## I Already Have Factor Code
+
+Follow the [Installation Guide](installation-guide.md), then ask your agent to
+validate your `plugin.py` before starting a backtest. Validation checks whether
+the code matches the selected research task and supported factor contract; it
+does not run or save the factor by itself.
+
 ## I Use AI Agents Or Build Integrations
 
 Follow the [Installation Guide](installation-guide.md) for Codex, Claude, or
@@ -33,3 +40,9 @@ Read [Strategy Construction](../understanding-quandora/strategy-construction.md)
 to understand how evaluated factors become a strategy. Then continue to the
 [Strategy Tutorial](../guides/strategy-tutorial.md).
 
+## I Want To Monitor A Strategy Forward
+
+Start with a completed strategy backtest, then continue to the
+[Paper Trading Tutorial](../guides/paper-trading-tutorial.md). Paper trading
+reuses that exact evaluated strategy with simulated orders; you do not rebuild
+its factor composition when starting the run.
