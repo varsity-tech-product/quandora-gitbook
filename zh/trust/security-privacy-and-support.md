@@ -1,25 +1,22 @@
 ---
-translation_status: pending
-description: Security, privacy, data handling, and support information for Quandora users.
+translation_status: reviewed
+description: Quandora 用户可验证的安全、授权与支持信息。
 content_status: handoff
 content_owner: researcher
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 安全、隐私与支持
 
-# Security, Privacy And Support
+Quandora 通过 Host 管理的 Agent 连接使用浏览器 OAuth。不要在 Agent Prompt 中粘贴交易所 Key、API Key、Bearer Token、Authorization Code、Access Token、Refresh Token、密码或其他凭据。
 
-Quandora uses browser-based authorization for its agent connection. Do not paste
-exchange keys, API keys, bearer tokens, passwords, or other credentials into an
-agent prompt.
+## 已验证的连接事实
 
-The complete, reviewed policies for security, privacy, data retention, research
-data handling, account deletion, service support, and incident reporting are
-being prepared.
+* Host 负责保存和刷新 Quandora 连接；Agent 不应检查或复制凭据。
+* Access Token 的有效期为 7 天，Rotating Refresh Token 的有效期为 30 天，具体仍受账户和授权状态影响。
+* 旧授权不会通过 Token Refresh 自动获得后来新增的模拟盘权限。安全连接响应要求时，应重新完成浏览器授权。
+* Result Bundle 下载使用短时、单次有效的传输 URL。Agent 会立即使用，并且不得打印、保存或自行构造该 URL。
+* 因子分析和策略分析使用当前用户范围内的服务端证据，不需要本地压缩包或凭据。
 
-For installation-specific authorization guidance, including what to do if a
-tool asks for an API key, see the
-[Installation Guide](../getting-started/installation-guide.md).
+数据保留、研究数据处理、账户删除、服务支持和事件报告政策仍需要对应 Owner 单独批准。本页不会补充未经确认的承诺。
 
+有关安装授权和工具索要 API Key 时的处理方式，请阅读[安装指南](../getting-started/installation-guide.md)。
