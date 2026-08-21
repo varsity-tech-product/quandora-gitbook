@@ -1,52 +1,59 @@
 ---
-translation_status: reviewed
-description: 使用模拟订单监控策略、检查证据，并由用户决定下一步。
+translation_status: pending
+description: >-
+  Watching a strategy forward without risking money — and deciding whether it's
+  ready, needs a refresh, or should be retired.
 ---
 
-# 模拟盘与监控
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
+{% endhint %}
 
-策略模拟盘已经向公众用户开放。它会复用一条符合条件且已完成的策略结果，使用模拟订单运行，不会承担真实资金风险。
+# Paper Trading & Monitoring
 
-它回答的问题是：
+Strategy paper trading is available to public users. When a strategy passes
+evaluation, you can run it on live market conditions with simulated orders —
+no real money at risk. The question it answers is simple and important:
 
-```text
-How is this exact Strategy source behaving in simulation now?
+```
+Does the strategy keep working after the backtest?
 ```
 
-模拟盘证据不能证明未来或真实资金表现。
+A backtest describes the past. Paper trading tests whether the strategy behaves the way the backtest suggested it should, going forward. This is the main decision point in the workflow.
 
-## 可以检查的内容
+### What Monitoring Tracks
 
-当前公开模拟盘工作流可以提供：
+* **Simulated orders** — what the strategy would have done
+* **Forward performance** — results on data the strategy never trained on
+* **PnL and equity curve** — cumulative performance over time
+* **Drawdown** — worst peak-to-trough loss so far
+* **Turnover** — how much the book is churning
+* **Cost drift** — whether real trading costs are eating the edge
+* **Regime changes** — shifts in market conditions
+* **Signal decay** — the edge weakening over time
+* **Alerts** — notifications when something moves out of expected range
+* **Trade-log memory** — a persistent record of what happened and why
 
-* 运行生命周期和安全来源信息；
-* 当前 balance、assets、PnL 和 portfolio positions；
-* 已关闭的净持仓生命周期；
-* 模拟 fills 和 funding；
-* 固定回看区间的 equity curves；
-* 有界策略代码；
-* 经过明确确认的终态 stop。
+### The Decision Point
 
-Portfolio snapshot 是读取 open 和 partially open positions 的依据。Closed position history 只包含已经完成的净持仓生命周期。
+Paper trading / monitoring is where the workflow forks.
 
-固定回看区间为 `7D`、`30D`、`90D`、`180D`、`1Y` 和 `3Y`。为保持请求区间固定，运行开始前的日期可能使用明确的零值填充；这些零值不代表模拟表现。
+**If the strategy stays stable**, keep monitoring it. Users with separate
+invite-only access may also review the controlled
+[Deployment & Live Trading](deployment-and-live-trading.md) process.
 
-## 监控提供证据，不执行自动化决策
+**If performance decays**, the loop restarts. Decay can mean weaker performance, larger-than-expected drawdown, rising turnover or costs, a changed market regime, or the signal drifting from its backtest behavior.
 
-通过 detail state 跟踪一条明确运行。暂时无法读取 portfolio，不代表 PnL 为零、组合为空或运行失败。应稍后检查同一条运行，避免快速轮询或重复提交。
+```
+paper trading / monitoring detects decay
+-> factor mining restarts
+-> new candidate factors are generated
+-> new factors are evaluated
+-> the strategy is repaired, replaced, or retired
+```
 
-公开 Skill 不承诺自动告警、自主识别 Regime、自动判断信号衰减，也不会由 Agent 维护交易叙事。只解释服务返回的证据。
+Quandora does not treat a decaying strategy as permanently valid. The old result becomes memory, and the agent receives a refreshed research task. The goal is not to keep a weak strategy alive — it is to keep you inside an evidence loop.
 
-## 由用户控制的决策点
-
-证据保持稳定时，可以继续监控。出现亏损、回撤或非预期表现时，可以：
-
-* 检查 fills、funding、positions、equity 和 code；
-* 经过明确确认后停止模拟盘；
-* 让策略分析只读诊断来源结果；
-* 选择一个受控策略构建实验；
-* 证据支持时返回因子分析或因子挖掘。
-
-后续动作都不会自动发生。某个指标变化不会让模拟盘自行停止、修订策略、重启因子挖掘或提交替代运行。
-
-具体步骤请阅读[模拟盘使用教程](../guides/paper-trading-tutorial.md)。
+The step-by-step product interface is reserved in the
+[Paper Trading Tutorial](../guides/paper-trading-tutorial.md) and will be
+completed by the plugin and Product Backend owners.
