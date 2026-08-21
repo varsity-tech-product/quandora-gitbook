@@ -1,90 +1,98 @@
 ---
-translation_status: pending
-description: Plain-English definitions for the quant terms used across Quandora
+translation_status: reviewed
+description: Quandora 使用的量化与产品术语简明解释
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 术语表
 
-# Glossary
+以下定义尽量使用简单中文。遇到不熟悉的术语时，可以让 AI Agent 结合一条明确运行举例说明。
 
-Definitions are intentionally plain English. Ask your AI agent to expand any of these with examples from your own runs.
+## 研究对象与 Skills
 
-#### Research Objects
+**因子（Factor）** — 可以量化并转化为分数的市场特征。Quandora 会测试该分数是否包含有用的截面证据。
 
-**Alpha** — A market signal that appears to predict returns beyond what general market movement (beta) explains. In Quandora, "alpha" and "factor" are used nearly interchangeably.
+**信号（Signal）** — 因子输出。每个市场、每根 Bar 对应一个值，可以在 active universe 中进行截面排序。
 
-**Factor** — A measurable market feature turned into a score, e.g. "unusual open-interest change scaled by its volatility." Factors are the research artifact Quandora tests.
+**任务卡（Task Card）** — 结构化研究任务，包含目标、类别、允许的数据 Header、Horizon 和研究上下文。参见[任务卡](task-card.md)。
 
-**Signal** — The output of a factor: the number per market per bar that says "lean long" or "lean short."
+**`plugin.py`** — 由 Quandora 验证并运行的可执行因子定义。参见[`plugin.py`](plugin.py.md)。
 
-**Task card** — The agent's work order: what to investigate, which data headers are allowed, the forward horizon, and the task status. See [Task Card](task-card.md).
+**因子挖掘（Factor Mining）** — 创建、验证并回测因子。它也可以浏览当前用户拥有的因子历史，并明确导出 Result Bundle。
 
-**plugin.py** — The executable form of a factor that Quandora's server can run. See [plugin.py](plugin.py.md).
+**因子分析（Factor Analysis）** — 使用服务端留存的 IS 证据，只读诊断一条明确因子结果。它不需要本地 ZIP。
 
-**Factor card** — The structured result report: grade, evidence, caveats, next experiment. See [Factor Card](factor-card.md).
+**因子卡（Factor Card）** — 包含 Success/Fail、Health、等级、指标、风险和实验建议的结构化因子结果。参见[因子卡](factor-card.md)。
 
-**Success / Fail** — Whether a factor passed all four required evidence checks:
-IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe stability.
+**Success / Fail** — Absolute Rank IC、lag-1 autocorrelation、cross-sectional Sharpe 和 Factor Health 是否全部满足当前记录的要求。
 
-**Grade (SSS–F)** — A cross-sectional Sharpe band. Grade describes backtest
-strength separately from the Success/Fail result.
+**等级（SSS–F）** — 截面 Sharpe 区间，与 Success/Fail 分开解释。
 
-**Factor vs strategy vs deployment** — A factor is a research artifact. A strategy is a factor packaged with entry/exit rules, sizing, and risk limits. A deployment is a running instance of a strategy (paper or live).
+**策略构建（Strategy Building）** — 选择符合条件的因子，并提交截面策略配置进行回测。
 
-**Trade call** — Discretionary advice on what to buy, sell, or hold. Quandora does **not** make trade calls. It runs the strategy you defined; it never tells you what to trade.
+**策略分析（Strategy Analysis）** — 使用规范配置、留存产物和数值图表证据，只读诊断一条明确策略运行。
 
-**Live trading** — An internal invitation-only capability that executes an
-approved user strategy on a real account inside explicit permissions and risk
-limits. It is not open to general public users and never represents Quandora's
-own discretionary judgment.
+**Official / Mine / Shared** — 策略因子的来源。Official 是只读产品因子库；Mine 是当前用户拥有且符合策略条件的因子；Shared 是已加入当前用户策略因子池的共享因子。
 
-#### Testing Terms
+**模拟盘来源（Paper source）** — 已完成、属于当前用户且符合条件，可以用于模拟盘的策略运行。
 
-**Backtest** — Replaying history to see how a factor would have scored. Evidence about the past, not a promise about the future.
+**策略组合（Strategy Portfolio）** — 一组静态、独立分配资金的策略 Sleeve，可以先回测，再进入模拟盘。
 
-**In-sample (IS) / ALL** — In-sample is the data a factor was shaped on. ALL is the full backtest (in-sample + out-of-sample). Cards show both so you can check consistency; strong IS but weak ALL is the classic sign of overfitting.
+**Result Bundle** — 已完成因子或策略结果导出的校验 ZIP。它的 runtime manifest 会记录已包含、等待中和省略项目。分析不依赖该 ZIP。
 
-**Walk-forward** — Repeatedly training on one window and testing on the next, marching through time — a stricter way to catch overfitting.
+**实盘交易（Live Trading）** — 使用真实资金执行交易。它不属于当前公开产品，本文档也不说明任何实盘实现或控制模型。
 
-**Overfitting** — When a factor memorizes historical noise instead of capturing a real pattern. Looks great in-sample, fails on the full backtest.
+## 测试术语
 
-**Forward horizon (`fwd_period`)** — How far ahead the factor is judged. Public tasks use 7 daily bars: "does today's score predict the next 7 days?"
+**回测（Backtest）** — 使用历史数据评估因子或策略。它只描述已测试区间，不承诺未来表现。
 
-**Blindbox** — Quandora's data rule: agents see allowed header names, never the full changing market data. Data binds server-side at evaluation. See [Our Data](our-data.md).
+**In-Sample（IS）** — 当前公开因子分析契约提供的历史证据区间。
 
-#### Metrics
+**Out-of-sample（OOS）** — 独立留出的历史区间。当前公开因子分析 Skill 不声明 OOS 证据。
 
-**Sharpe ratio** — Return per unit of risk. Higher is better. Factor Success
-requires IS cross-sectional Sharpe to be strictly greater than 0.8.
+**ALL** — 包含 IS 的组合范围。在策略分析中，ALL 不能描述为纯 OOS。
 
-**IC (Information Coefficient)** — Correlation between factor scores and actual forward returns. Positive means the factor points the right way.
+**过拟合（Overfitting）** — 规则捕捉了历史噪声，没有形成能够泛化的机制。
 
-**Rank IC** — IC computed on rankings instead of raw values, so outliers have
-less influence. Factor Success requires absolute IS Rank IC to be strictly
-greater than 0.02.
+**Forward Horizon（`fwd_period`）** — 评估因子分数时向前看的距离。当前公开任务使用 7 根日线 Bar。
 
-**ICIR** — IC divided by its variability: is the predictive power consistent or streaky?
+**数据 Header Blindbox** — Agent 可以看到允许的 Header 名称，Quandora 在服务端绑定持续变化的市场数据。参见[我们的数据](our-data.md)。
 
-**WPCC** — Weighted position cross-correlation, reported alongside Mean IC and ICIR on the CS WPCC chart.
+## 因子指标
 
-**IC decay** — How quickly the predictive edge fades as the forward horizon lengthens.
+**Sharpe Ratio** — 单位波动对应的收益。当前 Factor Success 要求 cross-sectional Sharpe 严格大于 `0.8`。
 
-**Autocorrelation** — How similar the signal is to itself one bar later. Stable signals (high autocorrelation) are cheaper to trade than jittery ones.
+**Rank IC** — 因子分数排序与 Forward Return 排序之间的相关性。当前 Factor Success 要求其绝对值严格大于 `0.01`。
 
-**Turnover** — How much the implied portfolio changes between rebalances. High turnover means high trading costs.
+**Autocorrelation** — 信号与上一根 Bar 信号的相似程度。当前 Factor Success 要求 lag-1 autocorrelation 至少为 `0.4`。
 
-**Calmar** — Annual return divided by max drawdown: return earned per unit of worst-case loss.
+**Health** — 因子输出可用性检查，包括声明口径下的 coverage 和 missingness。未知 Health 证据不会通过。
 
-**Hit rate** — The share of bets that were profitable.
+**ICIR** — IC 除以其波动，用于观察一致性。
 
-**Max drawdown** — The worst peak-to-trough loss over the test. The "see your downside" number.
+**IC Decay** — 预测证据在不同 Forward Horizon 下的变化。
 
-**Net vs gross** — Gross performance is before trading costs; net is after fees, turnover cost, and funding. The gap between them is what costs eat.
+**Turnover** — 隐含组合在两次再平衡之间的变化程度。
 
-**Cost viability** — Whether the factor's edge survives realistic trading
-costs. It is diagnostic evidence rather than a Factor Success/Fail check. A
-great signal that costs more than it earns is still not tradeable as-is.
+**Calmar** — 年化收益除以最大回撤。
 
-**Regime** — The prevailing market condition (bull / bear / sideways, calm / volatile). Factor cards report the regime mix of the validation window.
+**Hit Rate** — 在已声明定义下，盈利观察值或交易所占比例。
+
+**Maximum Drawdown** — 评估路径中的最大峰谷回撤。
+
+**Net vs Gross** — Gross 表现未扣除模拟成本；Net 表现包含适用的费用、turnover 和 funding 影响。
+
+**Cost Viability** — 诊断一个 Edge 在模拟成本后是否仍然存在。它只提供诊断信息，不参与四项必需检查。
+
+## 模拟盘术语
+
+**模拟盘（Paper Trading）** — 使用符合条件的策略来源进行模拟执行，不会使用真实资金下单。
+
+**Portfolio Snapshot** — 当前模拟盘的 balance、PnL、assets，以及 open 或 partially open positions。
+
+**Closed Position History** — 已完成的净持仓生命周期。Open 或 partially open positions 保留在当前 portfolio snapshot 中。
+
+**Fill** — 一条模拟成交通知。
+
+**Funding** — 模拟盘运行中记录的资金费变动。
+
+**Stop** — 模拟盘的终态操作。停止后不能恢复；再次启动会创建新运行。
