@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 用简单易懂的方式认识 Quandora，以及如何用可验证的证据测试交易想法。
 icon: user-vneck
 ---

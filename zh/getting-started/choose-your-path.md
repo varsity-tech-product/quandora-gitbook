@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 根据你的背景和目标，选择进入 Quandora 的最短路径。
 icon: route
 ---

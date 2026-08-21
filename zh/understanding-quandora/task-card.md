@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 任务卡是因子挖掘使用的结构化研究任务。
 ---
 

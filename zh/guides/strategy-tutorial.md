@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 构建、回测、分析并导出一条截面策略。
 content_status: handoff
 content_owner: plugin-and-product-backend

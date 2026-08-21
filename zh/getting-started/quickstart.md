@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 大约 15 分钟，从零获得并分析第一份有证据支持的因子结果。
 icon: forward
 ---

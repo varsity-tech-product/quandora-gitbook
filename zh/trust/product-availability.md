@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 当前向公众开放的研究与模拟能力，以及实盘边界。
 icon: circle-check
 ---

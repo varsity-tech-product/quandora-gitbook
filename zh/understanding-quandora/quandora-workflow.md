@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 五项公开 Skill、各自的证据边界和阶段之间的明确确认。
 ---
 

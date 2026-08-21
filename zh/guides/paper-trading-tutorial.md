@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 启动、监控、检查并停止 Quandora 模拟盘运行。
 content_status: handoff
 content_owner: plugin-and-product-backend

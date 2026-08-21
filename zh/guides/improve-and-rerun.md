@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 诊断一个已测试因子，并运行经过用户确认的受控实验。
 content_status: handoff
 content_owner: plugin-and-product-backend

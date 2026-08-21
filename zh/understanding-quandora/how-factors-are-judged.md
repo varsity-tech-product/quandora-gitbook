@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 因子卡当前使用的 Success 检查与 SSS–F 等级，提供证据而不承诺结果。
 ---
 

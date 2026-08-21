@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 研究任务告诉 Agent 需要测试哪一类市场规律。
 ---
 

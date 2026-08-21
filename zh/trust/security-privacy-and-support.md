@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 用户可验证的安全、授权与支持信息。
 content_status: handoff
 content_owner: researcher
