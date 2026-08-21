@@ -1,142 +1,98 @@
 ---
-translation_status: pending
-description: Plain-English definitions for the terms used across Quandora
+translation_status: draft
+description: Quandora 使用的量化与产品术语简明解释
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 术语表
 
+以下定义尽量使用简单中文。遇到不熟悉的术语时，可以让 AI Agent 结合一条明确运行举例说明。
 
-# Glossary
+## 研究对象与 Skills
 
-Definitions are intentionally plain English. Ask your AI agent to explain any
-term using one exact run as an example.
+**因子（Factor）** — 可以量化并转化为分数的市场特征。Quandora 会测试该分数是否包含有用的截面证据。
 
-## Research Objects And Skills
+**信号（Signal）** — 因子输出。每个市场、每根 Bar 对应一个值，可以在 active universe 中进行截面排序。
 
-**Factor** — A measurable market feature turned into a score. Quandora tests
-whether the score contains useful cross-sectional evidence.
+**任务卡（Task Card）** — 结构化研究任务，包含目标、类别、允许的数据 Header、Horizon 和研究上下文。参见[任务卡](task-card.md)。
 
-**Signal** — The factor output: one value per market and bar that can be ranked
-across the active universe.
+**`plugin.py`** — 由 Quandora 验证并运行的可执行因子定义。参见[`plugin.py`](plugin.py.md)。
 
-**Task Card** — The structured research work order: objective, category,
-allowed data headers, horizon, and research context. See [Task Card](task-card.md).
+**因子挖掘（Factor Mining）** — 创建、验证并回测因子。它也可以浏览当前用户拥有的因子历史，并明确导出 Result Bundle。
 
-**`plugin.py`** — The executable factor definition validated and run by
-Quandora. See [`plugin.py`](plugin.py.md).
+**因子分析（Factor Analysis）** — 使用服务端留存的 IS 证据，只读诊断一条明确因子结果。它不需要本地 ZIP。
 
-**Factor Mining** — Creates, validates, and backtests a factor. It can also
-browse caller-owned factor history and explicitly export a Result Bundle.
+**因子卡（Factor Card）** — 包含 Success/Fail、Health、等级、指标、风险和实验建议的结构化因子结果。参见[因子卡](factor-card.md)。
 
-**Factor Analysis** — A read-only diagnosis of one exact factor result using
-server-persisted IS evidence. It does not require a local ZIP.
+**Success / Fail** — Absolute Rank IC、lag-1 autocorrelation、cross-sectional Sharpe 和 Factor Health 是否全部满足当前记录的要求。
 
-**Factor Card** — The structured factor result containing Success/Fail, Health,
-grade, metrics, caveats, and proposed experiments. See [Factor Card](factor-card.md).
+**等级（SSS–F）** — 截面 Sharpe 区间，与 Success/Fail 分开解释。
 
-**Success / Fail** — Whether absolute Rank IC, lag-1 autocorrelation,
-cross-sectional Sharpe, and Factor Health all passed their current recorded
-requirements.
+**策略构建（Strategy Building）** — 选择符合条件的因子，并提交截面策略配置进行回测。
 
-**Grade (SSS–F)** — A cross-sectional Sharpe band, separate from Success/Fail.
+**策略分析（Strategy Analysis）** — 使用规范配置、留存产物和数值图表证据，只读诊断一条明确策略运行。
 
-**Strategy Building** — Selects eligible factors and submits a cross-sectional
-strategy configuration for backtesting.
+**Official / Mine / Shared** — 策略因子的来源。Official 是只读产品因子库；Mine 是当前用户拥有且符合策略条件的因子；Shared 是已加入当前用户策略因子池的共享因子。
 
-**Strategy Analysis** — A read-only diagnosis of one exact strategy run using
-its canonical configuration, retained artifacts, and numerical chart evidence.
+**模拟盘来源（Paper source）** — 已完成、属于当前用户且符合条件，可以用于模拟盘的策略运行。
 
-**Official / Mine / Shared** — Strategy factor sources. Official factors are
-read-only product inventory; Mine are the caller's eligible Strategy factors;
-Shared factors have been admitted to the caller's Strategy pool.
+**策略组合（Strategy Portfolio）** — 一组静态、独立分配资金的策略 Sleeve，可以先回测，再进入模拟盘。
 
-**Paper source** — A completed, owner-scoped, eligible Strategy run that can be
-selected for simulated Paper Trading.
+**Result Bundle** — 已完成因子或策略结果导出的校验 ZIP。它的 runtime manifest 会记录已包含、等待中和省略项目。分析不依赖该 ZIP。
 
-**Strategy Portfolio** — A static set of independently allocated strategy
-sleeves that can be backtested and then run in Paper Trading.
+**实盘交易（Live Trading）** — 使用真实资金执行交易。它不属于当前公开产品，本文档也不说明任何实盘实现或控制模型。
 
-**Result Bundle** — The verified ZIP exported for a completed Factor or
-Strategy result. Its runtime manifest records included, pending, and omitted
-items. Analysis does not depend on this ZIP.
+## 测试术语
 
-**Live Trading** — Real-money execution. It is not part of the public Quandora
-product, and this documentation does not specify an implementation or control
-model for it.
+**回测（Backtest）** — 使用历史数据评估因子或策略。它只描述已测试区间，不承诺未来表现。
 
-## Testing Terms
+**In-Sample（IS）** — 当前公开因子分析契约提供的历史证据区间。
 
-**Backtest** — Replaying history to evaluate a factor or strategy. It is
-evidence about the tested period, not a promise about the future.
+**Out-of-sample（OOS）** — 独立留出的历史区间。当前公开因子分析 Skill 不声明 OOS 证据。
 
-**In-Sample (IS)** — Historical evidence in the window exposed by the current
-public Factor Analysis contract.
+**ALL** — 包含 IS 的组合范围。在策略分析中，ALL 不能描述为纯 OOS。
 
-**Out-of-sample (OOS)** — A separate held-out historical window. The current
-public Factor Analysis skill does not claim OOS evidence.
+**过拟合（Overfitting）** — 规则捕捉了历史噪声，没有形成能够泛化的机制。
 
-**ALL** — A combined scope that includes IS. In Strategy Analysis, ALL must not
-be described as pure OOS.
+**Forward Horizon（`fwd_period`）** — 评估因子分数时向前看的距离。当前公开任务使用 7 根日线 Bar。
 
-**Overfitting** — When a rule captures historical noise rather than a mechanism
-that generalizes.
+**数据 Header Blindbox** — Agent 可以看到允许的 Header 名称，Quandora 在服务端绑定持续变化的市场数据。参见[我们的数据](our-data.md)。
 
-**Forward horizon (`fwd_period`)** — How far ahead factor scores are evaluated.
-Current public tasks use seven daily bars.
+## 因子指标
 
-**Data-header blindbox** — The agent sees the allowed header names while
-Quandora binds changing market data server-side. See [Our Data](our-data.md).
+**Sharpe Ratio** — 单位波动对应的收益。当前 Factor Success 要求 cross-sectional Sharpe 严格大于 `0.8`。
 
-## Factor Metrics
+**Rank IC** — 因子分数排序与 Forward Return 排序之间的相关性。当前 Factor Success 要求其绝对值严格大于 `0.01`。
 
-**Sharpe ratio** — Return per unit of variability. Current Factor Success
-requires cross-sectional Sharpe to be strictly greater than `0.8`.
+**Autocorrelation** — 信号与上一根 Bar 信号的相似程度。当前 Factor Success 要求 lag-1 autocorrelation 至少为 `0.4`。
 
-**Rank IC** — Correlation between factor-score rankings and forward-return
-rankings. Current Factor Success requires its absolute value to be strictly
-greater than `0.01`.
+**Health** — 因子输出可用性检查，包括声明口径下的 coverage 和 missingness。未知 Health 证据不会通过。
 
-**Autocorrelation** — Similarity between the signal and its previous-bar value.
-Current Factor Success requires lag-1 autocorrelation to be at least `0.4`.
+**ICIR** — IC 除以其波动，用于观察一致性。
 
-**Health** — Recorded checks for factor-output usability, including coverage
-and missingness under a declared basis. Unknown Health evidence does not pass.
+**IC Decay** — 预测证据在不同 Forward Horizon 下的变化。
 
-**ICIR** — IC divided by its variability: a measure of consistency.
+**Turnover** — 隐含组合在两次再平衡之间的变化程度。
 
-**IC decay** — How predictive evidence changes across forward horizons.
+**Calmar** — 年化收益除以最大回撤。
 
-**Turnover** — How much the implied portfolio changes between rebalances.
+**Hit Rate** — 在已声明定义下，盈利观察值或交易所占比例。
 
-**Calmar** — Annual return divided by maximum drawdown.
+**Maximum Drawdown** — 评估路径中的最大峰谷回撤。
 
-**Hit rate** — The share of observations or trades that were profitable under
-the stated definition.
+**Net vs Gross** — Gross 表现未扣除模拟成本；Net 表现包含适用的费用、turnover 和 funding 影响。
 
-**Maximum drawdown** — The worst peak-to-trough decline in the evaluated path.
+**Cost Viability** — 诊断一个 Edge 在模拟成本后是否仍然存在。它只提供诊断信息，不参与四项必需检查。
 
-**Net vs gross** — Gross performance is before modeled costs; net performance
-is after the applicable fee, turnover, and funding effects.
+## 模拟盘术语
 
-**Cost viability** — Diagnostic evidence about whether an edge survives modeled
-costs. It is not a Factor Success/Fail gate.
+**模拟盘（Paper Trading）** — 使用符合条件的策略来源进行模拟执行，不会使用真实资金下单。
 
-## Paper Terms
+**Portfolio Snapshot** — 当前模拟盘的 balance、PnL、assets，以及 open 或 partially open positions。
 
-**Paper Trading** — Simulated execution using an eligible strategy source. It
-does not place live-money trades.
+**Closed Position History** — 已完成的净持仓生命周期。Open 或 partially open positions 保留在当前 portfolio snapshot 中。
 
-**Portfolio snapshot** — The current Paper balance, PnL, assets, and open or
-partially open positions.
+**Fill** — 一条模拟成交通知。
 
-**Closed position history** — Completed net-position lifecycles. Open or
-partially open positions remain in the current portfolio snapshot.
+**Funding** — 模拟盘运行中记录的资金费变动。
 
-**Fill** — A simulated execution record.
-
-**Funding** — Simulated funding transfers recorded for a Paper run.
-
-**Stop** — A terminal action for a Paper run. A stopped run cannot be resumed;
-starting again creates a new run.
+**Stop** — 模拟盘的终态操作。停止后不能恢复；再次启动会创建新运行。

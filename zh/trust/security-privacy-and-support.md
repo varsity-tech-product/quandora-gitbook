@@ -1,39 +1,22 @@
 ---
-translation_status: pending
-description: Security, privacy, data handling, and support information for Quandora users.
+translation_status: draft
+description: Quandora 用户可验证的安全、授权与支持信息。
 content_status: handoff
 content_owner: researcher
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 安全、隐私与支持
 
+Quandora 通过 Host 管理的 Agent 连接使用浏览器 OAuth。不要在 Agent Prompt 中粘贴交易所 Key、API Key、Bearer Token、Authorization Code、Access Token、Refresh Token、密码或其他凭据。
 
-# Security, Privacy And Support
+## 已验证的连接事实
 
-Quandora uses browser OAuth through the host-managed agent connection. Do not
-paste exchange keys, API keys, bearer tokens, authorization codes, access or
-refresh tokens, passwords, or other credentials into an agent prompt.
+* Host 负责保存和刷新 Quandora 连接；Agent 不应检查或复制凭据。
+* Access Token 的有效期为 7 天，Rotating Refresh Token 的有效期为 30 天，具体仍受账户和授权状态影响。
+* 旧授权不会通过 Token Refresh 自动获得后来新增的模拟盘权限。安全连接响应要求时，应重新完成浏览器授权。
+* Result Bundle 下载使用短时、单次有效的传输 URL。Agent 会立即使用，并且不得打印、保存或自行构造该 URL。
+* 因子分析和策略分析使用当前用户范围内的服务端证据，不需要本地压缩包或凭据。
 
-## Verified Connection Facts
+数据保留、研究数据处理、账户删除、服务支持和事件报告政策仍需要对应 Owner 单独批准。本页不会补充未经确认的承诺。
 
-* The host stores and refreshes the Quandora connection; the agent should not
-  inspect or copy credentials.
-* Access tokens are valid for seven days and rotating refresh tokens for 30
-  days, subject to account and authorization state.
-* An older authorization does not gain newly granted Paper permissions through
-  token refresh alone. Complete fresh browser consent when the safe connection
-  response requires it.
-* Result Bundle downloads use short-lived, single-use transfer URLs. The agent
-  consumes them immediately and must not print, store, or reconstruct them.
-* Factor and Strategy Analysis use owner-scoped server evidence and do not need
-  local archives or credentials.
-
-Reviewed policies for data retention, research-data handling, account deletion,
-service support, and incident reporting require separate owner approval. This
-page does not invent those commitments.
-
-For installation-specific authorization guidance, including what to do if a
-tool asks for an API key, see the
-[Installation Guide](../getting-started/installation-guide.md).
+有关安装授权和工具索要 API Key 时的处理方式，请阅读[安装指南](../getting-started/installation-guide.md)。

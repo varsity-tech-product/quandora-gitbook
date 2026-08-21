@@ -1,66 +1,45 @@
 ---
-translation_status: pending
-description: >-
-  The current Success checks and SSS–F grade behind a Factor Card — evidence,
-  not promises.
+translation_status: draft
+description: 因子卡当前使用的 Success 检查与 SSS–F 等级，提供证据而不承诺结果。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# Quandora 如何评估因子
 
+每个提交的因子都会使用服务端绑定的市场数据进行评估。两个核心结果需要分别阅读：
 
-# How Factors Are Judged
+* **Success 或 Fail**：是否通过全部必需证据检查；
+* **Grade**：因子的截面 Sharpe 所在区间。
 
-Every submitted factor is evaluated on server-bound market data. Read the two
-headline results separately:
+评估运行时拥有这些语义。对于一条明确运行，因子卡记录的数值、阈值、Health 证据和失败原因是权威依据。
 
-* **Success or Fail** asks whether every required evidence check passed.
-* **Grade** reports a cross-sectional Sharpe band.
+## 当前公开证据范围
 
-The evaluation runtime owns these semantics. The Factor Card's recorded values,
-thresholds, Health evidence, and failure reasons are authoritative for the
-exact run.
+因子分析 Skill 当前读取对产品安全的 **In-Sample（IS）** 证据，不声明 OOS 或 ALL 证据。IS 仍然是历史证据，不能预测未来或模拟表现。
 
-## Current Public Evidence Scope
+## Success 或 Fail
 
-The Factor Analysis skill currently reads product-safe **In-Sample (IS)**
-evidence. It does not claim OOS or ALL evidence. IS is historical evidence and
-does not predict future or simulated performance.
+截面因子只有在以下四项检查全部通过时才会得到 Success：
 
-## Success Or Fail
-
-A cross-sectional factor succeeds only when all four current checks pass:
-
-| Check | Success condition | What it asks |
+| 检查 | Success 条件 | 它回答的问题 |
 | --- | --- | --- |
-| Absolute Rank IC | `> 0.01` | Is the ranking relationship strong enough? |
-| Autocorrelation, lag 1 | `>= 0.4` | Is the signal sufficiently persistent from one bar to the next? |
-| Cross-sectional Sharpe | `> 0.8` | Was risk-adjusted cross-sectional performance strong enough? |
-| Factor Health | Passed | Was the factor output sufficiently complete and usable under the recorded Health basis? |
+| Absolute Rank IC | `> 0.01` | 排序关系是否足够强？ |
+| Autocorrelation, lag 1 | `>= 0.4` | 信号在相邻 Bar 之间是否足够稳定？ |
+| Cross-sectional Sharpe | `> 0.8` | 截面风险调整后表现是否足够强？ |
+| Factor Health | Passed | 在记录的 Health 口径下，因子输出是否足够完整并可用？ |
 
-The Rank IC and Sharpe checks use strict greater-than comparisons;
-autocorrelation includes the threshold. Unknown, unavailable, or non-finite
-required evidence does not pass.
+Rank IC 和 Sharpe 使用严格大于；autocorrelation 包含阈值本身。任何必需证据为 unknown、unavailable 或 non-finite 时都不会通过。
 
-Cost viability, turnover, drawdown, and other diagnostics remain important,
-but they do not independently determine Factor Success or Fail.
+Cost viability、turnover、drawdown 和其他诊断信息仍然重要，但它们不会单独决定因子的 Success 或 Fail。
 
-## Health And Coverage
+## Health 与 Coverage
 
-Health checks factor values within the active universe. A symbol's active span
-runs from its first valid value through its last valid value; cells outside that
-span do not count against active coverage.
+Health 在 active universe 内检查因子值。一个 Symbol 的 active span 从第一个有效值开始，到最后一个有效值结束；span 之外的 Cell 不计入 active coverage。
 
-The card can record Health metrics, their thresholds, the coverage basis, and
-the exact failed fields. Treat missing or `null` Health evidence as unknown, not
-as passed. When comparing two runs, compare Health directly only when their
-windows, active-universe definitions, missing-value handling, and thresholds
-match.
+因子卡可以记录 Health 指标、阈值、coverage basis 和失败字段。缺失或 `null` Health 证据应视为未知，不能视为通过。比较两条运行时，只有在 Window、active-universe 定义、缺失值处理和阈值一致时，才直接比较 Health。
 
 ## Grade
 
-The grade bands use cross-sectional Sharpe:
+等级使用截面 Sharpe：
 
 | Cross-sectional Sharpe | Grade |
 | --- | --- |
@@ -73,11 +52,8 @@ The grade bands use cross-sectional Sharpe:
 | `2.0 – < 2.2` | SS |
 | `>= 2.2` | SSS |
 
-The grade is relayed evidence, not a promotion decision. It does not override a
-failed required check and does not say that a factor is ready for real-money
-trading.
+Grade 是上游返回的证据，不是晋级决定。它不会覆盖失败的必需检查，也不代表该因子已经适合真实资金交易。
 
 {% hint style="info" %}
-A successful factor showed evidence under the tested conditions. A backtest is
-evidence about the past, not a guarantee of future returns.
+Success 只表示因子在已测试条件下提供了相应证据。回测描述历史，不保证未来收益。
 {% endhint %}

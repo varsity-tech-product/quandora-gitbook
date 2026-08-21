@@ -1,18 +1,11 @@
 ---
-translation_status: pending
-description: >-
-  plugin.py is the contract-compliant factor source that an AI agent asks
-  Quandora to validate and backtest.
+translation_status: draft
+description: `plugin.py` 是 AI Agent 交给 Quandora 验证并回测的契约化因子源码。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 编写 `plugin.py`
 
-
-# Writing `plugin.py`
-
-Factor Mining turns a task or custom idea into one complete `plugin.py` source:
+因子挖掘会把任务或自定义想法转化为一份完整的 `plugin.py` 源码：
 
 ```text
 task or custom idea
@@ -23,31 +16,29 @@ task or custom idea
 -> Quandora runs the backtest
 ```
 
-## Start From The Current Contract
+## 从当前 Contract 开始
 
-The server-provided construction contract is the source of truth for:
+服务端返回的 Construction Contract 是以下内容的权威依据：
 
-* exact `build_signal` inputs;
-* supported data columns;
-* forward horizon;
-* required metadata and runtime sections;
-* supported Python and runtime expressions;
-* validation rules.
+* 明确的 `build_signal` 输入；
+* 支持的数据 Column；
+* Forward Horizon；
+* 必需 Metadata 和 Runtime Sections；
+* 支持的 Python 与 Runtime Expressions；
+* 验证规则。
 
-Do not copy an old signature or unsupported header from a previous run. The
-agent sees allowed header names while Quandora binds changing market data
-server-side.
+不要从旧运行复制过时的 Signature 或不受支持的 Header。Agent 可以看到允许的 Header 名称，Quandora 会在服务端绑定持续变化的市场数据。
 
-## Formula And Source
+## Formula 与源码
 
-A human-readable formula explains the mechanism. For example:
+人类可读的 Formula 用于解释机制。例如：
 
 ```text
 signal = normalized_change(open_interest_close, 4, 20)
          * direction(one_day_return(close))
 ```
 
-Plain English:
+它表达的含义是：
 
 ```text
 Measure unusual open-interest change,
@@ -55,47 +46,41 @@ scale it by its recent behavior,
 and align it with the latest price direction.
 ```
 
-`plugin.py` makes that idea executable under the returned contract. The
-submitted source must include the required metadata, `build_signal`, and any
-declared runtime sections in the exact supported form.
+`plugin.py` 会让这一想法按照返回的 Contract 执行。提交源码必须使用明确支持的形式，包含必需 Metadata、`build_signal` 和所有声明的 Runtime Sections。
 
-## Validation Rules
+## 验证规则
 
-The agent should:
+Agent 应当：
 
-* write one complete source file;
-* keep `build_signal` parameters aligned with the returned data columns;
-* return an aligned floating-point DataFrame;
-* replace infinite outputs with `NaN` or a finite contract-safe fallback;
-* check for materially similar factors;
-* validate the complete source after every edit;
-* repair only from safe structured validation diagnostics;
-* submit the exact source that passed validation.
+* 编写一份完整源码；
+* 让 `build_signal` 参数与返回的 Data Columns 一致；
+* 返回对齐的浮点 DataFrame；
+* 把无限值替换为 `NaN` 或契约允许的有限值；
+* 检查是否存在核心机制高度相似的因子；
+* 每次修改后重新验证完整源码；
+* 只根据安全的结构化验证诊断进行修复；
+* 提交刚刚通过验证的同一份源码。
 
-Generated factor source must not be imported, executed, or evaluated locally.
-Quandora performs remote validation and evaluation.
+生成的因子源码不得在本地 import、execute 或 eval。Quandora 负责远程验证和评估。
 
-## What `plugin.py` Is Not
+## `plugin.py` 不包含的能力
 
-`plugin.py` is not:
+`plugin.py` 不属于以下内容：
 
-* a buy or sell instruction;
-* a complete Strategy;
-* a live trading system;
-* a guarantee of profit;
-* a filesystem path for the server to read.
+* 买入或卖出指令；
+* 完整策略；
+* 实盘交易系统；
+* 收益保证；
+* 让服务端读取的文件系统路径。
 
-It is the testable factor definition sent inline after validation and explicit
-confirmation.
+它是一份可测试的因子定义，在通过验证和明确确认后以内联源码形式提交。
 
-## Where The Accepted Source Goes
+## 已接受源码的导出位置
 
-For a completed run, the Factor Mining-owned accepted source can be included in
-the verified Result Bundle:
+对于已完成运行，因子挖掘拥有的已接受源码可以包含在经过校验的 Result Bundle 中：
 
 ```text
 Quandora result/factor/<factor_slug>.zip
 ```
 
-The ZIP is the canonical completed local export. The agent does not create a
-second extracted result tree or automatically execute the source it contains.
+该 ZIP 是已完成结果的规范本地导出。Agent 不会创建第二套解压目录，也不会自动执行压缩包中的源码。

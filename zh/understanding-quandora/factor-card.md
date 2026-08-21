@@ -1,24 +1,15 @@
 ---
-translation_status: pending
-description: >-
-  The structured report for one factor result — Health, grade, evidence, risks,
-  and what to test next.
+translation_status: draft
+description: 一条因子结果的结构化报告，包含 Health、等级、证据、风险和下一项实验。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 因子卡
 
+因子卡是一条明确因子结果在服务端留存的证据记录。它把原始回测转化为人和 AI Agent 都可以检查、质疑和比较的内容，不依赖本地文件。
 
-# Factor Card
+## 阅读顺序
 
-A Factor Card is the server-persisted evidence record for one exact factor
-result. It turns a raw backtest into something a person or AI agent can review,
-question, and compare without depending on local files.
-
-## How To Read A Card
-
-Read in this order:
+建议按以下顺序阅读：
 
 ```text
 Success / Fail
@@ -28,80 +19,68 @@ Success / Fail
 -> next controlled experiment
 ```
 
-## Success And Grade Are Different
+## Success 与等级回答不同问题
 
-| Result | Meaning |
+| 结果 | 含义 |
 | --- | --- |
-| Success / Fail | Whether every required factor evidence check passed. |
-| SSS, SS, S, A, B, C, D, F | The cross-sectional Sharpe grade relayed by the evaluation runtime. |
+| Success / Fail | 是否通过了全部必需的因子证据检查 |
+| SSS、SS、S、A、B、C、D、F | 评估运行时返回的截面 Sharpe 等级 |
 
-A factor can receive a non-F grade and still fail a required check. Read the
-recorded gate evidence before interpreting the grade. See
-[How Factors Are Judged](how-factors-are-judged.md) for the current semantics.
+一个因子即使获得非 F 等级，也可能因为某项必需检查失败而得到 Fail。解释等级前，应先阅读记录中的 Gate 证据。当前语义请参考[Quandora 如何评估因子](how-factors-are-judged.md)。
 
-## Common Card Fields
+## 常见字段
 
-| Field | Meaning |
+| 字段 | 含义 |
 | --- | --- |
-| Success / Fail | Combined required-check result |
-| grade and grade score | Relayed categorical and continuous rating evidence |
-| factor idea and formula | What the signal is designed to capture |
-| data and evaluation scope | Headers, bar size, horizon, and visible evidence window |
-| Health | Coverage, missingness, output usability, and any failed Health fields |
-| key metrics | Sharpe, Rank IC, autocorrelation, drawdown, turnover, and available diagnostics |
-| assumptions and caveats | Conditions that may weaken the evidence |
-| next experiment | A proposed controlled change, not an automatic submission |
+| Success / Fail | 必需检查的组合结果 |
+| grade 与 grade score | 上游返回的分类和连续评分证据 |
+| factor idea 与 formula | 信号希望捕捉的机制 |
+| data 与 evaluation scope | 数据 Header、Bar Size、Horizon 和可见证据区间 |
+| Health | Coverage、missingness、输出可用性和失败字段 |
+| key metrics | Sharpe、Rank IC、autocorrelation、drawdown、turnover 等可用诊断指标 |
+| assumptions 与 caveats | 可能削弱证据的条件 |
+| next experiment | 受控改动建议，不会自动提交 |
 
-Missing or null evidence stays unavailable; it must not be converted to zero or
-treated as a pass.
+缺失或 `null` 证据必须保持不可用，不能改写为零或视为通过。
 
-## Example
+## 示例
 
-For a factor evaluated on daily bars with a seven-day forward horizon:
+假设一个因子使用日线 Bar 和 7 天 Forward Horizon：
 
-| Field | Value | Plain English |
+| 字段 | 值 | 解释 |
 | --- | --- | --- |
-| Success | Fail | At least one required check did not pass |
-| Grade | D | Cross-sectional Sharpe falls in the D band |
-| Cross-sectional Sharpe | 0.81 | Passes the strict `> 0.8` check |
-| Absolute Rank IC | 0.008 | Fails the strict `> 0.01` check |
-| Autocorrelation, lag 1 | 0.62 | Passes the `>= 0.4` check |
-| Health | Passed | The recorded output-quality check passed |
-| Max drawdown | −32% | The worst observed peak-to-trough decline |
-| Turnover | 0.63 | How much the implied portfolio changed |
-| Cost viability | Failed | A diagnostic warning, not a Success gate |
+| Success | Fail | 至少一项必需检查未通过 |
+| Grade | D | 截面 Sharpe 位于 D 区间 |
+| Cross-sectional Sharpe | 0.81 | 通过严格的 `> 0.8` 检查 |
+| Absolute Rank IC | 0.008 | 未通过严格的 `> 0.01` 检查 |
+| Autocorrelation, lag 1 | 0.62 | 通过 `>= 0.4` 检查 |
+| Health | Passed | 记录中的输出质量检查通过 |
+| Max drawdown | −32% | 观察到的最大峰谷回撤 |
+| Turnover | 0.63 | 隐含组合的变化程度 |
+| Cost viability | Failed | 诊断警告，不参与四项必需检查 |
 
-The concise reading is: **Fail** because absolute Rank IC missed its required
-threshold; **D** because Sharpe was 0.81; and **high implementation risk** if
-cost viability also failed. Those statements answer different questions.
+简要结论为：Absolute Rank IC 未达到要求，所以结果是 **Fail**；Sharpe 为 0.81，所以等级是 **D**；如果 Cost viability 也失败，则实现风险较高。这些字段分别回答不同问题。
 
-## Server Evidence And Charts
+## 服务端证据与图表
 
-The Factor Analysis skill reads product-safe **In-Sample (IS)** evidence for one
-exact run. Depending on availability, this can include the Factor Card, Health
-and rating fields, factor profile, group NAV, daily returns, simulation NAV,
-simulation PnL, and inert job-linked source used only for explanation.
+因子分析 Skill 会读取一条明确运行中对产品安全的 **In-Sample（IS）** 证据。根据可用性，它可能包含因子卡、Health 与等级字段、factor profile、group NAV、daily returns、simulation NAV、simulation PnL，以及只用于解释的惰性源码文本。
 
-Do not describe this public analysis as OOS or ALL analysis. A future public
-contract may expose other windows, but the current analysis surface is IS-only.
+不要把当前公开分析描述为 OOS 或 ALL 分析。未来的公开契约可能提供其他 Window，但当前分析范围只有 IS。
 
-## Optional Result Bundle
+## 可选 Result Bundle
 
-Factor Analysis does not require a local archive. When Factor Mining exports a
-completed result in a writable host, the canonical local output is one verified
-ZIP:
+因子分析不需要本地压缩包。在可写 Host 中导出已完成结果时，本地规范结果是一个经过校验的 ZIP：
 
 ```text
 Quandora result/factor/<factor_slug>.zip
 ```
 
-The ZIP is not automatically extracted or reconstructed. Its runtime manifest
-is authoritative for the exact included, pending, and omitted items.
+ZIP 不会自动解压或重新构建。它的 runtime manifest 是判断已包含、等待中和省略项目的权威依据。
 
-| Bundle state | What it means |
+| Bundle 状态 | 含义 |
 | --- | --- |
-| Available | The verified archive is ready. |
-| Partial | The archive is readable and the manifest identifies pending or omitted optional items. |
-| Pending / materializing | The archive is still preparing; request the same result again later. |
+| Available | 校验后的压缩包已准备好 |
+| Partial | 压缩包可读，manifest 会说明仍在等待或省略的可选项目 |
+| Pending / materializing | 压缩包仍在准备，可以稍后再次请求同一结果 |
 
-A delayed bundle is not a reason to start another backtest.
+Bundle 准备较慢时，不要重新启动回测。

@@ -1,84 +1,61 @@
 ---
-translation_status: pending
-description: How eligible factors become a public cross-sectional Strategy backtest.
+translation_status: draft
+description: 符合条件的因子如何进入公开截面策略回测。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 策略构建
 
+因子是一种排序信号。策略会组合一个或多个符合条件的因子，加入截面组合配置，并在模拟费用和再平衡条件下评估组合结果。
 
-# Strategy Construction
+## 符合条件的因子来源
 
-A factor is a ranked signal. A Strategy combines one or more eligible factors
-with a cross-sectional portfolio configuration and evaluates the combined
-result after modeled fees and rebalancing.
+策略构建可以使用：
 
-## Eligible Factor Sources
+* **Official**：只读的产品因子库；
+* **Mine**：属于当前用户并进入策略因子池的因子；
+* **Shared**：已经加入当前用户策略因子池的共享因子。
 
-Strategy Building can use:
+三类来源在提交策略时使用相同的 Selector 路径。外部 `plugin.py` 属于单独的显式导入流程，不会因为由用户提供就自动归类为 Mine。
 
-* **Official** factors from read-only product inventory;
-* **Mine** factors that belong to your eligible Strategy pool;
-* **Shared** factors admitted to your Strategy pool.
+## 当前公开配置
 
-All three use the same selector path when a Strategy is submitted. An external
-`plugin.py` is a separate explicit import workflow and is not automatically
-classified as Mine.
+公开 Strategy Contract 支持 1–20 个因子，当前配置边界包括：
 
-## Current Public Configuration
+* 策略名称；
+* 因子选择或明确的因子权重；
+* ranking；
+* 截面 strategy type；
+* start 和 end dates；
+* initial cash；
+* maker 和 taker fee rates；
+* rebalance interval；
+* attribution request。
 
-The public Strategy contract supports 1–20 factors and exposes the following
-configuration boundary:
+省略 ranking 和 strategy type 时，当前默认值是 neutral top/bottom 20%。提交前，应始终检查当前 Session 返回的 contract 和 product defaults。
 
-* Strategy name;
-* factor selection or explicit factor weights;
-* ranking;
-* cross-sectional strategy type;
-* start and end dates;
-* initial cash;
-* maker and taker fee rates;
-* rebalance interval;
-* attribution request.
+Custom universe、entry/exit rules、liquidity filters、live risk limits 或 deployment target 等概念不属于当前公开提交字段，不应描述为 Agent 可选择的控制项。
 
-If ranking and strategy type are omitted, the current default is a neutral
-top/bottom 20% configuration. Always review the effective contract and defaults
-returned in the current session before submitting.
+## 策略评估
 
-Concepts such as a custom universe, bespoke entry/exit rules, liquidity
-filters, live risk limits, or a deployment target are not current public submit
-fields and should not be presented as selectable agent controls.
+回测会评估完整的提交配置。根据产物可用性，证据可以包括：
 
-## Strategy Evaluation
+* net 和 gross performance；
+* NAV 与 drawdown 路径；
+* turnover 与模拟成本；
+* funding；
+* exposure 与 neutrality；
+* per-symbol PnL 与 attribution；
+* position 或 trade history；
+* 留存六图分析界面的有界数值数据。
 
-The backtest evaluates the complete submitted configuration. Depending on
-available artifacts, evidence can include:
+规范运行快照是判断明确因子组合和参数的权威依据。缺失产物应保持不可用，不能根据文件名或本地文件进行推断。
 
-* net and gross performance;
-* NAV and drawdown paths;
-* turnover and modeled costs;
-* funding;
-* exposure and neutrality;
-* per-symbol PnL and attribution;
-* position or trade history;
-* bounded numerical data for the retained six-chart analysis surface.
+## 构建与分析是两个独立步骤
 
-The canonical run snapshot is the authority for the exact factor composition
-and parameters. Missing artifacts stay unavailable rather than being inferred
-from filenames or local files.
+**策略构建**负责列出因子、组合、提交、恢复、导出和归档受支持的策略结果。**策略分析**保持只读，诊断一条明确的已完成结果并提出受控实验。
 
-## Building And Analyzing Are Separate
+分析建议不会改变策略。用户必须明确确认新的策略构建提交。
 
-**Strategy Building** lists factors, composes, submits, resumes, exports, and
-archives supported Strategy results. **Strategy Analysis** is read-only: it
-diagnoses one exact completed result and proposes controlled experiments.
+## 下一步
 
-An analysis proposal does not change a strategy. The user must explicitly
-confirm a new Strategy Building submission.
-
-## Where This Leads
-
-A completed source may be eligible for simulated Paper Trading. Eligibility is
-checked again when the source is selected; it is not guaranteed by a grade or
-backtest status alone. Continue with the [Strategy Tutorial](../guides/strategy-tutorial.md)
-or [Paper Trading Tutorial](../guides/paper-trading-tutorial.md).
+一条已完成的来源可能符合模拟盘条件。选择来源时还会再次检查 eligibility；等级或回测状态本身不能保证可用。下一步可阅读[策略使用教程](../guides/strategy-tutorial.md)或[模拟盘使用教程](../guides/paper-trading-tutorial.md)。

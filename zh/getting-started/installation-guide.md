@@ -1,41 +1,34 @@
 ---
-translation_status: pending
-description: Install and connect Quandora in supported AI agent hosts
+translation_status: draft
+description: 在受支持的 AI Agent Host 中安装并连接 Quandora
 icon: bolt
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 安装指南
 
+Quandora 通过 `quandora@quandora` 插件发布。完成一次认证连接后，即可使用五项 Skill：
 
-# Installation Guide
-
-Quandora is distributed as the `quandora@quandora` plugin. One authenticated
-connection provides five skills:
-
-| Skill | What it does |
+| Skill | 作用 |
 | --- | --- |
-| Factor Mining | Creates and backtests a factor, then retrieves one verified Result Bundle ZIP. |
-| Factor Analysis | Diagnoses one exact factor result from server-persisted evidence. |
-| Strategy Building | Selects eligible factors, composes a strategy, and runs its backtest. |
-| Strategy Analysis | Diagnoses one exact strategy result and its numerical chart evidence. |
-| Paper Trading | Starts, monitors, inspects, or stops simulated Paper runs after confirmation. |
+| 因子挖掘 | 创建并回测因子，然后获取一个经过校验的 Result Bundle ZIP。 |
+| 因子分析 | 根据服务端留存的证据，诊断一条明确的因子结果。 |
+| 策略构建 | 选择符合条件的因子，组合策略并运行回测。 |
+| 策略分析 | 诊断一条明确的策略结果及其数值图表证据。 |
+| 模拟盘 | 经过确认后启动、监控、检查或停止模拟盘运行。 |
 
-Quandora uses browser OAuth. Never paste an API key, bearer token, authorization
-code, password, or other credential into an agent prompt.
+Quandora 使用浏览器 OAuth。不要在 Agent Prompt 中粘贴 API Key、Bearer Token、Authorization Code、密码或其他凭据。
 
 ## Codex
 
 ### Codex Desktop
 
-Ask Codex Desktop to follow the current agent-readable guide:
+让 Codex Desktop 按照当前 Agent 可读指南操作：
 
 ```text
 Read https://github.com/varsity-tech-product/quandora-plugins/blob/main/agent-install-guide/chatgpt.md completely, then install and authenticate Quandora exactly as instructed. I will complete the required browser sign-in, MFA, or consent action when it opens.
 ```
 
-You can also add the plugin manually:
+也可以手动添加插件：
 
 ```text
 Source: varsity-tech-product/quandora-plugins
@@ -50,26 +43,25 @@ codex plugin marketplace add varsity-tech-product/quandora-plugins
 codex plugin add quandora@quandora
 ```
 
-Authorize when prompted. If authorization does not open automatically, run:
+按提示完成授权。如果授权页面没有自动打开，运行：
 
 ```bash
 codex mcp login quandora
 ```
 
-After installation or authorization, start a new task. If the skills remain
-hidden in Codex Desktop, fully quit and reopen the application.
+安装或授权完成后，开始一个新任务。如果 Codex Desktop 仍未显示 Quandora Skills，请完全退出并重新打开应用。
 
 ## Claude
 
-### Claude Desktop Code Or Claude Code
+### Claude Desktop Code 或 Claude Code
 
-In a new local Code session, ask Claude to follow the current guide:
+在新的本地 Code Session 中，让 Claude 按照当前指南操作：
 
 ```text
 Read https://github.com/varsity-tech-product/quandora-plugins/blob/main/agent-install-guide/claude.md completely, then install and authenticate Quandora exactly as instructed. I will complete the required browser sign-in, MFA, or consent action when it opens.
 ```
 
-For an interactive Claude Code terminal:
+在交互式 Claude Code Terminal 中运行：
 
 ```bash
 claude plugin marketplace add varsity-tech-product/quandora-plugins
@@ -77,36 +69,32 @@ claude plugin install quandora@quandora
 claude mcp login plugin:quandora:quandora
 ```
 
-Complete browser authorization, then start a new chat.
+完成浏览器授权，然后开始一个新对话。
 
 ### Claude Desktop Chat
 
-The normal Chat tab uses a Connector rather than the local Claude Code plugin.
-In **Settings -> Connectors**, add and connect:
+普通 Chat Tab 使用 Connector，不使用本地 Claude Code 插件。在 **Settings -> Connectors** 中添加并连接：
 
 ```text
 Name: quandora
 URL: https://mcp.quandora.ai/quant
 ```
 
-Complete browser authorization, then start a new chat. Claude Desktop may
-provide downloadable files in its sandbox instead of saving them directly to a
-local result folder.
+完成浏览器授权，然后开始一个新对话。Claude Desktop 可能会在其 Sandbox 中提供下载文件，而不会直接写入本地结果目录。
 
 ## Cursor Desktop
 
-In a new Cursor Agent chat, enter:
+在新的 Cursor Agent Chat 中输入：
 
 ```text
 /add-plugin quandora@https://github.com/varsity-tech-product/quandora-plugins
 ```
 
-Authenticate the plugin-provided `quandora` connection in the browser, then
-start a new Agent chat.
+在浏览器中认证插件提供的 `quandora` 连接，然后开始一个新的 Agent Chat。
 
 ## CodeBuddy CLI
 
-Install or update the plugin through the CodeBuddy plugin manager:
+通过 CodeBuddy Plugin Manager 安装或更新：
 
 ```bash
 codebuddy plugin marketplace add varsity-tech-product/quandora-plugins --name quandora
@@ -114,19 +102,15 @@ codebuddy plugin install quandora@quandora --scope user
 codebuddy plugin list --json
 ```
 
-CodeBuddy opens its browser authorization flow when the plugin connection is
-established. No local MCP server or Quandora API key is required.
+建立插件连接时，CodeBuddy 会打开浏览器授权流程。无需本地 MCP Server 或 Quandora API Key。
 
-## WorkBuddy China Edition
+## WorkBuddy 中国版
 
-Install `quandora@quandora` from the CodeBuddy-compatible Quandora marketplace
-through WorkBuddy's plugin or custom-MCP interface. Reconnect the plugin,
-complete the host-native browser authorization flow, and start a new chat. Do
-not create a local MCP server or paste credentials.
+通过 WorkBuddy 的插件或自定义 MCP 界面，从兼容 CodeBuddy 的 Quandora Marketplace 安装 `quandora@quandora`。重新连接插件，完成 Host 原生的浏览器授权流程，然后开始新对话。不要创建本地 MCP Server，也不要粘贴凭据。
 
 ## Kimi Code CLI
 
-Install the plugin and reload it:
+安装并重新加载插件：
 
 ```text
 /plugins install https://github.com/varsity-tech-product/quandora-plugins
@@ -134,23 +118,20 @@ Install the plugin and reload it:
 /plugins reload
 ```
 
-Start a new session, authorize the plugin connection, and verify it:
+开始一个新 Session，认证插件连接并确认状态：
 
 ```text
 /mcp-config login plugin-quandora:quandora
 /mcp
 ```
 
-Complete browser authorization, then start another new session before using a
-Quandora skill.
+完成浏览器授权，然后再开始一个新 Session，之后再使用 Quandora Skill。
 
-## Verify The Five Skills
+## 确认五项 Skill
 
-Ask your host to show the installed Quandora skills. You should see Factor
-Mining, Factor Analysis, Strategy Building, Strategy Analysis, and Paper
-Trading.
+让 Host 显示已经安装的 Quandora Skills。你应该能看到因子挖掘、因子分析、策略构建、策略分析和模拟盘。
 
-Use a namespaced skill command when the host supports it:
+Host 支持命名空间命令时，可以使用：
 
 ```text
 /quandora:factor-mining show public tasks
@@ -160,37 +141,25 @@ Use a namespaced skill command when the host supports it:
 /quandora:paper-trading show my current Paper PnL
 ```
 
-Natural-language requests work too, for example: `Use Quandora Factor Mining
-to show public tasks.`
+也可以使用自然语言，例如：`Use Quandora Factor Mining to show public tasks.`
 
-## Result Files
+## 结果文件
 
-Analysis reads server-persisted evidence and does not require a local ZIP. When
-a writable host exports a completed result, it saves one verified archive:
+分析直接读取服务端留存的证据，不依赖本地 ZIP。当可写 Host 导出已完成结果时，会保存一个经过校验的压缩包：
 
 ```text
 Quandora result/factor/<factor_slug>.zip
 Quandora result/strategy/<strategy_slug>.zip
 ```
 
-The ZIP is the canonical local output. It is not automatically extracted,
-deleted, or rebuilt. Its runtime manifest records which items are included,
-pending, or omitted. A readable bundle can be partial while an optional item is
-still preparing.
+ZIP 是本地规范结果，不会自动解压、删除或重新构建。它的 runtime manifest 会记录已包含、等待中和省略的项目。某些可选项目仍在准备时，`partial` 状态的包也可能可以正常读取。
 
-## Troubleshooting
+## 故障排查
 
-**Quandora skills are not visible after installation.** Start a new chat or
-task. If they remain hidden, fully quit and reopen the host.
+**安装后看不到 Quandora Skills。** 开始一个新对话或新任务。如果仍然不可见，请完全退出并重新打开 Host。
 
-**Authorization failed.** Use the host-native connection flow above and
-complete browser consent. Do not substitute an API key or local MCP server.
+**授权失败。** 使用上文对应 Host 的原生连接流程，并完成浏览器授权。不要改用 API Key 或本地 MCP Server。
 
-**Paper tools are missing after an older authorization.** Reconnect Quandora
-and complete fresh browser consent. Refreshing an older token does not add newly
-granted Paper permissions.
+**使用旧授权后看不到模拟盘工具。** 重新连接 Quandora 并完成新的浏览器授权。刷新旧 Token 不会自动获得后来新增的模拟盘权限。
 
-**No Result Bundle was saved.** Chat-only hosts may return a download instead
-of writing to disk. A bundle can also still be materializing; ask the agent to
-check the same completed result later. Do not start a duplicate run merely to
-make a bundle appear.
+**没有保存 Result Bundle。** 纯 Chat Host 可能只提供下载，不会写入本地磁盘。Bundle 也可能仍在 materializing；稍后让 Agent 再检查同一个已完成结果。不要为了生成 Bundle 而重复启动运行。

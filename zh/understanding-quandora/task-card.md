@@ -1,35 +1,24 @@
 ---
-translation_status: pending
-description: A task card is the structured research work order used by Factor Mining.
+translation_status: draft
+description: 任务卡是因子挖掘使用的结构化研究任务。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 任务卡
 
-
-# Task Card
-
-A task card tells the agent what market behavior to investigate, which data
-headers it may use, what forward horizon applies, and which research context
-should shape the factor.
+任务卡会告诉 Agent 需要研究什么市场行为、可以使用哪些数据 Header、适用什么 Forward Horizon，以及哪些研究上下文应当约束因子设计。
 
 ```text
 A research task is the topic.
 A task card is the instruction packet.
 ```
 
-Public task lists normally emphasize the human-readable task name and canonical
-category. Internal task handles are opaque selectors: the agent should use an
-exact returned handle and never guess, edit, or derive one.
+公开任务列表通常重点展示人类可读的任务名称和规范类别。内部 Task Handle 是不透明 Selector：Agent 应使用返回的明确 Handle，不得猜测、编辑或推导。
 
-## Why Task Cards Exist
+## 为什么需要任务卡
 
-A vague request such as `find a profitable trading idea` is too broad to
-evaluate responsibly. A task card narrows the job to a market mechanism,
-supported data, and a declared test horizon.
+`find a profitable trading idea` 这样的请求范围太大，很难可靠评估。任务卡会把研究范围收窄到具体市场机制、受支持的数据和明确测试 Horizon。
 
-For example:
+例如：
 
 ```text
 Investigate whether deteriorating liquidity precedes market fragility.
@@ -38,29 +27,27 @@ Generate contract-compliant plugin.py and a readable formula.
 Validate the complete source before submission.
 ```
 
-## Task Information You May See
+## 任务信息
 
-| Field | Meaning |
+| 字段 | 含义 |
 | --- | --- |
-| name | Human-readable task name |
-| category | Canonical family such as `Microstructure`, `Technical`, or `Volatility` |
-| description | The market behavior to investigate |
-| allowed data | Exact headers available to the factor contract |
-| forward period | Evaluation horizon in bars; current public tasks use seven daily bars |
-| status | Whether the task is currently open |
-| core question | The precise research question |
-| primary alpha source | The proposed source of predictive information |
-| economic principle | Why the mechanism could exist |
-| microstructure or crypto mechanism | Market-specific explanation when applicable |
-| research directions and feature hints | Candidate approaches, not required formulas |
-| regime considerations and risk sources | Conditions that may weaken or invalidate the idea |
-| target behavior | What successful factor output should capture |
+| name | 人类可读的任务名称 |
+| category | 规范类别，例如 `Microstructure`、`Technical` 或 `Volatility` |
+| description | 需要研究的市场行为 |
+| allowed data | Factor Contract 允许的明确 Header |
+| forward period | 以 Bar 为单位的评估 Horizon；当前公开任务使用 7 根日线 Bar |
+| status | 任务当前是否开放 |
+| core question | 明确研究问题 |
+| primary alpha source | 可能产生预测信息的主要来源 |
+| economic principle | 该机制可能存在的原因 |
+| microstructure 或 crypto mechanism | 适用时提供市场特定解释 |
+| research directions 与 feature hints | 可选研究方向，不是强制 Formula |
+| regime considerations 与 risk sources | 可能削弱或推翻想法的条件 |
+| target behavior | 理想因子输出希望捕捉的行为 |
 
-The exact returned object can contain additional structured context. Use that
-object and the scoped factor contract as the authority instead of copying a
-static example from this page.
+返回对象可能包含更多结构化上下文。应使用当前 Session 返回的对象和 Scoped Factor Contract，不要照搬本页静态示例。
 
-## Simplified Example
+## 简化示例
 
 ```json
 {
@@ -90,20 +77,19 @@ static example from this page.
 }
 ```
 
-This example is explanatory. The task and contract returned in the current
-session decide the exact fields, data headers, and horizon.
+该示例只用于说明。当前 Session 返回的任务和 Contract 决定明确字段、数据 Header 和 Horizon。
 
-## How The Agent Uses A Task Card
+## Agent 如何使用任务卡
 
-Good agent behavior:
+合理流程包括：
 
-* select one exact returned task;
-* restate its objective and mechanism;
-* read the scoped construction contract;
-* use only exact allowed headers;
-* check for materially similar existing work;
-* generate and fully validate [`plugin.py`](plugin.py.md);
-* explain assumptions, applicability, and risks;
-* ask before submitting a mutation.
+* 选择一个明确返回的任务；
+* 重述它的目标和机制；
+* 读取 Scoped Construction Contract；
+* 只使用准确的 Allowed Headers；
+* 检查是否存在核心机制高度相似的研究；
+* 生成并完整验证 [`plugin.py`](plugin.py.md)；
+* 说明假设、适用范围和风险；
+* 提交前取得确认。
 
-The task card is a constraint, not a suggestion.
+任务卡是约束条件，Agent 必须遵守。

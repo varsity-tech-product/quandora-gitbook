@@ -1,24 +1,17 @@
 ---
-translation_status: pending
-description: The current boundary between public Quandora workflows and real-money execution.
+translation_status: draft
+description: Quandora 公开工作流与真实资金执行之间的当前边界。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
-
-
-# Deployment & Live Trading
+# 部署与实盘交易
 
 {% hint style="warning" %}
-Live trading is not part of the public Quandora product. Public accounts can use
-Factor Mining, Factor Analysis, Strategy Building, Strategy Analysis, and
-simulated Paper Trading. None of those results grants real-money execution.
+实盘交易不属于当前公开产品。公众账户可以使用因子挖掘、因子分析、策略构建、策略分析和模拟盘。任何研究或模拟结果都不会授予真实资金执行权限。
 {% endhint %}
 
-## What The Public Product Supports
+## 公开产品支持的能力
 
-The public workflow produces historical or simulated evidence:
+公开工作流提供历史或模拟证据：
 
 ```text
 Factor Mining -> Factor Analysis
@@ -26,27 +19,16 @@ Factor Mining -> Factor Analysis
 -> simulated Paper Trading
 ```
 
-Factor and Strategy backtests describe tested historical conditions. Paper
-Trading uses simulated orders. These workflows do not connect a public user to
-a broker or exchange for real-money execution.
+因子和策略回测描述已测试的历史条件。模拟盘使用模拟订单。这些工作流不会把公众用户连接到 Broker 或 Exchange 进行真实资金执行。
 
-## What This Documentation Does Not Claim
+## 本文档没有声明的能力
 
-This public documentation does not specify a live-trading implementation,
-broker permission model, launch procedure, supported venue, risk-limit schema,
-or operational control system. Do not infer those capabilities from a factor
-grade, strategy result, Paper run, plugin tool, or account state.
+当前公开文档不说明任何实盘交易实现、Broker Permission Model、上线流程、支持 Venue、Risk-limit Schema 或运维控制系统。不要根据因子等级、策略结果、模拟盘运行、插件工具或账户状态推断这些能力。
 
-If real-money execution becomes a documented public capability, Quandora will
-publish a separately reviewed availability, authorization, risk, monitoring,
-and support contract before users are asked to rely on it.
+如果真实资金执行未来成为有正式文档的公开能力，Quandora 会在要求用户使用前，单独发布经过审核的可用性、授权、风险、监控与支持契约。
 
-## User Safety Boundary
+## 用户安全边界
 
-Quandora research outputs are not financial advice, guaranteed returns, or
-instructions to buy, sell, hold, size, or close a position. Users remain
-responsible for decisions made outside the public research and simulation
-workflow.
+Quandora 研究结果不构成金融建议、收益保证，也不会指示用户买入、卖出、持有、调整仓位或平仓。用户仍需对公开研究和模拟工作流之外的决定负责。
 
-For the currently documented boundary, see [Product Availability](../trust/product-availability.md)
-and [Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md).
+当前边界请参考[产品功能可用性](../trust/product-availability.md)和[安全、风险限制与紧急停止](safety-risk-limits-and-kill-switch.md)。
