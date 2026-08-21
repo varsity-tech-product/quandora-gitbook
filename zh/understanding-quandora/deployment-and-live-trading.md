@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 公开工作流与真实资金执行之间的当前边界。
 ---
 

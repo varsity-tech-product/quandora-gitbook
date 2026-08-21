@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: `plugin.py` 是 AI Agent 交给 Quandora 验证并回测的契约化因子源码。
 ---
 

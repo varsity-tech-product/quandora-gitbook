@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 一条因子结果的结构化报告，包含 Health、等级、证据、风险和下一项实验。
 ---
 

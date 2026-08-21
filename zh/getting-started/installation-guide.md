@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 在受支持的 AI Agent 宿主中安装并连接 Quandora。
 icon: bolt
 ---

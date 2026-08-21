@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 使用模拟订单监控策略、检查证据，并由用户决定下一步。
 ---
 

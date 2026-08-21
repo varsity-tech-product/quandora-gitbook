@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 公开研究、回测和模拟盘的安全边界。
 ---
 

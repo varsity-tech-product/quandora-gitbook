@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 使用的量化与产品术语简明解释
 ---
 

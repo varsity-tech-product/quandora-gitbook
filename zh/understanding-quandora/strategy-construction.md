@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: 符合条件的因子如何进入公开截面策略回测。
 ---
 

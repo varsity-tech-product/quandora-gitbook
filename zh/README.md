@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 是面向 AI 原生量化交易工作流的金融 Agent 基础设施。
 icon: rocket-launch
 ---

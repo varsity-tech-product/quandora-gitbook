@@ -1,5 +1,5 @@
 ---
-translation_status: draft
+translation_status: reviewed
 description: Quandora 研究任务向 AI Agent 提供可用于编写因子逻辑的数据 Header。
 ---
 
