@@ -1,6 +1,7 @@
 root: ./
 
+# Diagnostic sync trigger; this branch is never merged.
+
 structure:
   readme: README.md
   summary: SUMMARY.md
-
