@@ -18,8 +18,9 @@ guided research task and reading its evidence.
 
 Go directly to the [Quickstart](quickstart.md). Choose a public research task or
 describe your own idea to your agent. After the run, use
+[Factor Analysis](../understanding-quandora/factor-card.md) and
 [How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md)
-to understand the result.
+to diagnose the exact result.
 
 ## I Already Have Factor Code
 
@@ -30,19 +31,22 @@ does not run or save the factor by itself.
 
 ## I Use AI Agents Or Build Integrations
 
-Follow the [Installation Guide](installation-guide.md) for Codex, Claude, or
-OpenClaw. The [plugin.py reference](../understanding-quandora/plugin.py.md)
-explains the executable factor contract used by the Factor Mining workflow.
+Follow the [Installation Guide](installation-guide.md) for Codex, Claude,
+Cursor, CodeBuddy, WorkBuddy China, or Kimi Code. The
+[plugin.py reference](../understanding-quandora/plugin.py.md) explains the
+executable factor contract used by Factor Mining.
 
 ## I Want To Build A Strategy
 
 Read [Strategy Construction](../understanding-quandora/strategy-construction.md)
 to understand how evaluated factors become a strategy. Then continue to the
-[Strategy Tutorial](../guides/strategy-tutorial.md).
+[Strategy Tutorial](../guides/strategy-tutorial.md), including the separate
+read-only Strategy Analysis step.
 
 ## I Want To Monitor A Strategy Forward
 
 Start with a completed strategy backtest, then continue to the
 [Paper Trading Tutorial](../guides/paper-trading-tutorial.md). Paper trading
 reuses that exact evaluated strategy with simulated orders; you do not rebuild
-its factor composition when starting the run.
+its factor composition when starting the run. Starting and stopping both require
+explicit confirmation.

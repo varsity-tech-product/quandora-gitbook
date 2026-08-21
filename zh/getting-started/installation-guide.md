@@ -1,135 +1,165 @@
 ---
-translation_status: pending
-description: Install our plugin in your Claude Code/Codex/OpenClaw
+translation_status: reviewed
+description: 在受支持的 AI Agent 宿主中安装并连接 Quandora。
 icon: bolt
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
+# 安装指南
 
-# Installation Guide
+Quandora 通过 `quandora@quandora` 插件发布。完成一次认证连接后，即可使用五项 Skill：
 
-## **Codex**
+| Skill | 作用 |
+| --- | --- |
+| 因子挖掘 | 创建并回测因子，然后获取一个经过校验的 Result Bundle ZIP。 |
+| 因子分析 | 根据服务端留存的证据，诊断一条明确的因子结果。 |
+| 策略构建 | 选择符合条件的因子，组合策略并运行回测。 |
+| 策略分析 | 诊断一条明确的策略结果及其数值图表证据。 |
+| 模拟盘 | 经过确认后启动、监控、检查或停止模拟盘运行。 |
 
-### Codex Desktop:
+Quandora 使用浏览器 OAuth。不要在 Agent Prompt 中粘贴 API Key、Bearer Token、Authorization Code、密码或其他凭据。
 
-Ask Codex Desktop to install and connect Quandora for you:
+## Codex
 
+### Codex Desktop
+
+让 Codex Desktop 按照当前 Agent 可读指南操作：
+
+```text
+Read https://github.com/varsity-tech-product/quandora-plugins/blob/main/agent-install-guide/chatgpt.md completely, then install and authenticate Quandora exactly as instructed. I will complete the required browser sign-in, MFA, or consent action when it opens.
 ```
-Install Quandora from varsity-tech-product/quandora-plugins, then connect Quandora Factor Mining.
-```
 
-Codex may ask before running the Codex CLI setup commands. These commands install the Quandora plugin into Codex, write Codex plugin/MCP configuration, and open Quandora OAuth. They do not grant Quandora access to your local files.
+也可以手动添加插件：
 
-You can also add the plugin manually in Codex Desktop:
-
-```
+```text
 Source: varsity-tech-product/quandora-plugins
 Git ref: leave blank
 Plugin: quandora@quandora
 ```
 
-### Codex CLI:
+### Codex CLI
 
-```
+```bash
 codex plugin marketplace add varsity-tech-product/quandora-plugins
 codex plugin add quandora@quandora
 ```
 
-Authorize when prompted. If Codex does not open the authorization flow automatically, use:
+按提示完成授权。如果授权页面没有自动打开，运行：
 
-```
+```bash
 codex mcp login quandora
 ```
 
-After installation or authorization, open a new chat. If Codex Desktop still does not expose Quandora tools, fully quit and reopen Codex Desktop.
+安装或授权完成后，开始一个新任务。如果 Codex Desktop 仍未显示 Quandora Skills，请完全退出并重新打开应用。
 
-## **Claude**
+## Claude
 
-### Claude Code (CLI):
+### Claude Desktop Code 或 Claude Code
 
+在新的本地 Code Session 中，让 Claude 按照当前指南操作：
+
+```text
+Read https://github.com/varsity-tech-product/quandora-plugins/blob/main/agent-install-guide/claude.md completely, then install and authenticate Quandora exactly as instructed. I will complete the required browser sign-in, MFA, or consent action when it opens.
 ```
+
+在交互式 Claude Code Terminal 中运行：
+
+```bash
 claude plugin marketplace add varsity-tech-product/quandora-plugins
 claude plugin install quandora@quandora
+claude mcp login plugin:quandora:quandora
 ```
 
-In Claude Code, open `/mcp` and authenticate `quandora`, then start a new chat.
+完成浏览器授权，然后开始一个新对话。
 
-### Claude Desktop:
+### Claude Desktop Chat
 
-Claude Desktop requires both the Quandora plugin and the Quandora connector. After installing the plugin, manually add and connect the Connector in Claude Desktop:
+普通 Chat Tab 使用 Connector，不使用本地 Claude Code 插件。在 **Settings -> Connectors** 中添加并连接：
 
-```
+```text
 Name: quandora
-URL: https://mcp.quandora.ai/factor-mining
+URL: https://mcp.quandora.ai/quant
 ```
 
-Use Settings -> Connectors, add the Connector above, click Connect, authorize Quandora in the browser, then start a new chat.
+完成浏览器授权，然后开始一个新对话。Claude Desktop 可能会在其 Sandbox 中提供下载文件，而不会直接写入本地结果目录。
 
-Claude Desktop can use the connected Quandora tools in chat, but local result-folder archiving is only guaranteed in local agent environments such as Claude Code, Codex, and OpenClaw. Claude Desktop's built-in file creation uses Claude's sandbox and may provide downloadable files rather than writing directly to a chosen local folder.
+## Cursor Desktop
 
-Factor Mining chart downloads use returned server `source_name` values for API calls and save local PNGs to returned `standard_local_path` values. When available, the raw signal artifact is saved as `signal_raw.parquet` in the factor result folder.
+在新的 Cursor Agent Chat 中输入：
 
-## **OpenClaw**
-
-Clone the plugins repo and run the OpenClaw installer script:
-
-```
-git clone https://github.com/varsity-tech-product/quandora-plugins.git
-cd quandora-plugins
-./install-openclaw.sh
+```text
+/add-plugin quandora@https://github.com/varsity-tech-product/quandora-plugins
 ```
 
-Authorize Quandora:
+在浏览器中认证插件提供的 `quandora` 连接，然后开始一个新的 Agent Chat。
 
-```
-openclaw mcp login quandora
-```
+## CodeBuddy CLI
 
-Open the printed URL, approve access, then run the code command printed by OpenClaw:
+通过 CodeBuddy Plugin Manager 安装或更新：
 
-```
-openclaw mcp login quandora --code <code>
-```
-
-Start a new OpenClaw chat after installation or authorization.
-
-## Use Factor Mining
-
-Use the skill command when available:
-
-```
-/factor-mining show public tasks
+```bash
+codebuddy plugin marketplace add varsity-tech-product/quandora-plugins --name quandora
+codebuddy plugin install quandora@quandora --scope user
+codebuddy plugin list --json
 ```
 
-You can also ask naturally:
+建立插件连接时，CodeBuddy 会打开浏览器授权流程。无需本地 MCP Server 或 Quandora API Key。
 
+## WorkBuddy 中国版
+
+通过 WorkBuddy 的插件或自定义 MCP 界面，从兼容 CodeBuddy 的 Quandora Marketplace 安装 `quandora@quandora`。重新连接插件，完成 Host 原生的浏览器授权流程，然后开始新对话。不要创建本地 MCP Server，也不要粘贴凭据。
+
+## Kimi Code CLI
+
+安装并重新加载插件：
+
+```text
+/plugins install https://github.com/varsity-tech-product/quandora-plugins
+/plugins info quandora
+/plugins reload
 ```
-Use Quandora Factor Mining to show public tasks.
-Use Quandora Factor Mining with my custom factor idea.
-Use Quandora Factor Mining to resume a run and summarize results.
+
+开始一个新 Session，认证插件连接并确认状态：
+
+```text
+/mcp-config login plugin-quandora:quandora
+/mcp
 ```
 
-When the host supports local files, each run is saved under a stable folder named after the factor slug:
+完成浏览器授权，然后再开始一个新 Session，之后再使用 Quandora Skill。
 
+## 确认五项 Skill
+
+让 Host 显示已经安装的 Quandora Skills。你应该能看到因子挖掘、因子分析、策略构建、策略分析和模拟盘。
+
+Host 支持命名空间命令时，可以使用：
+
+```text
+/quandora:factor-mining show public tasks
+/quandora:factor-analysis analyze my latest factor result
+/quandora:strategy-building list available factors
+/quandora:strategy-analysis analyze my latest strategy result
+/quandora:paper-trading show my current Paper PnL
 ```
-Quandora result/factor-mining/aggressive_flow_exhaustion_reversal/
+
+也可以使用自然语言，例如：`Use Quandora Factor Mining to show public tasks.`
+
+## 结果文件
+
+分析直接读取服务端留存的证据，不依赖本地 ZIP。当可写 Host 导出已完成结果时，会保存一个经过校验的压缩包：
+
+```text
+Quandora result/factor/<factor_slug>.zip
+Quandora result/strategy/<strategy_slug>.zip
 ```
 
-The run folder contains the submitted `plugin.py`, a redacted `run_summary.json`, `factor_card_is.json` and `factor_card_all.json` when available, `artifact_manifest.json`, and PNG charts under `artifacts/is/` and `artifacts/all/`. The agent prints the result, artifact, and chart folder paths at the end of each run.
+ZIP 是本地规范结果，不会自动解压、删除或重新构建。它的 runtime manifest 会记录已包含、等待中和省略的项目。某些可选项目仍在准备时，`partial` 状态的包也可能可以正常读取。
 
-## Troubleshooting
+## 故障排查
 
-**Quandora tools are not visible after install.** Start a new chat first — tools are discovered per chat. If they still do not appear, fully quit and reopen the app.
+**安装后看不到 Quandora Skills。** 开始一个新对话或新任务。如果仍然不可见，请完全退出并重新打开 Host。
 
-**Authorization did not open or failed.**
+**授权失败。** 使用上文对应 Host 的原生连接流程，并完成浏览器授权。不要改用 API Key 或本地 MCP Server。
 
-* Claude Code: open `/mcp`, authenticate `quandora`, then start a new chat.
-* Codex: run `codex mcp login quandora`, complete the browser flow, then start a new chat. In Codex Desktop, fully quit and reopen if tools stay hidden.
-* Claude Desktop: the plugin alone is not enough — add the `quandora` Connector (Settings -> Connectors), click Connect, and authorize in the browser.
-* OpenClaw: run `openclaw mcp login quandora` and complete the printed flow, including the `--code` step.
+**使用旧授权后看不到模拟盘工具。** 重新连接 Quandora 并完成新的浏览器授权。刷新旧 Token 不会自动获得后来新增的模拟盘权限。
 
-**Asked for an API key?** You never need one. Quandora authenticates through the browser OAuth flow only — no API keys, bearer tokens, or credential pasting. If any tool or prompt asks you to paste a key, stop and reconnect through the official flow above.
-
-**No result files on disk.** Local result-folder archiving works in local agent environments (Claude Code, Codex, OpenClaw). Chat-only hosts such as Claude Desktop may return downloadable files instead.
+**没有保存 Result Bundle。** 纯 Chat Host 可能只提供下载，不会写入本地磁盘。Bundle 也可能仍在 materializing；稍后让 Agent 再检查同一个已完成结果。不要为了生成 Bundle 而重复启动运行。
