@@ -1,34 +1,140 @@
 ---
-translation_status: draft
-description: Quandora 公开工作流与真实资金执行之间的当前边界。
+translation_status: pending
+description: >-
+  The controlled bridge from paper evidence to live execution — your approved
+  strategy inside explicit permissions and limits.
 ---
 
-# 部署与实盘交易
-
 {% hint style="warning" %}
-实盘交易不属于当前公开产品。公众账户可以使用因子挖掘、因子分析、策略构建、策略分析和模拟盘。任何研究或模拟结果都不会授予真实资金执行权限。
+本页中文内容正在审核中，以下暂时显示英文原文。
 {% endhint %}
 
-## 公开产品支持的能力
+# Deployment & Live Trading
 
-公开工作流提供历史或模拟证据：
+{% hint style="warning" %}
+Live trading is internal invitation only and is not open to general public
+users. Public accounts can use Factor Mining, strategy backtesting, and strategy
+paper trading, but those results do not grant live-trading access.
+{% endhint %}
 
-```text
-Factor Mining -> Factor Analysis
--> Strategy Building -> Strategy Analysis
--> simulated Paper Trading
+For invited users, deployment is the stage after a strategy has been researched,
+evaluated, paper-tracked, and separately approved for real-money execution.
+
+Invite-only live trading can execute the user's approved strategy, never its
+own judgment. That distinction is the whole point:
+
+```
+Trade call     = "you should buy / sell / hold this."
+Execution rail = "run the strategy you approved, inside the limits you set."
 ```
 
-因子和策略回测描述已测试的历史条件。模拟盘使用模拟订单。这些工作流不会把公众用户连接到 Broker 或 Exchange 进行真实资金执行。
+The invite-only capability provides execution rails. It does not make
+discretionary trade calls.
 
-## 本文档没有声明的能力
+### Where Deployment Fits
 
-当前公开文档不说明任何实盘交易实现、Broker Permission Model、上线流程、支持 Venue、Risk-limit Schema 或运维控制系统。不要根据因子等级、策略结果、模拟盘运行、插件工具或账户状态推断这些能力。
+The live workflow comes after evidence:
 
-如果真实资金执行未来成为有正式文档的公开能力，Quandora 会在要求用户使用前，单独发布经过审核的可用性、授权、风险、监控与支持契约。
+```
+factor mining
+-> factor evaluation
+-> factor / strategy card
+-> strategy construction
+-> strategy evaluation
+-> paper trading / monitoring
+-> supervised deployment
+-> live trading inside limits
+```
 
-## 用户安全边界
+Live trading is not a shortcut around research. It is the controlled final stage of the workflow.
 
-Quandora 研究结果不构成金融建议、收益保证，也不会指示用户买入、卖出、持有、调整仓位或平仓。用户仍需对公开研究和模拟工作流之外的决定负责。
+### What A Deployment Contains
 
-当前边界请参考[产品功能可用性](../trust/product-availability.md)和[安全、风险限制与紧急停止](safety-risk-limits-and-kill-switch.md)。
+A deployment makes the operating state explicit:
+
+* strategy name and version
+* market / instrument universe
+* entry and exit rules
+* position sizing
+* rebalance or execution frequency
+* cost and slippage assumptions
+* risk limits
+* broker or exchange connection
+* permission scope
+* monitoring destination
+* audit log
+* kill switch
+
+You should always be able to answer:
+
+```
+What strategy is running?
+What account or venue can it touch?
+What is the maximum allowed risk?
+How do I stop it?
+Where do I see what happened?
+```
+
+### Permission Scope
+
+The connection to your broker or exchange is stated explicitly before launch:
+
+* **Read-only access** — Quandora can see the account but not trade
+* **Manual approval** — every order requires your confirmation
+* **Delegated execution** — the strategy trades within pre-set limits you approved
+
+Quandora never implies withdrawal permission. Execution access is not the same as fund access.
+
+### Required Controls
+
+Live trading requires:
+
+* paper-verified evidence first
+* explicit approval or delegated permission
+* enforced risk limits
+* order and position constraints
+* live monitoring
+* audit logs
+* kill switch
+
+### If A Strategy Decays
+
+Monitoring does not treat a live strategy as permanently valid. If performance decays, risk limits are breached, or market behavior changes:
+
+```
+deployment is paused or stopped
+-> report explains what changed
+-> strategy is reviewed
+-> the research loop restarts
+-> factor mining searches for a repair or replacement
+```
+
+### What Quandora Does Not Do
+
+Quandora does not:
+
+* guarantee returns
+* provide financial advice
+* tell you what to buy, sell, hold, size, or close
+* turn a backtest into a promise
+* ignore user-defined risk limits
+* run live trading without explicit permission
+
+### The Control Clause
+
+```
+Quandora executes the user's strategy, never its own judgment.
+```
+
+The practical meaning:
+
+```
+user strategy
+-> paper evidence
+-> explicit permission
+-> enforced limits
+-> monitored execution
+-> logs and kill switch
+```
+
+Deployment is the controlled bridge from paper evidence to live execution. See [Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md) for the full control model.

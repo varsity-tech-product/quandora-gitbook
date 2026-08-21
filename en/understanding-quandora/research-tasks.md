@@ -36,27 +36,6 @@ That difference matters. A narrow task helps the agent produce something Quandor
 
 Quandora research tasks are grouped by the kind of market behavior they ask the agent to investigate.
 
-The current canonical categories are `Technical`, `Microstructure`,
-`Volatility`, `Imbalance`, `Order Flow`, `Auction`, `Momentum`, `Volume`, and
-`Liquidity`. A custom idea that does not match one of these families can use the
-`Other` fallback. The task response returned in the current session is the
-source of truth.
-
-#### Technical Price Action & Pattern Structure <a href="#technical-price-action-and-pattern-structure" id="technical-price-action-and-pattern-structure"></a>
-
-This task asks whether recurring price-action or multi-bar structure contains a
-testable cross-sectional signal.
-
-It looks for patterns in returns, ranges, closes, breakouts, reversals, and
-volatility structure while avoiding a purely visual or discretionary chart
-reading.
-
-Plain-English question:
-
-```
-Does this price pattern repeat consistently enough to test?
-```
-
 #### Market Microstructure And Liquidity Fragility <a href="#market-microstructure-and-liquidity-fragility" id="market-microstructure-and-liquidity-fragility"></a>
 
 This task asks whether a market is becoming fragile.

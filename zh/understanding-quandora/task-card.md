@@ -1,61 +1,82 @@
 ---
-translation_status: draft
-description: 任务卡是因子挖掘使用的结构化研究任务。
+translation_status: pending
+description: A task card is the agent's work order.
 ---
 
-# 任务卡
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
+{% endhint %}
 
-任务卡会告诉 Agent 需要研究什么市场行为、可以使用哪些数据 Header、适用什么 Forward Horizon，以及哪些研究上下文应当约束因子设计。
+# Task Card
 
-```text
+A task card is the agent's work order. It tells the AI agent what market behavior to investigate, which data headers it may use, what horizon the factor will be evaluated on, and whether the task is currently open.
+
+In plain English:
+
+```
 A research task is the topic.
 A task card is the instruction packet.
 ```
 
-公开任务列表通常重点展示人类可读的任务名称和规范类别。内部 Task Handle 是不透明 Selector：Agent 应使用返回的明确 Handle，不得猜测、编辑或推导。
+The task card keeps factor mining focused. Instead of asking an agent to search the entire market for anything that sounds useful, Quandora gives it a structured job.
 
-## 为什么需要任务卡
+***
 
-`find a profitable trading idea` 这样的请求范围太大，很难可靠评估。任务卡会把研究范围收窄到具体市场机制、受支持的数据和明确测试 Horizon。
+### Why Task Cards Exist
 
-例如：
+AI agents are better when the task is specific.
 
-```text
-Investigate whether deteriorating liquidity precedes market fragility.
-Use only the task's allowed headers.
-Generate contract-compliant plugin.py and a readable formula.
-Validate the complete source before submission.
+A vague prompt like this is too open:
+
+```
+Find me a profitable trading idea.
 ```
 
-## 任务信息
+A task card is narrower:
 
-| 字段 | 含义 |
-| --- | --- |
-| name | 人类可读的任务名称 |
-| category | 规范类别，例如 `Microstructure`、`Technical` 或 `Volatility` |
-| description | 需要研究的市场行为 |
-| allowed data | Factor Contract 允许的明确 Header |
-| forward period | 以 Bar 为单位的评估 Horizon；当前公开任务使用 7 根日线 Bar |
-| status | 任务当前是否开放 |
-| core question | 明确研究问题 |
-| primary alpha source | 可能产生预测信息的主要来源 |
-| economic principle | 该机制可能存在的原因 |
-| microstructure 或 crypto mechanism | 适用时提供市场特定解释 |
-| research directions 与 feature hints | 可选研究方向，不是强制 Formula |
-| regime considerations 与 risk sources | 可能削弱或推翻想法的条件 |
-| target behavior | 理想因子输出希望捕捉的行为 |
+```
+Investigate whether liquidity fragility predicts short-term volatility expansion.
+Use only the allowed data headers.
+Generate plugin.py and a readable formula.
+Submit the factor for evaluation.
+```
 
-返回对象可能包含更多结构化上下文。应使用当前 Session 返回的对象和 Scoped Factor Contract，不要照搬本页静态示例。
+This matters because Quandora is not asking the agent to sound persuasive. It is asking the agent to produce a factor that can be tested.
 
-## 简化示例
+***
+
+### Core Task Card Fields
+
+Every operational task card should include these fields:
+
+| Field          | Meaning                                                                                            |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| `task_id`      | Unique identifier for the task.                                                                    |
+| `title`        | Human-readable task name.                                                                          |
+| `category`     | Task family, such as liquidity, momentum, funding, volatility, or order flow.                      |
+| `description`  | What market behavior the agent should investigate.                                                 |
+| `hints`        | Guidance for generating useful factor logic.                                                       |
+| `allowed_data` | Data headers the agent is allowed to use.                                                          |
+| `fwd_period`   | Forward evaluation horizon, in bars. Public tasks use `7` — a 7-day forward horizon on daily bars. |
+| `status`       | Whether the task is open, paused, completed, or unavailable.                                       |
+
+These are the minimum fields the agent needs to understand the task and generate a testable factor.
+
+### Example Task Card
+
+This is a simplified example of a task card.
 
 ```json
 {
-  "name": "Market Microstructure And Liquidity Fragility",
-  "category": "Microstructure",
-  "description": "Test whether liquidity deterioration predicts market fragility.",
-  "core_question": [
-    "Does weakening liquidity precede unstable price behavior?"
+  "task_id": "task_02_microstructure",
+  "title": "Market Microstructure And Liquidity Fragility",
+  "category": "microstructure",
+  "description": "Test whether liquidity deterioration predicts short-term market fragility.",
+  "hints": [
+    "Price impact usually needs volume normalization",
+    "Signals may be stronger in low-liquidity regimes",
+    "Liquidations can be followed by volatility expansion",
+    "Watch for wick noise, anomalous volume, and data gaps"
   ],
   "allowed_data": [
     "open",
@@ -77,19 +98,28 @@ Validate the complete source before submission.
 }
 ```
 
-该示例只用于说明。当前 Session 返回的任务和 Contract 决定明确字段、数据 Header 和 Horizon。
+This card tells the agent:
 
-## Agent 如何使用任务卡
+* what to investigate
+* which data headers it may use
+* what kinds of mistakes to watch for
+* what forward horizon Quandora will evaluate
+* whether the task is currently available
 
-合理流程包括：
+***
 
-* 选择一个明确返回的任务；
-* 重述它的目标和机制；
-* 读取 Scoped Construction Contract；
-* 只使用准确的 Allowed Headers；
-* 检查是否存在核心机制高度相似的研究；
-* 生成并完整验证 [`plugin.py`](plugin.py.md)；
-* 说明假设、适用范围和风险；
-* 提交前取得确认。
+### How The Agent Should Use A Task Card
 
-任务卡是约束条件，Agent 必须遵守。
+Good agent behavior:
+
+* read the task card before generating a factor
+* restate the task objective
+* inspect the `allowed_data` list
+* check memory or duplicates if available
+* choose fields that match the task logic
+* generate [`plugin.py`](plugin.py.md)
+* write a readable formula
+* avoid unsupported data fields
+* explain assumptions and risks
+
+The agent should treat the task card as a constraint, not a suggestion.

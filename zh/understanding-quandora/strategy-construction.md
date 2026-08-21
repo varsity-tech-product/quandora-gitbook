@@ -1,61 +1,110 @@
 ---
-translation_status: draft
-description: 符合条件的因子如何进入公开截面策略回测。
+translation_status: pending
+description: >-
+  How a promising factor becomes an operating strategy — and how the full
+  strategy is tested before any money is at risk.
 ---
 
-# 策略构建
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
+{% endhint %}
 
-因子是一种排序信号。策略会组合一个或多个符合条件的因子，加入截面组合配置，并在模拟费用和再平衡条件下评估组合结果。
+# Strategy Construction
 
-## 符合条件的因子来源
+A factor is only a signal. It says "lean long here, lean short there." A **strategy** is the operating logic wrapped around that signal: what to trade, when to enter and exit, how big, how often, and under what risk limits. Strategy construction is the step that turns a promising [factor card](factor-card.md) into something that could actually run.
 
-策略构建可以使用：
+### From Factor To Strategy
 
-* **Official**：只读的产品因子库；
-* **Mine**：属于当前用户并进入策略因子池的因子；
-* **Shared**：已经加入当前用户策略因子池的共享因子。
+A factor answered _what signal should we test?_ A strategy answers a harder question:
 
-三类来源在提交策略时使用相同的 Selector 路径。外部 `plugin.py` 属于单独的显式导入流程，不会因为由用户提供就自动归类为 Mine。
+```
+How would this factor actually be traded?
+```
 
-## 当前公开配置
+A good-looking factor can still fail here. Sizing, costs, rebalancing, and risk rules all change the picture — a signal with a strong backtest can become unprofitable once realistic trading friction is added.
 
-公开 Strategy Contract 支持 1–20 个因子，当前配置边界包括：
+### What A Strategy Specifies
 
-* 策略名称；
-* 因子选择或明确的因子权重；
-* ranking；
-* 截面 strategy type；
-* start 和 end dates；
-* initial cash；
-* maker 和 taker fee rates；
-* rebalance interval；
-* attribution request。
+Strategy construction should make each of these explicit:
 
-省略 ranking 和 strategy type 时，当前默认值是 neutral top/bottom 20%。提交前，应始终检查当前 Session 返回的 contract 和 product defaults。
+* **Market / universe** — which instruments the strategy trades
+* **Entry logic** — what signal level or condition opens a position
+* **Exit logic** — what closes it
+* **Ranking / selection** — how candidates are chosen when there are many
+* **Position sizing** — how much capital each position takes
+* **Rebalance frequency** — how often the book is refreshed
+* **Cost assumptions** — expected fees, spread, and slippage
+* **Liquidity filters** — minimum liquidity before an instrument is tradeable
+* **Risk limits** — maximum exposure, drawdown, and concentration
+* **Deployment target** — where the strategy is meant to run
 
-Custom universe、entry/exit rules、liquidity filters、live risk limits 或 deployment target 等概念不属于当前公开提交字段，不应描述为 Agent 可选择的控制项。
+### Strategy Evaluation
 
-## 策略评估
+Once the rules exist, the full strategy is tested — not just the raw factor — after realistic costs, sizing, liquidity, and risk constraints are added. Strategy evaluation reports:
 
-回测会评估完整的提交配置。根据产物可用性，证据可以包括：
+**Headline metrics**
 
-* net 和 gross performance；
-* NAV 与 drawdown 路径；
-* turnover 与模拟成本；
-* funding；
-* exposure 与 neutrality；
-* per-symbol PnL 与 attribution；
-* position 或 trade history；
-* 留存六图分析界面的有界数值数据。
+* Sharpe Ratio
+* Max Drawdown
+* Calmar
+* Hit Rate
+* Turnover
 
-规范运行快照是判断明确因子组合和参数的权威依据。缺失产物应保持不可用，不能根据文件名或本地文件进行推断。
+**Portfolio NAV & drawdown charts**
 
-## 构建与分析是两个独立步骤
+* Net NAV
+* Gross NAV
+* Drawdown
+* Max DD peak
+* Max DD trough
 
-**策略构建**负责列出因子、组合、提交、恢复、导出和归档受支持的策略结果。**策略分析**保持只读，诊断一条明确的已完成结果并提出受控实验。
+**Net vs gross performance** (with the backtest fee rate applied)
 
-分析建议不会改变策略。用户必须明确确认新的策略构建提交。
+* Fee Rate (backtest parameter)
+* Annual return — net and gross
+* Sharpe — net and gross
+* Max Drawdown
+* Turnover (average per bar)
+* Turnover cost (cumulative, and as return)
+* Total funding return
+* Periods
 
-## 下一步
+**Attribution & per-symbol detail**
 
-一条已完成的来源可能符合模拟盘条件。选择来源时还会再次检查 eligibility；等级或回测状态本身不能保证可用。下一步可阅读[策略使用教程](../guides/strategy-tutorial.md)或[模拟盘使用教程](../guides/paper-trading-tutorial.md)。
+* Single-symbol PnL
+* Single-symbol PnL rank
+* CS attribution overview
+* Position history
+
+It answers:
+
+```
+Does the complete strategy survive more realistic testing?
+```
+
+If it fails, it can go back to strategy construction, or all the way back to factor mining. If it passes, it can move into paper trading.
+
+### Trust Labels
+
+A strategy carries a trust state so its evidence level is never ambiguous:
+
+```
+Backtest only   - tested on history only
+Paper-tracked   - being watched forward without real money
+Live-tracked    - running with real execution under limits
+Verified        - sustained evidence across conditions
+Experimental    - early, low-confidence
+High risk       - elevated risk profile, handle with care
+```
+
+These labels keep a promising backtest from being mistaken for a proven live strategy.
+
+### Where This Leads
+
+A strategy that survives evaluation can move to paper trading to be watched
+forward. Next: [Paper Trading & Monitoring](paper-trading-and-monitoring.md).
+
+Strategy composition and backtesting are available to public users. The
+step-by-step product interface is reserved in the
+[Strategy Tutorial](../guides/strategy-tutorial.md) and will be completed by the
+plugin and Product Backend owners.

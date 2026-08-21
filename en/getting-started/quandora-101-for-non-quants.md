@@ -27,7 +27,7 @@ Quandora’s larger vision is to open up the gated infrastructure behind systema
 
 {% hint style="info" %}
 Quandora is finance-agent infrastructure. It is not a guaranteed-profit tool or
-copy-trading product. Public users can research and analyze factors, build and
-analyze cross-sectional Strategies, and Paper trade with simulated orders.
-Live trading is not part of the public product.
+copy-trading product. Public users can research factors, backtest strategies,
+and paper trade with simulated orders. Live trading is internal invitation only
+and never acts on Quandora's own discretionary judgment.
 {% endhint %}

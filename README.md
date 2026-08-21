@@ -13,11 +13,10 @@ icon: rocket-launch
 
 Quandora is a finance-agent infrastructure for AI-native quant trading workflows.
 
-The public plugin provides five focused skills: Factor Mining, Factor Analysis,
-Strategy Building, Strategy Analysis, and Paper Trading. Together they let an
-agent create research artifacts, read server-persisted evidence, backtest a
-cross-sectional Strategy, and monitor simulated execution with explicit user
-confirmation between stages.
+We give finance agents the infrastructure they need for Factor Mining, factor
+evaluation, strategy construction, strategy evaluation, paper trading, and
+monitoring. The infrastructure enables your agent to produce structured reports
+on what was tested, what passed, what failed, and what to improve next.
 
 [Create or sign in to your Quandora account](https://app.quandora.ai/auth/signin),
 then [choose the path](getting-started/choose-your-path.md) that matches your
@@ -38,14 +37,11 @@ Finance does not need another chatbot. It needs:
 * reporting and audit trails
 * security-aware workflows
 
-The scarce layer is not another dashboard or raw data feed. The scarce layer is
-the evidence system that records whether an idea passed its current checks,
-became too expensive to trade, duplicated prior attempts, or needs deeper
-review—without turning analysis into an automatic submission.
+The scarce layer is not another dashboard or raw data feed. The scarce layer is the evidence system that says whether an idea survived validation, failed out-of-sample, became too expensive to trade, decayed, duplicated prior attempts, or needs deeper review.
 
 {% hint style="info" %}
-Quandora is finance-agent infrastructure. Factor research and analysis,
-Strategy backtesting and analysis, and simulated Paper Trading are available to
-public users. Live trading is not part of the public product. Quandora is not a
-guaranteed-profit tool or copy-trading product. Crypto markets first.
+Quandora is finance-agent infrastructure. Factor Mining, strategy backtesting,
+and strategy paper trading are available to public users. Live trading is
+internal invitation only and is not open to general public users. Quandora is
+not a guaranteed-profit tool or copy-trading product. Crypto markets first.
 {% endhint %}

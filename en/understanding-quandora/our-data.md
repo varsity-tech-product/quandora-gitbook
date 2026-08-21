@@ -23,9 +23,7 @@ Current public factor-mining tasks run on **crypto perpetual futures** market da
 | Evaluation horizon | `fwd_period: 7` — factors are judged on a 7-day forward horizon |
 | Data binding       | Server-side during evaluation (see the blindbox below)          |
 
-The exact header list is task-specific. The task response and scoped
-construction contract returned in the current session are the source of truth
-for what the agent may use. This static reference can lag a contract change.
+The exact header list is task-specific: every [task card](task-card.md)'s `allowed_data` field is the source of truth for what your agent may use on that task.
 
 ***
 
@@ -188,11 +186,3 @@ Common uses:
 * leverage demand
 * market dislocation
 * relative pricing context
-
-### Technical Tasks Use The Same Contract
-
-The `Technical` research category does not imply a separate hidden market-data
-feed. It builds price-action or pattern features from the exact headers allowed
-by its current task and scoped contract, commonly OHLCV-derived structure. The
-agent must not assume an indicator or field exists merely because it is common
-on a charting platform.

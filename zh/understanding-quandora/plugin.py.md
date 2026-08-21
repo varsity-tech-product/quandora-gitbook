@@ -1,86 +1,80 @@
 ---
-translation_status: draft
-description: `plugin.py` 是 AI Agent 交给 Quandora 验证并回测的契约化因子源码。
+translation_status: pending
+description: >-
+  plugin.py is the file that contains the factor formula your AI agent wants
+  Quandora to test.
 ---
 
-# 编写 `plugin.py`
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
+{% endhint %}
 
-因子挖掘会把任务或自定义想法转化为一份完整的 `plugin.py` 源码：
+# plugin.py
 
-```text
-task or custom idea
--> scoped server contract
--> agent writes plugin.py and a readable formula
--> agent validates the exact complete source
--> user confirms submission
--> Quandora runs the backtest
+`plugin.py` is created during the factor-mining stage.
+
+```
+task card
+-> agent generates plugin.py and formula
+-> Quandora evaluates the factor
+-> result card returns
 ```
 
-## 从当前 Contract 开始
+The task card tells the agent what kind of factor to build. `plugin.py` is the factor implementation the agent produces.
 
-服务端返回的 Construction Contract 是以下内容的权威依据：
+***
 
-* 明确的 `build_signal` 输入；
-* 支持的数据 Column；
-* Forward Horizon；
-* 必需 Metadata 和 Runtime Sections；
-* 支持的 Python 与 Runtime Expressions；
-* 验证规则。
+#### A factor usually starts as a formula.
 
-不要从旧运行复制过时的 Signature 或不受支持的 Header。Agent 可以看到允许的 Header 名称，Quandora 会在服务端绑定持续变化的市场数据。
+Example:
 
-## Formula 与源码
-
-人类可读的 Formula 用于解释机制。例如：
-
-```text
-signal = normalized_change(open_interest_close, 4, 20)
-         * direction(one_day_return(close))
+```
+signal = ts_delta(open_interest, 4) / ts_std(open_interest, 20) * sign(return_1h)
 ```
 
-它表达的含义是：
+This says:
 
-```text
-Measure unusual open-interest change,
-scale it by its recent behavior,
-and align it with the latest price direction.
+```
+Look for unusual open-interest change,
+scale it by recent open-interest volatility,
+then align it with the direction of recent return.
 ```
 
-`plugin.py` 会让这一想法按照返回的 Contract 执行。提交源码必须使用明确支持的形式，包含必需 Metadata、`build_signal` 和所有声明的 Runtime Sections。
+Broken down:
 
-## 验证规则
+| Part                         | Meaning                                                       |
+| ---------------------------- | ------------------------------------------------------------- |
+| `open_interest`              | How many positions are open in the market.                    |
+| `ts_delta(open_interest, 4)` | How much open interest changed over 4 periods.                |
+| `ts_std(open_interest, 20)`  | How unusual that change is compared with the last 20 periods. |
+| `sign(return_1h)`            | Whether recent price movement was positive or negative.       |
+| `signal`                     | The final factor score Quandora can test.                     |
 
-Agent 应当：
+***
 
-* 编写一份完整源码；
-* 让 `build_signal` 参数与返回的 Data Columns 一致；
-* 返回对齐的浮点 DataFrame；
-* 把无限值替换为 `NaN` 或契约允许的有限值；
-* 检查是否存在核心机制高度相似的因子；
-* 每次修改后重新验证完整源码；
-* 只根据安全的结构化验证诊断进行修复；
-* 提交刚刚通过验证的同一份源码。
+### Why plugin.py Exists <a href="#why-pluginpy-exists" id="why-pluginpy-exists"></a>
 
-生成的因子源码不得在本地 import、execute 或 eval。Quandora 负责远程验证和评估。
+The formula is easy for humans to read.
 
-## `plugin.py` 不包含的能力
+`plugin.py` makes the same formula executable, so Quandora can run it against market data.
 
-`plugin.py` 不属于以下内容：
-
-* 买入或卖出指令；
-* 完整策略；
-* 实盘交易系统；
-* 收益保证；
-* 让服务端读取的文件系统路径。
-
-它是一份可测试的因子定义，在通过验证和明确确认后以内联源码形式提交。
-
-## 已接受源码的导出位置
-
-对于已完成运行，因子挖掘拥有的已接受源码可以包含在经过校验的 Result Bundle 中：
-
-```text
-Quandora result/factor/<factor_slug>.zip
+```
+task card
+-> agent writes formula
+-> agent turns formula into plugin.py
+-> Quandora evaluates plugin.py
+-> result card returns
 ```
 
-该 ZIP 是已完成结果的规范本地导出。Agent 不会创建第二套解压目录，也不会自动执行压缩包中的源码。
+### What plugin.py Is Not <a href="#what-pluginpy-is-not" id="what-pluginpy-is-not"></a>
+
+`plugin.py` is not a trading bot.
+
+It is not:
+
+* a buy or sell instruction
+* a complete strategy
+* a guarantee of profit
+* a live trading system
+
+It is just the testable formula.

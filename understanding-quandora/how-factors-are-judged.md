@@ -1,56 +1,63 @@
 ---
 description: >-
-  The current Success checks and SSS–F grade behind a Factor Card — evidence,
-  not promises.
+  The Success checks and SSS–F grade behind every Factor Card — evidence, not
+  promises.
 ---
 
 # How Factors Are Judged
 
-Every submitted factor is evaluated on server-bound market data. Read the two
-headline results separately:
+Every submitted factor is evaluated on server-bound market data and returns a
+Factor Card. Read two results separately:
 
-* **Success or Fail** asks whether every required evidence check passed.
-* **Grade** reports a cross-sectional Sharpe band.
+* **Success or Fail** asks whether the factor cleared every required evidence
+  check.
+* **Grade** ranks the factor by its cross-sectional Sharpe after the required
+  checks have been evaluated.
 
-The evaluation runtime owns these semantics. The Factor Card's recorded values,
-thresholds, Health evidence, and failure reasons are authoritative for the
-exact run.
+## Evaluation Windows
 
-## Current Public Evidence Scope
+The backtest separates the period used to shape the factor from later held-out
+evidence.
 
-The Factor Analysis skill currently reads product-safe **In-Sample (IS)**
-evidence. It does not claim OOS or ALL evidence. IS is historical evidence and
-does not predict future or simulated performance.
+| Window | What it is |
+| --- | --- |
+| In-sample (IS) | The period used to develop and evaluate the original factor idea. |
+| Out-of-sample (OOS) | A later held-out period used to check whether the evidence remained stable. |
+| ALL | The full backtest view containing both IS and OOS periods. |
+
+OOS evidence is still historical evidence. It is not the same as live or
+paper-trading performance.
 
 ## Success Or Fail
 
-A cross-sectional factor succeeds only when all four current checks pass:
+A cross-sectional factor is successful only when all four checks pass:
 
 | Check | Success condition | What it asks |
 | --- | --- | --- |
-| Absolute Rank IC | `> 0.01` | Is the ranking relationship strong enough? |
-| Autocorrelation, lag 1 | `>= 0.4` | Is the signal sufficiently persistent from one bar to the next? |
-| Cross-sectional Sharpe | `> 0.8` | Was risk-adjusted cross-sectional performance strong enough? |
-| Factor Health | Passed | Was the factor output sufficiently complete and usable under the recorded Health basis? |
+| IS Sharpe | `> 0.8` | Was in-sample risk-adjusted performance strong enough? |
+| Absolute IS Rank IC | `> 0.02` | Did the ranking have enough predictive relationship with forward returns? |
+| Health | Passed | Was the factor output sufficiently complete and usable? |
+| OOS/IS Sharpe | `> 0.5` | Did held-out Sharpe retain more than half of IS Sharpe? |
 
-The Rank IC and Sharpe checks use strict greater-than comparisons;
-autocorrelation includes the threshold. Unknown, unavailable, or non-finite
-required evidence does not pass.
+These conditions use strict greater-than comparisons. A value equal to the
+threshold does not pass.
 
-Cost viability, turnover, drawdown, and other diagnostics remain important,
-but they do not independently determine Factor Success or Fail.
+Cost viability, turnover, drawdown, and autocorrelation remain important
+diagnostic evidence, but they do not determine Factor Success or Fail.
 
-## Health And Coverage
+## Health And Active-Universe Coverage
 
-Health checks factor values within the active universe. A symbol's active span
-runs from its first valid value through its last valid value; cells outside that
-span do not count against active coverage.
+Health checks the factor values inside the active universe. For each symbol,
+its active span runs from its first valid value through its last valid value.
+Cells outside that span do not count against coverage.
 
-The card can record Health metrics, their thresholds, the coverage basis, and
-the exact failed fields. Treat missing or `null` Health evidence as unknown, not
-as passed. When comparing two runs, compare Health directly only when their
-windows, active-universe definitions, missing-value handling, and thresholds
-match.
+Coverage is calculated per timestamp as valid active symbols divided by active
+symbols, then averaged across timestamps that contain active symbols. It is not
+the percentage of non-empty cells across the complete raw signal matrix.
+
+The Factor Card may show the individual Health metrics and the reason a Health
+check failed. Treat unavailable Health evidence as not passing the Success
+requirement.
 
 ## Grade
 
@@ -65,13 +72,13 @@ The grade bands use cross-sectional Sharpe:
 | `1.6 – < 1.8` | A |
 | `1.8 – < 2.0` | S |
 | `2.0 – < 2.2` | SS |
-| `>= 2.2` | SSS |
+| `≥ 2.2` | SSS |
 
-The grade is relayed evidence, not a promotion decision. It does not override a
-failed required check and does not say that a factor is ready for real-money
+Grade describes the strength of one backtest result. It does not override a
+failed Success check and does not say that a factor is ready for real-money
 trading.
 
 {% hint style="info" %}
-A successful factor showed evidence under the tested conditions. A backtest is
-evidence about the past, not a guarantee of future returns.
+A successful factor showed evidence under the tested conditions. It does not
+guarantee future returns. Backtests are evidence, not promises.
 {% endhint %}
