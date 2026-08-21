@@ -1,54 +1,64 @@
 ---
 description: >-
-  Watching a strategy forward without risking money — and deciding whether it's
-  ready, needs a refresh, or should be retired.
+  Monitor a strategy with simulated orders, inspect its evidence, and decide
+  the next action yourself.
 ---
 
 # Paper Trading & Monitoring
 
-Strategy paper trading is available to public users. When a strategy passes
-evaluation, you can run it on live market conditions with simulated orders —
-no real money at risk. The question it answers is simple and important:
+Strategy Paper Trading is available to public users. It reuses an eligible,
+completed Strategy result and runs simulated orders without risking real money.
 
-```
-Does the strategy keep working after the backtest?
-```
+The question is:
 
-A backtest describes the past. Paper trading tests whether the strategy behaves the way the backtest suggested it should, going forward. This is the main decision point in the workflow.
-
-### What Monitoring Tracks
-
-* **Simulated orders** — what the strategy would have done
-* **Forward performance** — results on data the strategy never trained on
-* **PnL and equity curve** — cumulative performance over time
-* **Drawdown** — worst peak-to-trough loss so far
-* **Turnover** — how much the book is churning
-* **Cost drift** — whether real trading costs are eating the edge
-* **Regime changes** — shifts in market conditions
-* **Signal decay** — the edge weakening over time
-* **Alerts** — notifications when something moves out of expected range
-* **Trade-log memory** — a persistent record of what happened and why
-
-### The Decision Point
-
-Paper trading / monitoring is where the workflow forks.
-
-**If the strategy stays stable**, keep monitoring it. Users with separate
-invite-only access may also review the controlled
-[Deployment & Live Trading](deployment-and-live-trading.md) process.
-
-**If performance decays**, the loop restarts. Decay can mean weaker performance, larger-than-expected drawdown, rising turnover or costs, a changed market regime, or the signal drifting from its backtest behavior.
-
-```
-paper trading / monitoring detects decay
--> factor mining restarts
--> new candidate factors are generated
--> new factors are evaluated
--> the strategy is repaired, replaced, or retired
+```text
+How is this exact Strategy source behaving in simulation now?
 ```
 
-Quandora does not treat a decaying strategy as permanently valid. The old result becomes memory, and the agent receives a refreshed research task. The goal is not to keep a weak strategy alive — it is to keep you inside an evidence loop.
+Paper evidence does not prove future or live-money performance.
 
-The step-by-step product interface is reserved in the
-[Paper Trading Tutorial](../guides/paper-trading-tutorial.md) and will be
-completed by the plugin and Product Backend owners.
+## What You Can Inspect
+
+The current public Paper workflow can expose:
+
+* run lifecycle and safe source information;
+* current balance, assets, PnL, and portfolio positions;
+* closed net-position lifecycles;
+* simulated fills and funding;
+* fixed-lookback equity curves;
+* bounded strategy code;
+* terminal stop after explicit confirmation.
+
+The portfolio snapshot is the source for open and partially open positions.
+Closed position history contains completed net-position lifecycles only.
+
+Fixed-lookback equity views are `7D`, `30D`, `90D`, `180D`, `1Y`, and `3Y`.
+Pre-run dates can be represented by explicit zero padding so the requested
+window remains fixed; that padding is not simulated performance.
+
+## Monitoring Is Evidence, Not Automation
+
+Use the detail state to follow one exact run. A temporarily unavailable
+portfolio is not proof of zero PnL, an empty portfolio, or a failed run. Check
+the same run again instead of rapidly polling or submitting a duplicate.
+
+The public skill does not promise automatic alerts, autonomous regime
+classification, automatic signal-decay decisions, or an agent-maintained trade
+story. Interpret only the evidence that the service returns.
+
+## User-Controlled Decision Point
+
+If the evidence is stable, you can keep monitoring. If losses, drawdown, or
+unexpected behavior appear, you can:
+
+* inspect fills, funding, positions, equity, and code;
+* stop the Paper run after explicit confirmation;
+* ask Strategy Analysis for a read-only diagnosis of the source result;
+* choose a controlled Strategy Building experiment;
+* return to Factor Analysis or Factor Mining when the evidence supports it.
+
+Nothing happens automatically. Paper Trading does not stop itself, revise a
+Strategy, restart Factor Mining, or submit a replacement run because a metric
+changed.
+
+For the exact procedure, see the [Paper Trading Tutorial](../guides/paper-trading-tutorial.md).
