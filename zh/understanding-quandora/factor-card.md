@@ -1,111 +1,107 @@
 ---
 translation_status: pending
 description: >-
-  The structured report every run returns — grade, evidence, risks, and what to
-  test next.
+  The structured report for one factor result — Health, grade, evidence, risks,
+  and what to test next.
 ---
 
 {% hint style="warning" %}
 本页中文内容正在审核中，以下暂时显示英文原文。
 {% endhint %}
 
+
 # Factor Card
 
-Every completed run returns a Factor Card: a structured report designed to be read by both humans and AI agents. The card is the trust artifact — it turns a raw backtest into something you can review, question, and build on.
+A Factor Card is the server-persisted evidence record for one exact factor
+result. It turns a raw backtest into something a person or AI agent can review,
+question, and compare without depending on local files.
 
-#### How To Read A Card
+## How To Read A Card
 
 Read in this order:
 
-```
-Success / Fail first
--> evidence second
--> risk / caveats third
--> next improvement fourth
-```
-
-#### Success And Grade
-
-Every evaluated factor has a Success/Fail result and a grade:
-
-```
-Success / Fail             whether all required evidence checks passed
-SSS, SS, S, A, B, C, D, F cross-sectional Sharpe grade
+```text
+Success / Fail
+-> evidence quality and Health
+-> grade and continuous metrics
+-> risks and caveats
+-> next controlled experiment
 ```
 
-Success requires IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe
-stability to pass together. Grade is a separate Sharpe band. See
-[How Factors Are Judged](how-factors-are-judged.md) for the exact rules.
+## Success And Grade Are Different
 
-#### Card Fields
+| Result | Meaning |
+| --- | --- |
+| Success / Fail | Whether every required factor evidence check passed. |
+| SSS, SS, S, A, B, C, D, F | The cross-sectional Sharpe grade relayed by the evaluation runtime. |
 
-| Field           | Meaning                                                         |
-| --------------- | --------------------------------------------------------------- |
-| Success / Fail  | Whether all required evidence checks passed                       |
-| grade           | SSS, SS, S, A, B, C, D, or F from cross-sectional Sharpe         |
-| factor idea     | One-sentence explanation of what the factor tries to capture    |
-| formula         | The human-readable version of the factor logic                  |
-| data used       | Data headers, bar size, forward horizon, and evaluation windows |
-| key metrics     | Sharpe, rank IC, autocorrelation, drawdown, turnover, and more  |
-| assumptions     | What the backtest assumes                                       |
-| caveats         | Why the signal may decay or fail                                |
-| next experiment | What the agent or user should test next                         |
+A factor can receive a non-F grade and still fail a required check. Read the
+recorded gate evidence before interpreting the grade. See
+[How Factors Are Judged](how-factors-are-judged.md) for the current semantics.
 
-#### Example
+## Common Card Fields
 
-For a microstructure factor on daily bars with a 7-day forward horizon:
+| Field | Meaning |
+| --- | --- |
+| Success / Fail | Combined required-check result |
+| grade and grade score | Relayed categorical and continuous rating evidence |
+| factor idea and formula | What the signal is designed to capture |
+| data and evaluation scope | Headers, bar size, horizon, and visible evidence window |
+| Health | Coverage, missingness, output usability, and any failed Health fields |
+| key metrics | Sharpe, Rank IC, autocorrelation, drawdown, turnover, and available diagnostics |
+| assumptions and caveats | Conditions that may weaken the evidence |
+| next experiment | A proposed controlled change, not an automatic submission |
 
-| Field                   | Value                              | Plain English                                            |
-| ----------------------- | ---------------------------------- | -------------------------------------------------------- |
-| Success                 | Fail                               | At least one required check did not pass                  |
-| Grade                   | D                                  | Cross-sectional Sharpe falls in the D band                |
-| IS Sharpe (CS)          | 0.81                               | Above the strict 0.8 Success threshold                    |
-| Absolute IS Rank IC     | 0.012                              | Below the strict 0.02 Success threshold                   |
-| Autocorrelation (lag 1) | 0.89                               | Very stable signal, not bar-to-bar noise                 |
-| Max drawdown            | −32%                               | The worst peak-to-trough loss in the backtest            |
-| Turnover                | 0.63                               | How much the portfolio churns — this drives trading cost |
-| Cost viable             | ❌                                  | The edge does not survive realistic trading costs        |
-| Validation regime       | Bear 51% / Sideways 16% / Bull 32% | Tested across mixed market conditions                    |
+Missing or null evidence stays unavailable; it must not be converted to zero or
+treated as a pass.
 
-Reading it the card's way: **Success** — Fail because absolute IS Rank IC did
-not exceed 0.02. **Grade** — D because cross-sectional Sharpe was 0.81.
-**Caveat** — cost viability also failed, which is not a Success check but is a
-strong warning against treating the factor as tradeable. **Next experiment** —
-improve predictive ranking without increasing turnover.
+## Example
 
-This is exactly what a Factor Card is for: Success, grade, and practical risks
-answer different questions and should be read together.
+For a factor evaluated on daily bars with a seven-day forward horizon:
 
-#### Charts
+| Field | Value | Plain English |
+| --- | --- | --- |
+| Success | Fail | At least one required check did not pass |
+| Grade | D | Cross-sectional Sharpe falls in the D band |
+| Cross-sectional Sharpe | 0.81 | Passes the strict `> 0.8` check |
+| Absolute Rank IC | 0.008 | Fails the strict `> 0.01` check |
+| Autocorrelation, lag 1 | 0.62 | Passes the `>= 0.4` check |
+| Health | Passed | The recorded output-quality check passed |
+| Max drawdown | −32% | The worst observed peak-to-trough decline |
+| Turnover | 0.63 | How much the implied portfolio changed |
+| Cost viability | Failed | A diagnostic warning, not a Success gate |
 
-Each run saves its charts in two views — an **In-Sample** view and an **ALL** view (the full backtest = in-sample + out-of-sample) — so you can see whether the behavior holds up outside the data the factor was shaped on. A factor that looks strong in-sample but falls apart across the full backtest is a warning sign; that side-by-side is the consistency check.
+The concise reading is: **Fail** because absolute Rank IC missed its required
+threshold; **D** because Sharpe was 0.81; and **high implementation risk** if
+cost viability also failed. Those statements answer different questions.
 
-The charts:
+## Server Evidence And Charts
 
-* **PnL** — profit and loss over the tested period
-* **CS NAV** — cross-sectional net asset value curve
-* **CS WPCC** — with Mean IC, Mean WPCC, and ICIR
-* **IC Decay** — how the predictive edge fades as the horizon lengthens
-* **Group Cumulative Return** — cumulative return split by factor buckets: do high scores outperform low scores?
+The Factor Analysis skill reads product-safe **In-Sample (IS)** evidence for one
+exact run. Depending on availability, this can include the Factor Card, Health
+and rating fields, factor profile, group NAV, daily returns, simulation NAV,
+simulation PnL, and inert job-linked source used only for explanation.
 
-#### Where Files Land
+Do not describe this public analysis as OOS or ALL analysis. A future public
+contract may expose other windows, but the current analysis surface is IS-only.
 
-When your host supports local files, each run is archived under a stable folder named after the factor:
+## Optional Result Bundle
 
-```
-Quandora result/factor-mining/<factor_slug>/
-  plugin.py
-  run_summary.json
-  factor_card_is.json
-  factor_card_all.json
-  artifact_manifest.json
-  artifacts/is/*.png
-  artifacts/all/*.png
+Factor Analysis does not require a local archive. When Factor Mining exports a
+completed result in a writable host, the canonical local output is one verified
+ZIP:
+
+```text
+Quandora result/factor/<factor_slug>.zip
 ```
 
-Ask your agent to explain any field — the card is designed to be pasted into an AI conversation for critique and next steps.
+The ZIP is not automatically extracted or reconstructed. Its runtime manifest
+is authoritative for the exact included, pending, and omitted items.
 
-Some charts or downloadable files can finish preparing after the run reaches
-its terminal calculation state. A pending artifact is not necessarily absent.
-Use the returned readiness state and check the same result again instead of
-starting a duplicate run.
+| Bundle state | What it means |
+| --- | --- |
+| Available | The verified archive is ready. |
+| Partial | The archive is readable and the manifest identifies pending or omitted optional items. |
+| Pending / materializing | The archive is still preparing; request the same result again later. |
+
+A delayed bundle is not a reason to start another backtest.

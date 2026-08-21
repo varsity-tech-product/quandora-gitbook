@@ -1,53 +1,47 @@
 ---
-description: >-
-  The control model behind every Quandora execution — what runs, who approves
-  it, what stops it.
+description: Safety boundaries for public research, backtesting, and simulated Paper Trading.
 ---
 
 # Safety, Risk Limits & Kill Switch
 
 {% hint style="warning" %}
-The controls on this page apply to the internal invitation-only live-trading
-capability. Live trading is not open to general public users.
+This page does not describe a public live-trading control system. Live trading
+is not part of the public Quandora product.
 {% endhint %}
 
-Everything Quandora executes runs inside a control model. This page states it plainly so there is no ambiguity about what the system can and cannot do with your capital.
+## Public Workflow Boundaries
 
-### The Control Clause
+* Factor Mining and Strategy Building run historical evaluations.
+* Factor Analysis and Strategy Analysis are read-only.
+* Paper Trading uses simulated orders and never places live-money trades.
+* A Paper run starts only after explicit user confirmation.
+* Stopping a Paper run is terminal and also requires explicit confirmation.
+* Losses or decay do not automatically stop, restart, or modify another
+  workflow.
 
-```
-Quandora executes the user's strategy, never its own judgment.
-```
+## Evidence Safety
 
-Quandora supplies the data, the tests, the risk and decay context, the evidence, the paper-trading history, and the execution rails. **Your** strategy, approvals, permissions, and limits decide what is allowed to run. This is the product promise and the compliance boundary at the same time.
+Backtests and Paper runs can fail, lose simulated money, or behave differently
+from earlier results. A grade, Success result, or Paper PnL is evidence under a
+specific scope; it is not a guarantee or approval for real-money execution.
 
-### What Live Execution Requires
+The analysis skills preserve unavailable evidence as unavailable and separate
+observations from inference. Proposed improvements remain proposals until the
+user explicitly chooses a new Factor Mining or Strategy Building experiment.
 
-No strategy reaches live execution without all of the following:
+## Credential Safety
 
-* **Paper-verified evidence first** — a backtest alone is never enough
-* **Explicit approval or delegated permission** — you opt in
-* **Enforced risk limits** — maximum exposure, drawdown, concentration
-* **Position and order constraints** — bounds on what any single order can do
-* **Live monitoring** — continuous visibility into what is happening
-* **Audit logs** — an immutable record of every action
-* **Kill switch** — the ability to stop execution immediately
+Use the host-native browser OAuth flow. Never paste exchange keys, API keys,
+bearer tokens, authorization codes, passwords, or other credentials into an
+agent prompt. Quandora's public plugin does not require withdrawal credentials
+or a user-created local MCP server.
 
-### The Kill Switch
+## About Live Controls
 
-The kill switch is not a nice-to-have. At any point you can halt execution, and the system stops acting on the strategy. Paused deployments stay visible with a clear paused state — they are not hidden or silently resumed.
+Terms such as broker permissions, live risk limits, audit logs, or a live kill
+switch require a separately approved implementation and operating contract.
+This documentation intentionally makes no claim that those controls are
+available to public users.
 
-### What Quandora Will Never Do
-
-* make buy / sell / hold recommendations (that is a trade call — Quandora does not do this)
-* guarantee returns or imply passive income
-* treat a backtest as a promise of future performance
-* ignore or override your risk limits
-* execute live without your explicit permission
-* touch withdrawal or fund-movement permissions
-
-### Evidence, Not Promises
-
-A backtest is evidence about the past. Paper trading is forward evidence. Neither is a guarantee. Quandora's job is to keep you inside an evidence loop where a decaying strategy gets paused, reviewed, and repaired — not to keep a weak strategy running.
-
-Quandora provides research infrastructure and controlled execution rails. It is not financial advice.
+Quandora provides research and simulation infrastructure. It does not provide
+financial advice or guarantee returns.

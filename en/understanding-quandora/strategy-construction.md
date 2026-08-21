@@ -1,105 +1,78 @@
 ---
-description: >-
-  How a promising factor becomes an operating strategy — and how the full
-  strategy is tested before any money is at risk.
+description: How eligible factors become a public cross-sectional Strategy backtest.
 ---
 
 # Strategy Construction
 
-A factor is only a signal. It says "lean long here, lean short there." A **strategy** is the operating logic wrapped around that signal: what to trade, when to enter and exit, how big, how often, and under what risk limits. Strategy construction is the step that turns a promising [factor card](factor-card.md) into something that could actually run.
+A factor is a ranked signal. A Strategy combines one or more eligible factors
+with a cross-sectional portfolio configuration and evaluates the combined
+result after modeled fees and rebalancing.
 
-### From Factor To Strategy
+## Eligible Factor Sources
 
-A factor answered _what signal should we test?_ A strategy answers a harder question:
+Strategy Building can use:
 
-```
-How would this factor actually be traded?
-```
+* **Official** factors from read-only product inventory;
+* **Mine** factors that belong to your eligible Strategy pool;
+* **Shared** factors admitted to your Strategy pool.
 
-A good-looking factor can still fail here. Sizing, costs, rebalancing, and risk rules all change the picture — a signal with a strong backtest can become unprofitable once realistic trading friction is added.
+All three use the same selector path when a Strategy is submitted. An external
+`plugin.py` is a separate explicit import workflow and is not automatically
+classified as Mine.
 
-### What A Strategy Specifies
+## Current Public Configuration
 
-Strategy construction should make each of these explicit:
+The public Strategy contract supports 1–20 factors and exposes the following
+configuration boundary:
 
-* **Market / universe** — which instruments the strategy trades
-* **Entry logic** — what signal level or condition opens a position
-* **Exit logic** — what closes it
-* **Ranking / selection** — how candidates are chosen when there are many
-* **Position sizing** — how much capital each position takes
-* **Rebalance frequency** — how often the book is refreshed
-* **Cost assumptions** — expected fees, spread, and slippage
-* **Liquidity filters** — minimum liquidity before an instrument is tradeable
-* **Risk limits** — maximum exposure, drawdown, and concentration
-* **Deployment target** — where the strategy is meant to run
+* Strategy name;
+* factor selection or explicit factor weights;
+* ranking;
+* cross-sectional strategy type;
+* start and end dates;
+* initial cash;
+* maker and taker fee rates;
+* rebalance interval;
+* attribution request.
 
-### Strategy Evaluation
+If ranking and strategy type are omitted, the current default is a neutral
+top/bottom 20% configuration. Always review the effective contract and defaults
+returned in the current session before submitting.
 
-Once the rules exist, the full strategy is tested — not just the raw factor — after realistic costs, sizing, liquidity, and risk constraints are added. Strategy evaluation reports:
+Concepts such as a custom universe, bespoke entry/exit rules, liquidity
+filters, live risk limits, or a deployment target are not current public submit
+fields and should not be presented as selectable agent controls.
 
-**Headline metrics**
+## Strategy Evaluation
 
-* Sharpe Ratio
-* Max Drawdown
-* Calmar
-* Hit Rate
-* Turnover
+The backtest evaluates the complete submitted configuration. Depending on
+available artifacts, evidence can include:
 
-**Portfolio NAV & drawdown charts**
+* net and gross performance;
+* NAV and drawdown paths;
+* turnover and modeled costs;
+* funding;
+* exposure and neutrality;
+* per-symbol PnL and attribution;
+* position or trade history;
+* bounded numerical data for the retained six-chart analysis surface.
 
-* Net NAV
-* Gross NAV
-* Drawdown
-* Max DD peak
-* Max DD trough
+The canonical run snapshot is the authority for the exact factor composition
+and parameters. Missing artifacts stay unavailable rather than being inferred
+from filenames or local files.
 
-**Net vs gross performance** (with the backtest fee rate applied)
+## Building And Analyzing Are Separate
 
-* Fee Rate (backtest parameter)
-* Annual return — net and gross
-* Sharpe — net and gross
-* Max Drawdown
-* Turnover (average per bar)
-* Turnover cost (cumulative, and as return)
-* Total funding return
-* Periods
+**Strategy Building** lists factors, composes, submits, resumes, exports, and
+archives supported Strategy results. **Strategy Analysis** is read-only: it
+diagnoses one exact completed result and proposes controlled experiments.
 
-**Attribution & per-symbol detail**
+An analysis proposal does not change a strategy. The user must explicitly
+confirm a new Strategy Building submission.
 
-* Single-symbol PnL
-* Single-symbol PnL rank
-* CS attribution overview
-* Position history
+## Where This Leads
 
-It answers:
-
-```
-Does the complete strategy survive more realistic testing?
-```
-
-If it fails, it can go back to strategy construction, or all the way back to factor mining. If it passes, it can move into paper trading.
-
-### Trust Labels
-
-A strategy carries a trust state so its evidence level is never ambiguous:
-
-```
-Backtest only   - tested on history only
-Paper-tracked   - being watched forward without real money
-Live-tracked    - running with real execution under limits
-Verified        - sustained evidence across conditions
-Experimental    - early, low-confidence
-High risk       - elevated risk profile, handle with care
-```
-
-These labels keep a promising backtest from being mistaken for a proven live strategy.
-
-### Where This Leads
-
-A strategy that survives evaluation can move to paper trading to be watched
-forward. Next: [Paper Trading & Monitoring](paper-trading-and-monitoring.md).
-
-Strategy composition and backtesting are available to public users. The
-step-by-step product interface is reserved in the
-[Strategy Tutorial](../guides/strategy-tutorial.md) and will be completed by the
-plugin and Product Backend owners.
+A completed source may be eligible for simulated Paper Trading. Eligibility is
+checked again when the source is selected; it is not guaranteed by a grade or
+backtest status alone. Continue with the [Strategy Tutorial](../guides/strategy-tutorial.md)
+or [Paper Trading Tutorial](../guides/paper-trading-tutorial.md).

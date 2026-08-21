@@ -1,80 +1,101 @@
 ---
 translation_status: pending
 description: >-
-  plugin.py is the file that contains the factor formula your AI agent wants
-  Quandora to test.
+  plugin.py is the contract-compliant factor source that an AI agent asks
+  Quandora to validate and backtest.
 ---
 
 {% hint style="warning" %}
 本页中文内容正在审核中，以下暂时显示英文原文。
 {% endhint %}
 
-# plugin.py
 
-`plugin.py` is created during the factor-mining stage.
+# Writing `plugin.py`
 
-```
-task card
--> agent generates plugin.py and formula
--> Quandora evaluates the factor
--> result card returns
-```
+Factor Mining turns a task or custom idea into one complete `plugin.py` source:
 
-The task card tells the agent what kind of factor to build. `plugin.py` is the factor implementation the agent produces.
-
-***
-
-#### A factor usually starts as a formula.
-
-Example:
-
-```
-signal = ts_delta(open_interest, 4) / ts_std(open_interest, 20) * sign(return_1h)
+```text
+task or custom idea
+-> scoped server contract
+-> agent writes plugin.py and a readable formula
+-> agent validates the exact complete source
+-> user confirms submission
+-> Quandora runs the backtest
 ```
 
-This says:
+## Start From The Current Contract
 
-```
-Look for unusual open-interest change,
-scale it by recent open-interest volatility,
-then align it with the direction of recent return.
-```
+The server-provided construction contract is the source of truth for:
 
-Broken down:
+* exact `build_signal` inputs;
+* supported data columns;
+* forward horizon;
+* required metadata and runtime sections;
+* supported Python and runtime expressions;
+* validation rules.
 
-| Part                         | Meaning                                                       |
-| ---------------------------- | ------------------------------------------------------------- |
-| `open_interest`              | How many positions are open in the market.                    |
-| `ts_delta(open_interest, 4)` | How much open interest changed over 4 periods.                |
-| `ts_std(open_interest, 20)`  | How unusual that change is compared with the last 20 periods. |
-| `sign(return_1h)`            | Whether recent price movement was positive or negative.       |
-| `signal`                     | The final factor score Quandora can test.                     |
+Do not copy an old signature or unsupported header from a previous run. The
+agent sees allowed header names while Quandora binds changing market data
+server-side.
 
-***
+## Formula And Source
 
-### Why plugin.py Exists <a href="#why-pluginpy-exists" id="why-pluginpy-exists"></a>
+A human-readable formula explains the mechanism. For example:
 
-The formula is easy for humans to read.
-
-`plugin.py` makes the same formula executable, so Quandora can run it against market data.
-
-```
-task card
--> agent writes formula
--> agent turns formula into plugin.py
--> Quandora evaluates plugin.py
--> result card returns
+```text
+signal = normalized_change(open_interest_close, 4, 20)
+         * direction(one_day_return(close))
 ```
 
-### What plugin.py Is Not <a href="#what-pluginpy-is-not" id="what-pluginpy-is-not"></a>
+Plain English:
 
-`plugin.py` is not a trading bot.
+```text
+Measure unusual open-interest change,
+scale it by its recent behavior,
+and align it with the latest price direction.
+```
 
-It is not:
+`plugin.py` makes that idea executable under the returned contract. The
+submitted source must include the required metadata, `build_signal`, and any
+declared runtime sections in the exact supported form.
 
-* a buy or sell instruction
-* a complete strategy
-* a guarantee of profit
-* a live trading system
+## Validation Rules
 
-It is just the testable formula.
+The agent should:
+
+* write one complete source file;
+* keep `build_signal` parameters aligned with the returned data columns;
+* return an aligned floating-point DataFrame;
+* replace infinite outputs with `NaN` or a finite contract-safe fallback;
+* check for materially similar factors;
+* validate the complete source after every edit;
+* repair only from safe structured validation diagnostics;
+* submit the exact source that passed validation.
+
+Generated factor source must not be imported, executed, or evaluated locally.
+Quandora performs remote validation and evaluation.
+
+## What `plugin.py` Is Not
+
+`plugin.py` is not:
+
+* a buy or sell instruction;
+* a complete Strategy;
+* a live trading system;
+* a guarantee of profit;
+* a filesystem path for the server to read.
+
+It is the testable factor definition sent inline after validation and explicit
+confirmation.
+
+## Where The Accepted Source Goes
+
+For a completed run, the Factor Mining-owned accepted source can be included in
+the verified Result Bundle:
+
+```text
+Quandora result/factor/<factor_slug>.zip
+```
+
+The ZIP is the canonical completed local export. The agent does not create a
+second extracted result tree or automatically execute the source it contains.

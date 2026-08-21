@@ -1,85 +1,136 @@
 ---
-description: Plain-English definitions for the quant terms used across Quandora
+description: Plain-English definitions for the terms used across Quandora
 ---
 
 # Glossary
 
-Definitions are intentionally plain English. Ask your AI agent to expand any of these with examples from your own runs.
+Definitions are intentionally plain English. Ask your AI agent to explain any
+term using one exact run as an example.
 
-#### Research Objects
+## Research Objects And Skills
 
-**Alpha** — A market signal that appears to predict returns beyond what general market movement (beta) explains. In Quandora, "alpha" and "factor" are used nearly interchangeably.
+**Factor** — A measurable market feature turned into a score. Quandora tests
+whether the score contains useful cross-sectional evidence.
 
-**Factor** — A measurable market feature turned into a score, e.g. "unusual open-interest change scaled by its volatility." Factors are the research artifact Quandora tests.
+**Signal** — The factor output: one value per market and bar that can be ranked
+across the active universe.
 
-**Signal** — The output of a factor: the number per market per bar that says "lean long" or "lean short."
+**Task Card** — The structured research work order: objective, category,
+allowed data headers, horizon, and research context. See [Task Card](task-card.md).
 
-**Task card** — The agent's work order: what to investigate, which data headers are allowed, the forward horizon, and the task status. See [Task Card](task-card.md).
+**`plugin.py`** — The executable factor definition validated and run by
+Quandora. See [`plugin.py`](plugin.py.md).
 
-**plugin.py** — The executable form of a factor that Quandora's server can run. See [plugin.py](plugin.py.md).
+**Factor Mining** — Creates, validates, and backtests a factor. It can also
+browse caller-owned factor history and explicitly export a Result Bundle.
 
-**Factor card** — The structured result report: grade, evidence, caveats, next experiment. See [Factor Card](factor-card.md).
+**Factor Analysis** — A read-only diagnosis of one exact factor result using
+server-persisted IS evidence. It does not require a local ZIP.
 
-**Success / Fail** — Whether a factor passed all four required evidence checks:
-IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe stability.
+**Factor Card** — The structured factor result containing Success/Fail, Health,
+grade, metrics, caveats, and proposed experiments. See [Factor Card](factor-card.md).
 
-**Grade (SSS–F)** — A cross-sectional Sharpe band. Grade describes backtest
-strength separately from the Success/Fail result.
+**Success / Fail** — Whether absolute Rank IC, lag-1 autocorrelation,
+cross-sectional Sharpe, and Factor Health all passed their current recorded
+requirements.
 
-**Factor vs strategy vs deployment** — A factor is a research artifact. A strategy is a factor packaged with entry/exit rules, sizing, and risk limits. A deployment is a running instance of a strategy (paper or live).
+**Grade (SSS–F)** — A cross-sectional Sharpe band, separate from Success/Fail.
 
-**Trade call** — Discretionary advice on what to buy, sell, or hold. Quandora does **not** make trade calls. It runs the strategy you defined; it never tells you what to trade.
+**Strategy Building** — Selects eligible factors and submits a cross-sectional
+strategy configuration for backtesting.
 
-**Live trading** — An internal invitation-only capability that executes an
-approved user strategy on a real account inside explicit permissions and risk
-limits. It is not open to general public users and never represents Quandora's
-own discretionary judgment.
+**Strategy Analysis** — A read-only diagnosis of one exact strategy run using
+its canonical configuration, retained artifacts, and numerical chart evidence.
 
-#### Testing Terms
+**Official / Mine / Shared** — Strategy factor sources. Official factors are
+read-only product inventory; Mine are the caller's eligible Strategy factors;
+Shared factors have been admitted to the caller's Strategy pool.
 
-**Backtest** — Replaying history to see how a factor would have scored. Evidence about the past, not a promise about the future.
+**Paper source** — A completed, owner-scoped, eligible Strategy run that can be
+selected for simulated Paper Trading.
 
-**In-sample (IS) / ALL** — In-sample is the data a factor was shaped on. ALL is the full backtest (in-sample + out-of-sample). Cards show both so you can check consistency; strong IS but weak ALL is the classic sign of overfitting.
+**Strategy Portfolio** — A static set of independently allocated strategy
+sleeves that can be backtested and then run in Paper Trading.
 
-**Walk-forward** — Repeatedly training on one window and testing on the next, marching through time — a stricter way to catch overfitting.
+**Result Bundle** — The verified ZIP exported for a completed Factor or
+Strategy result. Its runtime manifest records included, pending, and omitted
+items. Analysis does not depend on this ZIP.
 
-**Overfitting** — When a factor memorizes historical noise instead of capturing a real pattern. Looks great in-sample, fails on the full backtest.
+**Live Trading** — Real-money execution. It is not part of the public Quandora
+product, and this documentation does not specify an implementation or control
+model for it.
 
-**Forward horizon (`fwd_period`)** — How far ahead the factor is judged. Public tasks use 7 daily bars: "does today's score predict the next 7 days?"
+## Testing Terms
 
-**Blindbox** — Quandora's data rule: agents see allowed header names, never the full changing market data. Data binds server-side at evaluation. See [Our Data](our-data.md).
+**Backtest** — Replaying history to evaluate a factor or strategy. It is
+evidence about the tested period, not a promise about the future.
 
-#### Metrics
+**In-Sample (IS)** — Historical evidence in the window exposed by the current
+public Factor Analysis contract.
 
-**Sharpe ratio** — Return per unit of risk. Higher is better. Factor Success
-requires IS cross-sectional Sharpe to be strictly greater than 0.8.
+**Out-of-sample (OOS)** — A separate held-out historical window. The current
+public Factor Analysis skill does not claim OOS evidence.
 
-**IC (Information Coefficient)** — Correlation between factor scores and actual forward returns. Positive means the factor points the right way.
+**ALL** — A combined scope that includes IS. In Strategy Analysis, ALL must not
+be described as pure OOS.
 
-**Rank IC** — IC computed on rankings instead of raw values, so outliers have
-less influence. Factor Success requires absolute IS Rank IC to be strictly
-greater than 0.02.
+**Overfitting** — When a rule captures historical noise rather than a mechanism
+that generalizes.
 
-**ICIR** — IC divided by its variability: is the predictive power consistent or streaky?
+**Forward horizon (`fwd_period`)** — How far ahead factor scores are evaluated.
+Current public tasks use seven daily bars.
 
-**WPCC** — Weighted position cross-correlation, reported alongside Mean IC and ICIR on the CS WPCC chart.
+**Data-header blindbox** — The agent sees the allowed header names while
+Quandora binds changing market data server-side. See [Our Data](our-data.md).
 
-**IC decay** — How quickly the predictive edge fades as the forward horizon lengthens.
+## Factor Metrics
 
-**Autocorrelation** — How similar the signal is to itself one bar later. Stable signals (high autocorrelation) are cheaper to trade than jittery ones.
+**Sharpe ratio** — Return per unit of variability. Current Factor Success
+requires cross-sectional Sharpe to be strictly greater than `0.8`.
 
-**Turnover** — How much the implied portfolio changes between rebalances. High turnover means high trading costs.
+**Rank IC** — Correlation between factor-score rankings and forward-return
+rankings. Current Factor Success requires its absolute value to be strictly
+greater than `0.01`.
 
-**Calmar** — Annual return divided by max drawdown: return earned per unit of worst-case loss.
+**Autocorrelation** — Similarity between the signal and its previous-bar value.
+Current Factor Success requires lag-1 autocorrelation to be at least `0.4`.
 
-**Hit rate** — The share of bets that were profitable.
+**Health** — Recorded checks for factor-output usability, including coverage
+and missingness under a declared basis. Unknown Health evidence does not pass.
 
-**Max drawdown** — The worst peak-to-trough loss over the test. The "see your downside" number.
+**ICIR** — IC divided by its variability: a measure of consistency.
 
-**Net vs gross** — Gross performance is before trading costs; net is after fees, turnover cost, and funding. The gap between them is what costs eat.
+**IC decay** — How predictive evidence changes across forward horizons.
 
-**Cost viability** — Whether the factor's edge survives realistic trading
-costs. It is diagnostic evidence rather than a Factor Success/Fail check. A
-great signal that costs more than it earns is still not tradeable as-is.
+**Turnover** — How much the implied portfolio changes between rebalances.
 
-**Regime** — The prevailing market condition (bull / bear / sideways, calm / volatile). Factor cards report the regime mix of the validation window.
+**Calmar** — Annual return divided by maximum drawdown.
+
+**Hit rate** — The share of observations or trades that were profitable under
+the stated definition.
+
+**Maximum drawdown** — The worst peak-to-trough decline in the evaluated path.
+
+**Net vs gross** — Gross performance is before modeled costs; net performance
+is after the applicable fee, turnover, and funding effects.
+
+**Cost viability** — Diagnostic evidence about whether an edge survives modeled
+costs. It is not a Factor Success/Fail gate.
+
+## Paper Terms
+
+**Paper Trading** — Simulated execution using an eligible strategy source. It
+does not place live-money trades.
+
+**Portfolio snapshot** — The current Paper balance, PnL, assets, and open or
+partially open positions.
+
+**Closed position history** — Completed net-position lifecycles. Open or
+partially open positions remain in the current portfolio snapshot.
+
+**Fill** — A simulated execution record.
+
+**Funding** — Simulated funding transfers recorded for a Paper run.
+
+**Stop** — A terminal action for a Paper run. A stopped run cannot be resumed;
+starting again creates a new run.
