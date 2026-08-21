@@ -1,58 +1,35 @@
 ---
-translation_status: pending
-description: >-
-  The control model behind every Quandora execution — what runs, who approves
-  it, what stops it.
+translation_status: draft
+description: 公开研究、回测和模拟盘的安全边界。
 ---
 
-{% hint style="warning" %}
-本页中文内容正在审核中，以下暂时显示英文原文。
-{% endhint %}
-
-# Safety, Risk Limits & Kill Switch
+# 安全、风险限制与紧急停止
 
 {% hint style="warning" %}
-The controls on this page apply to the internal invitation-only live-trading
-capability. Live trading is not open to general public users.
+本页不描述公开实盘交易控制系统。实盘交易不属于当前公开产品。
 {% endhint %}
 
-Everything Quandora executes runs inside a control model. This page states it plainly so there is no ambiguity about what the system can and cannot do with your capital.
+## 公开工作流边界
 
-### The Control Clause
+* 因子挖掘和策略构建运行历史评估；
+* 因子分析和策略分析保持只读；
+* 模拟盘使用模拟订单，绝不会使用真实资金下单；
+* 启动模拟盘前需要用户明确确认；
+* 停止模拟盘是终态操作，同样需要明确确认；
+* 亏损或衰减不会自动停止、重启或修改其他工作流。
 
-```
-Quandora executes the user's strategy, never its own judgment.
-```
+## 证据安全
 
-Quandora supplies the data, the tests, the risk and decay context, the evidence, the paper-trading history, and the execution rails. **Your** strategy, approvals, permissions, and limits decide what is allowed to run. This is the product promise and the compliance boundary at the same time.
+回测和模拟盘可能失败、产生模拟亏损，或出现与早期结果不同的表现。等级、Success 结果或模拟盘 PnL 只代表特定范围内的证据，不构成真实资金执行的保证或批准。
 
-### What Live Execution Requires
+分析 Skill 会把不可用证据保留为不可用，并区分直接观察与推断。改进建议在用户明确选择新的因子挖掘或策略构建实验前，始终只是建议。
 
-No strategy reaches live execution without all of the following:
+## 凭据安全
 
-* **Paper-verified evidence first** — a backtest alone is never enough
-* **Explicit approval or delegated permission** — you opt in
-* **Enforced risk limits** — maximum exposure, drawdown, concentration
-* **Position and order constraints** — bounds on what any single order can do
-* **Live monitoring** — continuous visibility into what is happening
-* **Audit logs** — an immutable record of every action
-* **Kill switch** — the ability to stop execution immediately
+使用 Host 原生的浏览器 OAuth 流程。不要在 Agent Prompt 中粘贴交易所 Key、API Key、Bearer Token、Authorization Code、密码或其他凭据。Quandora 公开插件不需要提现权限，也不需要用户自行创建本地 MCP Server。
 
-### The Kill Switch
+## 关于实盘控制
 
-The kill switch is not a nice-to-have. At any point you can halt execution, and the system stops acting on the strategy. Paused deployments stay visible with a clear paused state — they are not hidden or silently resumed.
+Broker Permissions、实盘 Risk Limits、Audit Logs 或 Live Kill Switch 等术语需要单独批准的实现和运维契约。当前文档不会声明这些控制已经向公众用户开放。
 
-### What Quandora Will Never Do
-
-* make buy / sell / hold recommendations (that is a trade call — Quandora does not do this)
-* guarantee returns or imply passive income
-* treat a backtest as a promise of future performance
-* ignore or override your risk limits
-* execute live without your explicit permission
-* touch withdrawal or fund-movement permissions
-
-### Evidence, Not Promises
-
-A backtest is evidence about the past. Paper trading is forward evidence. Neither is a guarantee. Quandora's job is to keep you inside an evidence loop where a decaying strategy gets paused, reviewed, and repaired — not to keep a weak strategy running.
-
-Quandora provides research infrastructure and controlled execution rails. It is not financial advice.
+Quandora 提供研究与模拟基础设施，不提供金融建议，也不保证收益。

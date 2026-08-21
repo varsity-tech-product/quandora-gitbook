@@ -1,34 +1,86 @@
 ---
 translation_status: draft
-description: 启动、监控并停止 Quandora 策略模拟盘。
+description: 启动、监控、检查并停止 Quandora 模拟盘运行。
 content_status: handoff
 content_owner: plugin-and-product-backend
 ---
 
 # 模拟盘使用教程
 
-策略模拟盘对公众用户开放。它使用模拟订单，不会使用真实资金下单。
+模拟盘使用模拟订单，不会使用真实资金下单。它从已有且符合条件的策略结果开始；因子选择和策略回测仍由策略构建负责。
 
-完整的界面操作教程正在准备中，后续将包括：
+## 1. 选择符合条件的来源
 
-* 选择一份已完成的策略回测；
-* 启动模拟盘运行；
-* 查看组合、持仓、成交、资金费和权益曲线；
-* 理解等待中、运行中、已停止和其他终态；
-* 停止运行，以及之后创建一次全新的运行；
-* 整理终态历史，同时区分归档与删除。
+```text
+/quandora:paper-trading start a paper run
+```
 
-## 从已经评估的证据开始
+如果你没有指定明确来源，Agent 会列出当前用户的可用模拟盘来源。应选择列表返回的来源，不要猜测标识符。
 
-模拟盘从一份已完成的策略回测启动。Quandora 会复用那一份明确的策略定义和因子组合。你可以选择文档允许的模拟执行设置，但不需要重新构建策略，也不能在启动时偷偷换成另一个市场标的池。
+来源必须属于当前用户、已经完成并成功提交、采用截面策略，并且服务能够重建它的语义。预检查可能返回：
 
-## 理解刚启动和终止后的状态
+* **eligible**：安全检查已经通过，提交时仍会进行最终校验；
+* **provider validation required**：当前还无法确认是否符合条件；
+* **ineligible**：返回的原因会说明该来源为何不可用。
 
-提交后，组合和权益数据可能还在准备。暂时看不到组合不代表组合为空、PnL 为零或运行失败；等待后检查同一次运行即可。
+如果没有符合条件的来源，请返回[策略构建](strategy-tutorial.md)。
 
-停止是终态：同一个模拟组合不能恢复。再次运行该策略会创建一条全新的模拟盘记录。
+## 2. 确认模拟盘运行
 
-如果产品提供历史归档，归档只会把已经结束的运行从默认列表中隐藏。它不会停止运行、删除证据，也不会让运行重新变成可恢复状态。仍在运行的模拟盘必须先停止，才能归档。
+提交前，检查并明确确认：
 
-有关模拟盘在研究流程中的作用，请阅读[模拟盘与监控](../understanding-quandora/paper-trading-and-monitoring.md)。
+* 明确的来源和安全策略标签；
+* 可选的 initial balance；
+* 可选的 start date；
+* 可选的 leverage。
 
+模拟盘 Skill 不接受自定义 symbols 列表或 universe policy。Quandora 会在下游选择并冻结模拟标的池。
+
+## 3. 通过运行详情监控生命周期
+
+提交后，通过 detail state 监控同一条运行。早期 portfolio 或 equity 结果仍在准备时，不要创建第二条运行。
+
+可以自然提问，也可以使用：
+
+```text
+/quandora:paper-trading show my current Paper PnL
+```
+
+可读取内容包括：
+
+* 当前 portfolio、assets、PnL 和 open positions；
+* 已关闭的净持仓生命周期；
+* 模拟 fills；
+* funding 记录；
+* 固定回看区间的 equity curves；
+* 用于检查的有界策略代码。
+
+Open 或 partially open positions 属于当前 portfolio snapshot。Position history 只包含已关闭的净持仓生命周期。
+
+## 4. 正确理解权益曲线
+
+当前固定回看区间为 `7D`、`30D`、`90D`、`180D`、`1Y` 和 `3Y`。在模拟盘实际运行期开始前，曲线可能包含明确的零值填充。它表示“该运行尚未开始”，不表示历史亏损为零或市场数据缺失。
+
+## 5. 确认后再停止
+
+停止是终态操作，需要明确确认。已经停止的模拟盘不能恢复。再次使用同一来源会创建一条拥有独立历史的新运行。
+
+当前公开 Agent 工作流不提供模拟盘 archive、unarchive 或 resume 操作。隐藏历史不能替代停止运行。
+
+## 策略组合模拟盘
+
+模拟盘还支持由多个静态、独立分配资金的策略 Sleeve 组成的 Strategy Portfolio。工作流为：
+
+```text
+create or revise the Portfolio definition
+-> backtest the Portfolio
+-> inspect the result
+-> explicitly confirm a Portfolio Paper run
+-> monitor or stop that exact run
+```
+
+创建因子或单条策略回测仍由策略构建负责。
+
+## 不执行自动修复
+
+亏损、回撤或疑似衰减不会授权 Agent 停止运行、挖掘新因子、修订策略或启动其他工作流。Agent 可以报告证据并提出交接建议，后续动作由用户决定并确认。

@@ -1,77 +1,68 @@
 ---
-description: A task card is the agent's work order.
+description: A task card is the structured research work order used by Factor Mining.
 ---
 
 # Task Card
 
-A task card is the agent's work order. It tells the AI agent what market behavior to investigate, which data headers it may use, what horizon the factor will be evaluated on, and whether the task is currently open.
+A task card tells the agent what market behavior to investigate, which data
+headers it may use, what forward horizon applies, and which research context
+should shape the factor.
 
-In plain English:
-
-```
+```text
 A research task is the topic.
 A task card is the instruction packet.
 ```
 
-The task card keeps factor mining focused. Instead of asking an agent to search the entire market for anything that sounds useful, Quandora gives it a structured job.
+Public task lists normally emphasize the human-readable task name and canonical
+category. Internal task handles are opaque selectors: the agent should use an
+exact returned handle and never guess, edit, or derive one.
 
-***
+## Why Task Cards Exist
 
-### Why Task Cards Exist
+A vague request such as `find a profitable trading idea` is too broad to
+evaluate responsibly. A task card narrows the job to a market mechanism,
+supported data, and a declared test horizon.
 
-AI agents are better when the task is specific.
+For example:
 
-A vague prompt like this is too open:
-
-```
-Find me a profitable trading idea.
-```
-
-A task card is narrower:
-
-```
-Investigate whether liquidity fragility predicts short-term volatility expansion.
-Use only the allowed data headers.
-Generate plugin.py and a readable formula.
-Submit the factor for evaluation.
+```text
+Investigate whether deteriorating liquidity precedes market fragility.
+Use only the task's allowed headers.
+Generate contract-compliant plugin.py and a readable formula.
+Validate the complete source before submission.
 ```
 
-This matters because Quandora is not asking the agent to sound persuasive. It is asking the agent to produce a factor that can be tested.
+## Task Information You May See
 
-***
+| Field | Meaning |
+| --- | --- |
+| name | Human-readable task name |
+| category | Canonical family such as `Microstructure`, `Technical`, or `Volatility` |
+| description | The market behavior to investigate |
+| allowed data | Exact headers available to the factor contract |
+| forward period | Evaluation horizon in bars; current public tasks use seven daily bars |
+| status | Whether the task is currently open |
+| core question | The precise research question |
+| primary alpha source | The proposed source of predictive information |
+| economic principle | Why the mechanism could exist |
+| microstructure or crypto mechanism | Market-specific explanation when applicable |
+| research directions and feature hints | Candidate approaches, not required formulas |
+| regime considerations and risk sources | Conditions that may weaken or invalidate the idea |
+| target behavior | What successful factor output should capture |
 
-### Core Task Card Fields
+The exact returned object can contain additional structured context. Use that
+object and the scoped factor contract as the authority instead of copying a
+static example from this page.
 
-Every operational task card should include these fields:
-
-| Field          | Meaning                                                                                            |
-| -------------- | -------------------------------------------------------------------------------------------------- |
-| `task_id`      | Unique identifier for the task.                                                                    |
-| `title`        | Human-readable task name.                                                                          |
-| `category`     | Task family, such as liquidity, momentum, funding, volatility, or order flow.                      |
-| `description`  | What market behavior the agent should investigate.                                                 |
-| `hints`        | Guidance for generating useful factor logic.                                                       |
-| `allowed_data` | Data headers the agent is allowed to use.                                                          |
-| `fwd_period`   | Forward evaluation horizon, in bars. Public tasks use `7` — a 7-day forward horizon on daily bars. |
-| `status`       | Whether the task is open, paused, completed, or unavailable.                                       |
-
-These are the minimum fields the agent needs to understand the task and generate a testable factor.
-
-### Example Task Card
-
-This is a simplified example of a task card.
+## Simplified Example
 
 ```json
 {
-  "task_id": "task_02_microstructure",
-  "title": "Market Microstructure And Liquidity Fragility",
-  "category": "microstructure",
-  "description": "Test whether liquidity deterioration predicts short-term market fragility.",
-  "hints": [
-    "Price impact usually needs volume normalization",
-    "Signals may be stronger in low-liquidity regimes",
-    "Liquidations can be followed by volatility expansion",
-    "Watch for wick noise, anomalous volume, and data gaps"
+  "name": "Market Microstructure And Liquidity Fragility",
+  "category": "Microstructure",
+  "description": "Test whether liquidity deterioration predicts market fragility.",
+  "core_question": [
+    "Does weakening liquidity precede unstable price behavior?"
   ],
   "allowed_data": [
     "open",
@@ -93,28 +84,20 @@ This is a simplified example of a task card.
 }
 ```
 
-This card tells the agent:
+This example is explanatory. The task and contract returned in the current
+session decide the exact fields, data headers, and horizon.
 
-* what to investigate
-* which data headers it may use
-* what kinds of mistakes to watch for
-* what forward horizon Quandora will evaluate
-* whether the task is currently available
-
-***
-
-### How The Agent Should Use A Task Card
+## How The Agent Uses A Task Card
 
 Good agent behavior:
 
-* read the task card before generating a factor
-* restate the task objective
-* inspect the `allowed_data` list
-* check memory or duplicates if available
-* choose fields that match the task logic
-* generate [`plugin.py`](plugin.py.md)
-* write a readable formula
-* avoid unsupported data fields
-* explain assumptions and risks
+* select one exact returned task;
+* restate its objective and mechanism;
+* read the scoped construction contract;
+* use only exact allowed headers;
+* check for materially similar existing work;
+* generate and fully validate [`plugin.py`](plugin.py.md);
+* explain assumptions, applicability, and risks;
+* ask before submitting a mutation.
 
-The agent should treat the task card as a constraint, not a suggestion.
+The task card is a constraint, not a suggestion.
