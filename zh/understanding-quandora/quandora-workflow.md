@@ -1,79 +1,254 @@
 ---
-translation_status: reviewed
-description: Quandora 五项公开 Skill、各自的证据边界和阶段之间的明确确认。
+translation_status: pending
+description: >-
+  The Quandora research workflow — from Factor Mining through strategy paper
+  trading, and when the loop restarts.
 ---
 
-# Quandora 工作流
-
-Quandora 将创建与分析分开，也将历史测试与模拟执行分开。公开工作流由五项 Skill 组成：
-
-```text
-Factor Mining -> Factor Analysis -> Strategy Building
-      ^                |                   |
-      +-- user-approved factor experiment-+
-
-Strategy Building -> Strategy Analysis -> Paper Trading
-        ^                    |
-        +-- user-approved strategy experiment
-```
-
-分析保持只读。因子实验建议返回因子挖掘；组合或配置实验建议返回策略构建。模拟盘只有经过另一项独立确认后才会开始。
-
-{% hint style="info" %}
-五项 Skill 都对公众用户开放。模拟盘使用模拟订单。实盘交易不属于当前公开产品。参见[产品功能可用性](../trust/product-availability.md)。
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
 {% endhint %}
 
-## 1. 因子挖掘
+# Quandora Workflow
 
-因子挖掘从公开[研究任务](research-tasks.md)或自定义想法开始。Agent 会读取服务端 Contract，创建并验证符合契约的 [`plugin.py`](plugin.py.md)，检查是否存在核心机制高度相似的研究，提交通过验证的明确源码，并跟踪返回的运行。
+Quandora turns AI-generated market ideas into tested research artifacts,
+evaluated strategies, and paper-trading runs. Live trading is a separate,
+internal invitation-only capability.
 
-输出：一条因子结果；明确请求且文件可用时，还可以得到一个经过校验的 Result Bundle ZIP。
+The public workflow starts with Factor Mining, moves through evaluation and
+strategy construction, then paper-tracks the result. If performance decays, the
+research loop can return to Factor Mining.
 
-## 2. 因子分析
+In plain English:
 
-因子分析选择一条明确运行，读取当前用户范围内、由服务端留存的 IS 证据。它会诊断[因子卡](factor-card.md)、Health、等级字段、图表数据，并在需要时读取惰性源码文本。
-
-输出：直接观察、推断、其他解释、风险和受控实验。它不会提交或修改内容。
-
-## 3. 策略构建
-
-策略构建会列出符合条件的 Official、Mine 和 Shared 因子，组合一条公开截面策略，展示最终配置，取得确认，提交回测，跟踪同一条运行，并可以明确导出经过校验的 Result Bundle。
-
-输出：一条规范策略运行，包含明确的因子和参数。
-
-## 4. 策略分析
-
-策略分析选择一条明确运行，读取它的规范配置和留存产物，并使用有界数值图表证据进行诊断。
-
-输出：performance、risk、turnover、exposure、attribution、因子组合和模拟盘准备状态分析。它不会提交新策略或模拟盘运行。
-
-## 5. 模拟盘
-
-模拟盘选择一条符合条件的已完成策略来源，并在启动模拟执行前取得单独确认。它可以检查当前 portfolio、closed positions、fills、funding、equity 和有界代码，也可以在明确确认后停止运行。
-
-输出：模拟执行证据。已停止运行进入终态，不能恢复。
-
-## 明确交接
-
-| 起点 | 下一步 | 用户需要作出的决定 |
-| --- | --- | --- |
-| 因子分析 | 因子挖掘 | 选择一个因子实验建议，并确认新运行 |
-| 因子或策略证据 | 策略构建 | 选择符合条件的因子，并确认明确配置 |
-| 策略分析 | 策略构建 | 选择一个组合或配置实验建议 |
-| 符合条件的策略来源 | 模拟盘 | 确认明确来源和模拟设置 |
-| 模拟盘证据 | 任意研究 Skill | 选择下一步；不会自动重启或修复 |
-
-## 本地输出
-
-分析不依赖本地文件。在可写 Host 中，明确导出的已完成结果使用：
-
-```text
-Quandora result/factor/<factor_slug>.zip
-Quandora result/strategy/<strategy_slug>.zip
+```
+Your AI agent proposes a market idea.
+Quandora makes the idea prove itself.
 ```
 
-每个校验后的 ZIP 会保持原样，不会自动解压或重新构建。它的 runtime manifest 是判断已包含、等待中和省略项目的权威依据。
+Quandora is not a trade-calling system. It is a workflow for testing whether a
+market idea has evidence before capital is risked.
 
-## 安全边界
+{% hint style="info" %}
+**Available to public users:** Factor Mining, factor evaluation, Factor Cards,
+strategy composition and backtesting, and strategy paper trading. Live trading
+is internal invitation only and is not open to general public users. See
+[Product Availability](../trust/product-availability.md).
+{% endhint %}
 
-回测和模拟盘只提供声明条件下的证据。它们不保证未来收益，不构成金融建议，也不授权真实资金执行。缺失证据会保持缺失，分析保持只读，任何修改状态的操作都需要明确确认。
+### The System Loop
+
+```
+        +----------------------+
+        | factor mining        |<----------------+
+        +----------------------+                 |
+                  |                              |
+                  v                              |
+        +----------------------+                 |
+        | factor evaluation    |                 |
+        +----------------------+                 |
+                  |                              |
+                  v                              |
+        +----------------------+                 |
+        | factor / strategy    |                 |
+        | card                 |                 |
+        +----------------------+                 |
+                  |                              | performance decay
+                  |                              | restarts mining
+                  v                              |
+        +----------------------+                 |
+        | strategy             |                 |
+        | construction         |                 |
+        +----------------------+                 |
+                  |                              |
+                  v                              |
+        +----------------------+                 |
+        | strategy evaluation  |                 |
+        +----------------------+                 |
+                  |                              |
+                  v                              |
+        +----------------------+                 |
+        | paper trading /      |-----------------+
+        | monitoring           |
+        +----------------------+
+```
+
+Quandora is not just a one-time backtest. It is a research loop that can keep improving when performance decays.
+
+### Step 1: Factor Mining
+
+Where the system searches for candidate market signals. The user or agent starts from a [research task](research-tasks.md) — liquidity fragility, trend quality, funding crowding, volatility regime, order imbalance, volume confirmation, or trading cost.
+
+Inside factor mining, the agent:
+
+* reads the research task
+* checks the [task card](task-card.md)
+* reviews allowed [data headers](our-data.md)
+* checks memory for duplicates or similar ideas
+* generates [`plugin.py`](plugin.py.md)
+* writes a human-readable formula
+
+Output: a factor artifact (`plugin.py` + formula). Answers: _What signal should we test?_
+
+### Step 2: Factor Evaluation
+
+Quandora validates the artifact, binds supported market data server-side, and runs the backtest. The agent only ever sees allowed data headers; the full market data is bound server-side.
+
+Evaluation may include:
+
+* Sharpe
+* RankIC / IC
+* ICIR
+* IC win rate
+* autocorrelation
+* return
+* max drawdown
+* turnover
+* cost viability
+
+Answers: _Did this factor show useful evidence?_ — not _Will it make money in the future?_ Backtests are evidence, not promises. See [How Factors Are Judged](how-factors-are-judged.md).
+
+### Step 3: Factor / Strategy Card
+
+Quandora returns a [Factor Card](factor-card.md) — the trust artifact. It may include:
+
+* grade
+* factor idea
+* formula
+* data used
+* key metrics
+* assumptions
+* caveats
+* reason for a low grade
+* suggested next experiment
+
+Every evaluated factor receives a Success/Fail result and a Sharpe-based grade:
+
+```
+Success / Fail             required evidence checks
+SSS, SS, S, A, B, C, D, F cross-sectional Sharpe grade
+```
+
+If required evidence is weak or the diagnostics show material risk, the
+workflow can stop or return to mining. If the evidence supports the next
+experiment, the factor can move into strategy construction.
+
+### Step 4: Strategy Construction
+
+Turns a promising factor into a testable trading workflow. A factor is only a signal; a strategy defines how it would be used:
+
+* market or universe
+* entry logic
+* exit logic
+* ranking or selection method
+* position sizing
+* rebalance frequency
+* cost assumptions
+* liquidity filters
+* risk limits
+* deployment target
+
+Answers: _How would this factor become an operating strategy?_ A good-looking factor can still fail once sizing, costs, and risk rules are added. See [Strategy Construction](strategy-construction.md).
+
+### Step 5: Strategy Evaluation
+
+Tests the full strategy, not just the raw factor, after realistic trading rules are added. It reports:
+
+* net vs gross performance
+* drawdown
+* turnover and turnover cost
+* funding
+* per-symbol PnL and attribution
+* position history
+
+Answers: _Does the complete strategy survive more realistic testing?_ Full metric set on the [Strategy Construction](strategy-construction.md) page.
+
+### Step 6: Paper Trading / Monitoring
+
+The strategy is watched forward without risking real money — a passing strategy can be deployed to paper trading in one click. Monitoring tracks:
+
+* simulated orders
+* forward performance
+* PnL and equity curve
+* drawdown
+* turnover
+* cost drift
+* regime changes
+* signal decay
+* alerts
+* trade-log memory
+
+Answers: _Does the strategy keep working after the backtest?_ This is the main decision point. See [Paper Trading & Monitoring](paper-trading-and-monitoring.md).
+
+### Step 7A: If Performance Decays, Restart Factor Mining
+
+Decay can mean:
+
+* performance weakens
+* drawdown becomes larger than expected
+* turnover or costs increase
+* the market regime changes
+* the signal stops behaving like it did in the backtest
+
+The old result becomes memory, and the agent receives a refreshed research task:
+
+```
+paper trading / monitoring detects decay
+-> factor mining restarts
+-> new candidate factors are generated
+-> new factors are evaluated
+-> the strategy is repaired, replaced, or retired
+```
+
+This is what makes Quandora a living research loop instead of a static backtest report.
+
+### Step 7B: If Stable, Continue Monitoring
+
+Stable simulated performance is evidence for continued monitoring. It does not
+grant access to real-money execution.
+
+### Invite-Only Live Trading
+
+Live trading is available only through an internal invitation and is not part
+of the general public workflow. For invited users, it is not a shortcut around
+research. It requires:
+
+* human approval
+* strict limits
+* monitoring
+* logs
+* risk controls
+* the ability to stop execution
+
+This capability executes the user's approved strategy, never Quandora's own
+judgment. See [Deployment & Live Trading](deployment-and-live-trading.md) and
+[Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md).
+
+### How To Use The Workflow
+
+Quandora runs from your local agent environment — Codex, Claude Code, Cursor, or another local agent.
+
+```
+local agent
+-> Quandora plugin / skill
+-> generate plugin.py and formula
+-> submit to Quandora
+-> server-side evaluation
+-> factor card
+-> strategy construction and evaluation
+-> paper trading / monitoring
+```
+
+The agent creates the factor artifact locally, then submits it for evaluation. The server is the source of truth for data and grades.
+
+### Safety Boundary
+
+Quandora is agentic quant infrastructure. It does not provide guaranteed returns or direct buy / sell instructions.
+
+* Backtests are evidence, not future guarantees.
+* A high grade is a research output, not guaranteed profit.
+* A low grade is useful negative evidence.
+* A result card is not financial advice.
+* Live trading is internal invitation only and requires separate authorization.
+
+See [Safety, Risk Limits & Kill Switch](safety-risk-limits-and-kill-switch.md) for the full control model.

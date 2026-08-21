@@ -1,86 +1,111 @@
 ---
-translation_status: reviewed
-description: 一条因子结果的结构化报告，包含 Health、等级、证据、风险和下一项实验。
+translation_status: pending
+description: >-
+  The structured report every run returns — grade, evidence, risks, and what to
+  test next.
 ---
 
-# 因子卡
+{% hint style="warning" %}
+本页中文内容正在审核中，以下暂时显示英文原文。
+{% endhint %}
 
-因子卡是一条明确因子结果在服务端留存的证据记录。它把原始回测转化为人和 AI Agent 都可以检查、质疑和比较的内容，不依赖本地文件。
+# Factor Card
 
-## 阅读顺序
+Every completed run returns a Factor Card: a structured report designed to be read by both humans and AI agents. The card is the trust artifact — it turns a raw backtest into something you can review, question, and build on.
 
-建议按以下顺序阅读：
+#### How To Read A Card
 
-```text
-Success / Fail
--> evidence quality and Health
--> grade and continuous metrics
--> risks and caveats
--> next controlled experiment
+Read in this order:
+
+```
+Success / Fail first
+-> evidence second
+-> risk / caveats third
+-> next improvement fourth
 ```
 
-## Success 与等级回答不同问题
+#### Success And Grade
 
-| 结果 | 含义 |
-| --- | --- |
-| Success / Fail | 是否通过了全部必需的因子证据检查 |
-| SSS、SS、S、A、B、C、D、F | 评估运行时返回的截面 Sharpe 等级 |
+Every evaluated factor has a Success/Fail result and a grade:
 
-一个因子即使获得非 F 等级，也可能因为某项必需检查失败而得到 Fail。解释等级前，应先阅读记录中的 Gate 证据。当前语义请参考[Quandora 如何评估因子](how-factors-are-judged.md)。
-
-## 常见字段
-
-| 字段 | 含义 |
-| --- | --- |
-| Success / Fail | 必需检查的组合结果 |
-| grade 与 grade score | 上游返回的分类和连续评分证据 |
-| factor idea 与 formula | 信号希望捕捉的机制 |
-| data 与 evaluation scope | 数据 Header、Bar Size、Horizon 和可见证据区间 |
-| Health | Coverage、missingness、输出可用性和失败字段 |
-| key metrics | Sharpe、Rank IC、autocorrelation、drawdown、turnover 等可用诊断指标 |
-| assumptions 与 caveats | 可能削弱证据的条件 |
-| next experiment | 受控改动建议，不会自动提交 |
-
-缺失或 `null` 证据必须保持不可用，不能改写为零或视为通过。
-
-## 示例
-
-假设一个因子使用日线 Bar 和 7 天 Forward Horizon：
-
-| 字段 | 值 | 解释 |
-| --- | --- | --- |
-| Success | Fail | 至少一项必需检查未通过 |
-| Grade | D | 截面 Sharpe 位于 D 区间 |
-| Cross-sectional Sharpe | 0.81 | 通过严格的 `> 0.8` 检查 |
-| Absolute Rank IC | 0.008 | 未通过严格的 `> 0.01` 检查 |
-| Autocorrelation, lag 1 | 0.62 | 通过 `>= 0.4` 检查 |
-| Health | Passed | 记录中的输出质量检查通过 |
-| Max drawdown | −32% | 观察到的最大峰谷回撤 |
-| Turnover | 0.63 | 隐含组合的变化程度 |
-| Cost viability | Failed | 诊断警告，不参与四项必需检查 |
-
-简要结论为：Absolute Rank IC 未达到要求，所以结果是 **Fail**；Sharpe 为 0.81，所以等级是 **D**；如果 Cost viability 也失败，则实现风险较高。这些字段分别回答不同问题。
-
-## 服务端证据与图表
-
-因子分析 Skill 会读取一条明确运行中对产品安全的 **In-Sample（IS）** 证据。根据可用性，它可能包含因子卡、Health 与等级字段、factor profile、group NAV、daily returns、simulation NAV、simulation PnL，以及只用于解释的惰性源码文本。
-
-不要把当前公开分析描述为 OOS 或 ALL 分析。未来的公开契约可能提供其他 Window，但当前分析范围只有 IS。
-
-## 可选 Result Bundle
-
-因子分析不需要本地压缩包。在可写 Host 中导出已完成结果时，本地规范结果是一个经过校验的 ZIP：
-
-```text
-Quandora result/factor/<factor_slug>.zip
+```
+Success / Fail             whether all required evidence checks passed
+SSS, SS, S, A, B, C, D, F cross-sectional Sharpe grade
 ```
 
-ZIP 不会自动解压或重新构建。它的 runtime manifest 是判断已包含、等待中和省略项目的权威依据。
+Success requires IS Sharpe, absolute IS Rank IC, Health, and OOS/IS Sharpe
+stability to pass together. Grade is a separate Sharpe band. See
+[How Factors Are Judged](how-factors-are-judged.md) for the exact rules.
 
-| Bundle 状态 | 含义 |
-| --- | --- |
-| Available | 校验后的压缩包已准备好 |
-| Partial | 压缩包可读，manifest 会说明仍在等待或省略的可选项目 |
-| Pending / materializing | 压缩包仍在准备，可以稍后再次请求同一结果 |
+#### Card Fields
 
-Bundle 准备较慢时，不要重新启动回测。
+| Field           | Meaning                                                         |
+| --------------- | --------------------------------------------------------------- |
+| Success / Fail  | Whether all required evidence checks passed                       |
+| grade           | SSS, SS, S, A, B, C, D, or F from cross-sectional Sharpe         |
+| factor idea     | One-sentence explanation of what the factor tries to capture    |
+| formula         | The human-readable version of the factor logic                  |
+| data used       | Data headers, bar size, forward horizon, and evaluation windows |
+| key metrics     | Sharpe, rank IC, autocorrelation, drawdown, turnover, and more  |
+| assumptions     | What the backtest assumes                                       |
+| caveats         | Why the signal may decay or fail                                |
+| next experiment | What the agent or user should test next                         |
+
+#### Example
+
+For a microstructure factor on daily bars with a 7-day forward horizon:
+
+| Field                   | Value                              | Plain English                                            |
+| ----------------------- | ---------------------------------- | -------------------------------------------------------- |
+| Success                 | Fail                               | At least one required check did not pass                  |
+| Grade                   | D                                  | Cross-sectional Sharpe falls in the D band                |
+| IS Sharpe (CS)          | 0.81                               | Above the strict 0.8 Success threshold                    |
+| Absolute IS Rank IC     | 0.012                              | Below the strict 0.02 Success threshold                   |
+| Autocorrelation (lag 1) | 0.89                               | Very stable signal, not bar-to-bar noise                 |
+| Max drawdown            | −32%                               | The worst peak-to-trough loss in the backtest            |
+| Turnover                | 0.63                               | How much the portfolio churns — this drives trading cost |
+| Cost viable             | ❌                                  | The edge does not survive realistic trading costs        |
+| Validation regime       | Bear 51% / Sideways 16% / Bull 32% | Tested across mixed market conditions                    |
+
+Reading it the card's way: **Success** — Fail because absolute IS Rank IC did
+not exceed 0.02. **Grade** — D because cross-sectional Sharpe was 0.81.
+**Caveat** — cost viability also failed, which is not a Success check but is a
+strong warning against treating the factor as tradeable. **Next experiment** —
+improve predictive ranking without increasing turnover.
+
+This is exactly what a Factor Card is for: Success, grade, and practical risks
+answer different questions and should be read together.
+
+#### Charts
+
+Each run saves its charts in two views — an **In-Sample** view and an **ALL** view (the full backtest = in-sample + out-of-sample) — so you can see whether the behavior holds up outside the data the factor was shaped on. A factor that looks strong in-sample but falls apart across the full backtest is a warning sign; that side-by-side is the consistency check.
+
+The charts:
+
+* **PnL** — profit and loss over the tested period
+* **CS NAV** — cross-sectional net asset value curve
+* **CS WPCC** — with Mean IC, Mean WPCC, and ICIR
+* **IC Decay** — how the predictive edge fades as the horizon lengthens
+* **Group Cumulative Return** — cumulative return split by factor buckets: do high scores outperform low scores?
+
+#### Where Files Land
+
+When your host supports local files, each run is archived under a stable folder named after the factor:
+
+```
+Quandora result/factor-mining/<factor_slug>/
+  plugin.py
+  run_summary.json
+  factor_card_is.json
+  factor_card_all.json
+  artifact_manifest.json
+  artifacts/is/*.png
+  artifacts/all/*.png
+```
+
+Ask your agent to explain any field — the card is designed to be pasted into an AI conversation for critique and next steps.
+
+Some charts or downloadable files can finish preparing after the run reaches
+its terminal calculation state. A pending artifact is not necessarily absent.
+Use the returned readiness state and check the same result again instead of
+starting a duplicate run.
