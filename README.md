@@ -1,51 +1,50 @@
----
-description: >-
-  Quandora is finance-agent infrastructure for AI-native quant trading
-  workflows.
-icon: rocket-launch
----
-
 # Introduction
 
 <figure><img src=".gitbook/assets/orange%20gradient%20logo.png" alt="Quandora"><figcaption></figcaption></figure>
 
-## About Quandora
+Quandora helps you turn market ideas into research you can inspect: test a
+Factor, build a Strategy, combine Strategies into a Portfolio, and observe that
+Portfolio in Simulation or an authorized Live account.
 
-Quandora is a finance-agent infrastructure for AI-native quant trading workflows.
+This guide serves both people using the web app and agents using the Quandora
+plugin. Follow the **In the web app** steps, copy an **Ask your agent** example,
+or move between them while keeping the same research result in view.
 
-The public plugin provides five focused skills: Factor Mining, Factor Analysis,
-Strategy Building, Strategy Analysis, and Paper Trading. Together they let an
-agent create research artifacts, read server-persisted evidence, backtest a
-cross-sectional Strategy, and monitor simulated execution with explicit user
-confirmation between stages.
+[Create or sign in to your account](https://app.quandora.ai/auth/signin), then
+[choose your path](getting-started/choose-your-path.md).
 
-[Create or sign in to your Quandora account](https://app.quandora.ai/auth/signin),
-then [choose the path](getting-started/choose-your-path.md) that matches your
-experience and goal.
+## Start With Your Goal
 
-## Thesis
+| Your goal | Start here |
+| --- | --- |
+| Test a new market idea | [Your First Factor](getting-started/quickstart.md) |
+| Use existing factors or strategies | [Build a Strategy](guides/strategy-tutorial.md) or [Build a Portfolio](guides/portfolio-building.md) |
+| Explore other people's portfolios | [Community and Sharing](guides/community-and-sharing.md) |
+| Understand a result | Factor, Strategy, or Portfolio Analysis in the navigation |
+| Observe an account after it starts | [Analyze Simulation and Live](guides/portfolio-trading-analysis.md) |
 
-As trading becomes more agentic, it converges toward quant trading because serious agents need data, validation, feedback loops, risk controls, and evidence rather than vibes.
+## Seven Workflows, Two Types Of Evidence
 
-Finance does not need another chatbot. It needs:
+**Historical research:** Factor Mining → Factor Analysis → Strategy Building
+→ Strategy Analysis → Portfolio Building → Portfolio Analysis.
 
-* signal validation
-* overfit detection
-* microstructure / liquidity analysis
-* cost and turnover realism
-* backtesting and walk-forward checks
-* reviewed factor memory
-* reporting and audit trails
-* security-aware workflows
+**Forward testing:** Portfolio Trading Analysis observes Simulation and Live
+runs and manages Simulation accounts and runs when requested.
 
-The scarce layer is not another dashboard or raw data feed. The scarce layer is
-the evidence system that records whether an idea passed its current checks,
-became too expensive to trade, duplicated prior attempts, or needs deeper
-review—without turning analysis into an automatic submission.
+You can enter at any stage when you already have the required research. A
+single Strategy can become a one-member Portfolio. See the
+[workflow map](understanding-quandora/quandora-workflow.md) for inputs and outcomes.
 
-{% hint style="info" %}
-Quandora is finance-agent infrastructure. Factor research and analysis,
-Strategy backtesting and analysis, and simulated Paper Trading are available to
-public users. Live trading is not part of the public product. Quandora is not a
-guaranteed-profit tool or copy-trading product. Crypto markets first.
-{% endhint %}
+A backtest replays historical conditions. A forward test accumulates observations
+after a run starts. Historical out-of-sample results are still backtests.
+Simulation uses simulated execution; Live uses real funds and requires separate
+access. The plugin's Live capabilities are read-only.
+
+Analysis explains evidence and proposes experiments. An analysis request alone
+does not authorize a new backtest, a share, or an account action. An explicit
+request to build and backtest can cover that complete workflow without another
+approval merely because a different skill handles the next step.
+
+See [Product Availability](trust/product-availability.md) for access boundaries.
+Quandora does not guarantee returns; a successful backtest is a research result,
+not permission to trade live.

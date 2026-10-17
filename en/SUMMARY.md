@@ -4,47 +4,57 @@
 
 * [Introduction](README.md)
 * [Choose Your Path](getting-started/choose-your-path.md)
-* [Quandora 101 (For Non-Quants)](getting-started/quandora-101-for-non-quants.md)
+* [Quandora 101](getting-started/quandora-101-for-non-quants.md)
 * [Installation Guide](getting-started/installation-guide.md)
+* [Workflow Map](understanding-quandora/quandora-workflow.md)
 
-## TEST YOUR FIRST IDEA
+## FACTOR MINING
 
-* [Quickstart](getting-started/quickstart.md)
+* [Your First Factor](getting-started/quickstart.md)
 * [Research Tasks](understanding-quandora/research-tasks.md)
 * [Task Card](understanding-quandora/task-card.md)
-* [Writing plugin.py](understanding-quandora/plugin.py.md)
 
-## UNDERSTAND THE RESULT
+## FACTOR ANALYSIS
 
+* [Analyze a Factor](guides/factor-analysis.md)
 * [Factor Card](understanding-quandora/factor-card.md)
 * [How Factors Are Judged](understanding-quandora/how-factors-are-judged.md)
+* [Improve and Rerun](guides/improve-and-rerun.md)
 
-## IMPROVE AND RERUN
-
-* [Improve and Rerun a Factor](guides/improve-and-rerun.md)
-
-## BUILD AND EVALUATE A STRATEGY
+## STRATEGY BUILDING
 
 * [Strategy Construction](understanding-quandora/strategy-construction.md)
-* [Strategy Tutorial](guides/strategy-tutorial.md)
+* [Build a Strategy](guides/strategy-tutorial.md)
 
-## PAPER TRADE A STRATEGY
+## STRATEGY ANALYSIS
 
-* [Paper Trading & Monitoring](understanding-quandora/paper-trading-and-monitoring.md)
-* [Paper Trading Tutorial](guides/paper-trading-tutorial.md)
+* [Analyze a Strategy](guides/strategy-analysis.md)
 
-## AVAILABILITY AND LIMITATIONS
+## PORTFOLIO BUILDING
 
-* [Product Availability](trust/product-availability.md)
-* [Deployment & Live Trading](understanding-quandora/deployment-and-live-trading.md)
-* [Safety, Risk Limits & Kill Switch](understanding-quandora/safety-risk-limits-and-kill-switch.md)
+* [Build a Portfolio](guides/portfolio-building.md)
+* [Community and Sharing](guides/community-and-sharing.md)
+
+## PORTFOLIO ANALYSIS
+
+* [Analyze a Portfolio](guides/portfolio-analysis.md)
+
+## PORTFOLIO TRADING ANALYSIS
+
+* [Forward Testing](understanding-quandora/paper-trading-and-monitoring.md)
+* [Simulation Accounts and Runs](guides/paper-trading-tutorial.md)
+* [Analyze Simulation and Live](guides/portfolio-trading-analysis.md)
+* [Live Trading Access](understanding-quandora/deployment-and-live-trading.md)
 
 ## CONCEPTS AND REFERENCE
 
-* [Quandora Workflow](understanding-quandora/quandora-workflow.md)
+* [Versions, Runs, and Accounts](understanding-quandora/versions-and-runs.md)
 * [Our Data](understanding-quandora/our-data.md)
+* [Writing plugin.py](understanding-quandora/plugin.py.md)
 * [Glossary](understanding-quandora/glossary.md)
 
-## SECURITY, PRIVACY AND SUPPORT
+## AVAILABILITY AND SUPPORT
 
-* [Security, Privacy & Support](trust/security-privacy-and-support.md)
+* [Product Availability](trust/product-availability.md)
+* [Safety and Execution Controls](understanding-quandora/safety-risk-limits-and-kill-switch.md)
+* [Security, Privacy and Support](trust/security-privacy-and-support.md)

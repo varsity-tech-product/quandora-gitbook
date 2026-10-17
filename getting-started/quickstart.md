@@ -1,97 +1,67 @@
----
-description: From zero to your first evidence-backed factor report in about 15 minutes.
-icon: forward
----
+# Your First Factor
 
-# Quickstart
-
-The goal: connect Quandora to your AI agent, run one research task, and analyze
-one evidence-backed factor result.
-
-## Who This Is For
-
-Solo systematic traders, AI power users, and market-curious builders who use
-Codex, Claude, Cursor, CodeBuddy, WorkBuddy China, or Kimi Code and want their
-agent to work from market evidence instead of guesses.
+Test one market idea and understand one exact result. This workflow creates
+historical evidence and does not place trades.
 
 ## Before You Start
 
-* A supported agent host
-* A [Quandora account](https://app.quandora.ai/auth/signin)
-* 10–15 minutes
-* No exchange API key — this research workflow does not place trades
+Create or sign in to your [Quandora account](https://app.quandora.ai/auth/signin)
+and [connect the plugin](installation-guide.md) in your Agent host. You can use
+a public research task, describe your own hypothesis, or provide factor code.
+No exchange credentials are needed for this research workflow.
 
-## 1. Install And Connect
+## Ask Your Agent
 
-Follow the [Installation Guide](installation-guide.md) for your host. Complete
-the browser OAuth flow, then start a new chat or task so the host can discover
-all five Quandora skills.
-
-## 2. Run Your First Factor Task
-
-List the public research tasks:
+Start with discovery if you want to choose a task:
 
 ```text
-/quandora:factor-mining show public tasks
+Use Quandora Factor Mining to show available research tasks. Explain what each
+would test before we choose one.
 ```
 
-Pick one, or let the agent choose:
+Or authorize a complete first experiment:
 
 ```text
-Use Quandora Factor Mining to pick a public research task, generate a factor,
-run the backtest, and give me a short result summary.
+Use Quandora Factor Mining to choose one public research task, explain the
+hypothesis, validate the factor, and run its backtest. Summarize the exact
+result and any missing evidence.
 ```
 
-Your agent reads the [task card](../understanding-quandora/task-card.md), checks
-for materially similar work, writes [`plugin.py`](../understanding-quandora/plugin.py.md),
-validates the complete source, and submits it. Quandora binds market data and
-runs the evaluation server-side.
+The Agent reads the current [task contract](../understanding-quandora/task-card.md),
+checks related work, writes and validates the complete factor source, then
+submits and follows the same run. Validation checks the code contract; it is
+not itself a saved backtest result. You do not need to write `plugin.py` yourself.
 
-## 3. Analyze The Exact Result
+## In The Web App
 
-After the run reaches a terminal state, ask for read-only analysis:
+1. Open **Research → Factors**.
+2. Find the factor in your library and open its result. The sidebar **New**
+   control creates a folder; factor authoring uses the Agent workflow above.
+3. Match the factor and run to the Agent's result before reading its metrics.
+4. Inspect the verdict, grade, Health, charts, and available research context.
+
+Official factors can be a starting point for analysis without mining a new one.
+Their visibility does not grant permission to inspect private source code.
+
+## Analyze The Result
 
 ```text
-/quandora:factor-analysis analyze my latest factor result
+Use Quandora Factor Analysis to explain this factor run. Separate observed IS
+metrics from hypotheses, and suggest one controlled experiment. Do not submit
+another run.
 ```
 
-Factor Analysis resolves one exact run and reads its owner-scoped,
-server-persisted In-Sample evidence. It does not need a local ZIP, Python
-runtime, notebook, or extracted chart folder.
+A completed calculation, its charts, and its optional export may become ready
+at different times. Recheck the same result when evidence is preparing. Missing
+evidence is not zero and does not justify a duplicate submission.
 
-Read the [Factor Card](../understanding-quandora/factor-card.md) verdict,
-Health evidence, grade, metrics, risks, and proposed controlled experiments.
-See [How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md)
-for the current Success and grade semantics.
+## Done When
 
-## 4. Find The Optional Export
+You have one identified factor result and understand what its recorded evidence
+supports. A failed factor is still a useful result. Read
+[Analyze a Factor](../guides/factor-analysis.md) and
+[How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md)
+before choosing the next experiment or eligible Strategy factors.
 
-When your host can write local files and the completed Result Bundle is ready,
-Factor Mining saves one verified ZIP:
-
-```text
-Quandora result/factor/<factor_slug>.zip
-```
-
-The archive is not automatically extracted. Its manifest is authoritative for
-included, pending, and omitted items. A partial bundle can still be readable;
-a materializing bundle can be requested again later.
-
-## You Are Done When
-
-Your agent ran one task and explained one exact result using server evidence.
-A failed factor still counts: negative evidence helps identify the next useful
-experiment.
-
-{% hint style="info" %}
-Factor Mining and Factor Analysis do not place trades. Strategy Paper Trading
-uses simulated orders. Live trading is not part of the public product. A
-backtest is evidence about tested conditions, not a promise about the future.
-{% endhint %}
-
-## Next Steps
-
-* Browse the [research task families](../understanding-quandora/research-tasks.md)
-* Learn how to [improve and rerun](../guides/improve-and-rerun.md) with explicit confirmation
-* Build a cross-sectional strategy with the [Strategy Tutorial](../guides/strategy-tutorial.md)
-* Keep the [Glossary](../understanding-quandora/glossary.md) open for unfamiliar terms
+Analysis uses saved server evidence. If you need a local result, ask for the
+optional verified Result Bundle ZIP; see [Result Files](installation-guide.md#result-files).

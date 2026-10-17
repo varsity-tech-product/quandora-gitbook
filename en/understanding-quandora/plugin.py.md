@@ -79,8 +79,8 @@ Quandora performs remote validation and evaluation.
 * a guarantee of profit;
 * a filesystem path for the server to read.
 
-It is the testable factor definition sent inline after validation and explicit
-confirmation.
+It is the testable factor definition sent inline after validation within an
+authorized Factor Mining request.
 
 ## Where The Accepted Source Goes
 

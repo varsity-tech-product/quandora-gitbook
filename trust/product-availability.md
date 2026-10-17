@@ -1,33 +1,35 @@
----
-description: What Quandora users can access today and which capabilities require an invitation.
-icon: circle-check
----
-
 # Product Availability
 
-Quandora separates public research and simulation from real-money execution.
+The guides describe seven workflows across the web app and the Quandora
+plugin. Use the installed plugin's skill list and the controls available to your
+account to confirm access. Update an older plugin if it still shows the former
+five-skill layout; see the [Installation Guide](../getting-started/installation-guide.md).
 
-| Capability | Availability |
+| Capability | Scope and access boundary |
 | --- | --- |
-| Factor Mining | Available to public users |
-| Factor Analysis | Available to public users; read-only IS evidence |
-| Strategy Building and backtesting | Available to public users; cross-sectional strategies |
-| Strategy Analysis | Available to public users; read-only |
-| Paper Trading | Available to public users; simulated orders |
-| Live trading with real funds | Not part of the public product |
+| Factor Mining | Historical research; Agent authoring and submission, web result browsing |
+| Factor Analysis | Read-only saved IS evidence for owned or accessible active Official results |
+| Strategy Building | 1–20 eligible factors; historical Strategy backtests |
+| Strategy Analysis | Read-only owned or authorized Community research |
+| Portfolio Building | 1–5 distinct Strategies, initial weights, Portfolio backtests, Community discovery, favorites, and requested sharing |
+| Portfolio Analysis | Read-only historical comparison of an actual Portfolio and its sources |
+| Portfolio Trading Analysis | Simulation account/run management when requested; analysis of Simulation and authorized owned Live evidence |
+| Real Live execution | Invite-only and account-dependent; setup and execution controls are in the web app, not the plugin |
 
-## Public Research Workflow
+## Access Is Specific To The Object And Action
 
-Public users can test factor ideas, analyze exact factor results, combine
-eligible factors into cross-sectional strategies, analyze exact Strategy
-results, and run eligible sources with simulated orders.
+Seeing research does not grant ownership, reuse, or trading permission. A shared
+Portfolio may expose research while current trading eligibility is unavailable.
+Account limits, sharing expiry, source readiness, and current permissions are
+checked by the product at the relevant action.
 
-These research results describe historical or simulated behavior. They are not
-promises of future returns and are not direct instructions to buy or sell.
+Web and Agent controls need not be identical. A displayed web assumption is not
+necessarily an editable Agent input. Do not infer supported parameters or access
+from an older command example.
 
-## Live Trading Boundary
+## Evidence Boundaries
 
-The inspected public product contract does not expose real-money execution. A
-public account, Factor Card, Strategy result, Paper run, plugin command, or
-Result Bundle does not grant or imply live-trading access. This documentation
-does not claim a broker permission model or live control implementation.
+The first six workflows use historical backtests. Portfolio Trading Analysis
+uses observations after a run starts. Historical OOS remains a backtest.
+Simulation uses modeled execution; Live uses real funds. Neither a favorable
+backtest nor a short successful forward run guarantees future performance.

@@ -1,110 +1,60 @@
 ---
-description: Build, backtest, analyze, and export a cross-sectional Strategy.
 content_status: handoff
 content_owner: plugin-and-product-backend
 ---
 
-# Strategy Tutorial
+# Build A Strategy
 
-Strategy Building and Strategy Analysis are available to public users. The
-current public workflow builds cross-sectional strategies from eligible factors.
+Turn eligible factors into one cross-sectional Strategy and inspect its backtest.
+You need at least one factor in your eligible Strategy pool.
 
-## 1. List Eligible Factors
+## In The Web App
 
-```text
-/quandora:strategy-building list available factors
-```
+1. Open **Research → Strategies → Create strategy**.
+2. Enter a name and use **Pick from your factors** to choose 1–20 eligible factors.
+3. Choose the direction, liquidity threshold, and top/bottom ranking shown in
+   the form. Review factor weighting where available.
+4. Expand **Backtest execution parameters** to read the product-level test
+   assumptions. These displayed assumptions are not all editable inputs.
+5. Submit **Create strategy**, then follow the created result to completion.
+   Open the Strategy result before judging its performance.
 
-The first page shows eligible factors from three sources:
+## Ask Your Agent
 
-| Source | Meaning |
-| --- | --- |
-| Official | Read-only product inventory |
-| Mine | Your eligible Strategy factors |
-| Shared | Factors admitted to your Strategy pool |
-
-The list is paginated and does not automatically load every page. Ask for the
-next page only when you need it.
-
-## 2. Choose The Composition
-
-A strategy uses between 1 and 20 eligible factors. You can use equal weights or
-provide explicit factor weights. Before submission, ask the agent to show the
-effective configuration.
-
-The current public configuration can include:
-
-| Setting | Purpose |
-| --- | --- |
-| name | User-facing Strategy name |
-| factor selection or weights | Eligible factors and their composition |
-| ranking | Cross-sectional ranking rule |
-| strategy type | Current cross-sectional strategy mode |
-| start and end dates | Backtest window |
-| initial cash | Starting simulated capital |
-| maker and taker fee rates | Modeled fee assumptions |
-| rebalance bars | Rebalance interval |
-| attribution | Whether supported attribution output is requested |
-
-When ranking and strategy type are omitted, the current default is a neutral
-top/bottom 20% strategy. The contract returned in the current session remains
-the source of truth for supported fields and defaults.
-
-Do not assume that public submission accepts a custom universe, entry/exit
-rules, liquidity filters, maximum drawdown limit, deployment target, or other
-fields that are not present in that contract.
-
-## 3. Review And Submit
+For selection without submission:
 
 ```text
-Use Quandora Strategy Building to combine the selected factors, show the exact
-effective configuration, and ask me before submitting the backtest.
+Use Quandora Strategy Building to list the factors I can use. Suggest a small
+composition for a long-short neutral strategy and explain the ranking and
+weights. Show the plan without submitting it.
 ```
 
-Check names, factors, weights, dates, capital, fees, ranking, and rebalance
-settings. Submission is a mutation and requires explicit confirmation.
-
-## 4. Monitor The Same Run
-
-The agent follows the returned run instead of submitting a duplicate. A
-terminal failure is immutable; retrying means creating a new run after an
-explicit request. A completed calculation and its Result Bundle may become
-ready at different times.
-
-## 5. Analyze The Result
-
-Use the read-only Strategy Analysis skill:
+After choosing the plan:
 
 ```text
-/quandora:strategy-analysis analyze my latest strategy result
+Build and backtest that Strategy using the selected factors, equal weights,
+and top/bottom 20% ranking. Call it Momentum Study. Report the exact Strategy
+and backtest result, including the effective assumptions.
 ```
 
-Strategy Analysis pairs the canonical run configuration with retained
-artifacts and bounded numerical chart evidence. It can diagnose performance,
-risk, turnover, exposure, attribution, factor combination, and Paper readiness.
-It does not revise, rerun, export, or start Paper Trading.
+These are illustrative settings, not a claim that this configuration is best.
+The Agent checks current eligibility and supported fields. It follows the
+returned run instead of resubmitting when calculation or artifacts take time.
 
-Treat an `ALL` strategy scope as a combined scope that includes IS; it is not
-pure OOS evidence.
+## Revise Or Rerun
 
-## 6. Export The Optional Result Bundle
+**Edit** changes the definition and creates a new Strategy in the same folder.
+**Rerun** evaluates an unchanged Strategy again. Select the exact version before
+either action, especially if names repeat. Archiving an individual Strategy is
+separate from organizing a folder and from removing a particular result.
 
-Ask Strategy Building to export the exact completed run. In a writable host,
-the verified archive is saved as:
+## Done When
 
-```text
-Quandora result/strategy/<strategy_slug>.zip
-```
+The result identifies the Strategy definition, factor composition, effective
+configuration, and backtest state. A terminal failure should show its reason;
+a pending export does not invalidate a completed calculation.
 
-The ZIP is retained without automatic extraction or reconstruction. Its
-runtime manifest records included, pending, and omitted items.
-
-## 7. Decide The Next Action
-
-* Keep the result as historical evidence.
-* Ask Strategy Analysis for one controlled composition or configuration experiment.
-* Explicitly confirm a new Strategy Building run.
-* If the source is eligible, separately confirm a simulated Paper run.
-
-No analysis result automatically submits another backtest or starts Paper
-Trading.
+Continue with [Analyze a Strategy](strategy-analysis.md). If you want forward
+observation, first [build a Portfolio](portfolio-building.md), even when it has
+only this one Strategy. An optional result export remains a verified ZIP and is
+not required for analysis.

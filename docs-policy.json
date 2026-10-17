@@ -3,25 +3,27 @@
   "section_headings": {
     "en": [
       "START HERE",
-      "TEST YOUR FIRST IDEA",
-      "UNDERSTAND THE RESULT",
-      "IMPROVE AND RERUN",
-      "BUILD AND EVALUATE A STRATEGY",
-      "PAPER TRADE A STRATEGY",
-      "AVAILABILITY AND LIMITATIONS",
+      "FACTOR MINING",
+      "FACTOR ANALYSIS",
+      "STRATEGY BUILDING",
+      "STRATEGY ANALYSIS",
+      "PORTFOLIO BUILDING",
+      "PORTFOLIO ANALYSIS",
+      "PORTFOLIO TRADING ANALYSIS",
       "CONCEPTS AND REFERENCE",
-      "SECURITY, PRIVACY AND SUPPORT"
+      "AVAILABILITY AND SUPPORT"
     ],
     "zh-CN": [
       "从这里开始",
-      "测试你的第一个想法",
-      "理解测试结果",
-      "改进并重新运行",
-      "构建并评估策略",
-      "运行策略模拟盘",
-      "功能可用性与限制",
+      "因子挖掘",
+      "因子分析",
+      "策略构建",
+      "策略分析",
+      "组合构建",
+      "组合分析",
+      "组合交易分析",
       "概念与参考资料",
-      "安全、隐私与支持"
+      "功能可用性与支持"
     ]
   },
   "document_roots": {

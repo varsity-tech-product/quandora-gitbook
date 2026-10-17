@@ -1,47 +1,40 @@
----
-description: Safety boundaries for public research, backtesting, and simulated Paper Trading.
----
+# Safety And Execution Controls
 
-# Safety, Risk Limits & Kill Switch
+Research, Simulation, and Live have different consequences. Keep the requested
+object and action explicit, and read the resulting state before reporting success.
 
-{% hint style="warning" %}
-This page does not describe a public live-trading control system. Live trading
-is not part of the public Quandora product.
-{% endhint %}
+## Authorization Follows The User's Intent
 
-## Public Workflow Boundaries
+Factor, Strategy, and Portfolio analysis are read-only. Portfolio Trading
+Analysis is also read-only for a diagnosis; Simulation management requires an
+actual account or run instruction. A request to build and backtest authorizes
+that workflow, but not sharing or an additional account unless requested.
 
-* Factor Mining and Strategy Building run historical evaluations.
-* Factor Analysis and Strategy Analysis are read-only.
-* Paper Trading uses simulated orders and never places live-money trades.
-* A Paper run starts only after explicit user confirmation.
-* Stopping a Paper run is terminal and also requires explicit confirmation.
-* Losses or decay do not automatically stop, restart, or modify another
-  workflow.
+Existing authorization carries across skill handoffs. Ask when the target,
+audience, settings, or intended action is materially unclear, or when the user
+has explicitly required review before submission. Do not invent a fresh approval
+step merely because another skill handles the next operation.
 
-## Evidence Safety
+## Execution States Matter
 
-Backtests and Paper runs can fail, lose simulated money, or behave differently
-from earlier results. A grade, Success result, or Paper PnL is evidence under a
-specific scope; it is not a guarantee or approval for real-money execution.
+Accepted is not running. Stopping is not stopped. An archive is not a stop, a
+reset, or history deletion. Read the exact account and run after an operation;
+recover the same pending operation rather than start a duplicate.
 
-The analysis skills preserve unavailable evidence as unavailable and separate
-observations from inference. Proposed improvements remain proposals until the
-user explicitly chooses a new Factor Mining or Strategy Building experiment.
+Simulation pause/resume and terminal stop are distinct. Live execution controls
+are only available through authorized web flows. This documentation does not
+promise a universal kill switch, guaranteed liquidation, a broker permission
+model, or a particular set of Live risk limits.
 
-## Credential Safety
+## Evidence And Credentials
 
-Use the host-native browser OAuth flow. Never paste exchange keys, API keys,
-bearer tokens, authorization codes, passwords, or other credentials into an
-agent prompt. Quandora's public plugin does not require withdrawal credentials
-or a user-created local MCP server.
+Missing or incomplete data stays unavailable. Do not turn short-run losses into
+automatic retuning, restarting, or position closing. Proposed experiments stay
+proposals until they fall within an authorized request.
 
-## About Live Controls
+Use the host's browser sign-in flow. Never paste exchange keys, API keys, bearer
+tokens, passwords, or authorization codes into an Agent prompt. Use supported
+web flows for account credentials.
 
-Terms such as broker permissions, live risk limits, audit logs, or a live kill
-switch require a separately approved implementation and operating contract.
-This documentation intentionally makes no claim that those controls are
-available to public users.
-
-Quandora provides research and simulation infrastructure. It does not provide
-financial advice or guarantee returns.
+See [Live Trading Access](deployment-and-live-trading.md) and
+[Security, Privacy and Support](../trust/security-privacy-and-support.md).

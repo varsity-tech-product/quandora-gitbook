@@ -1,38 +1,37 @@
 ---
-translation_status: reviewed
-description: Quandora 是面向 AI 原生量化交易工作流的金融 Agent 基础设施。
-icon: rocket-launch
+translation_status: draft
 ---
 
-# Quandora 简介
+# 介绍
 
 <figure><img src=".gitbook/assets/orange%20gradient%20logo.png" alt="Quandora"><figcaption></figcaption></figure>
 
-## Quandora 是什么
+Quandora 帮助你把市场想法变成可以检查的研究：测试因子，构建策略，把策略组成组合，再通过模拟盘或已获授权的实盘账户观察组合表现。
 
-Quandora 是面向 AI 原生量化交易工作流的金融 Agent 基础设施。
+这份指南同时服务使用网页的人类用户，以及使用 Quandora 插件的 Agent。你可以跟随**网页操作**，复制**向 Agent 提问**示例，也可以围绕同一份研究结果在两种方式之间切换。
 
-公开插件提供五项专用 Skill：因子挖掘、因子分析、策略构建、策略分析和模拟盘。Agent 可以用它们创建研究产物、读取服务端留存的证据、回测截面策略，并在每个阶段经过用户明确确认后监控模拟执行。
+[创建或登录账户](https://app.quandora.ai/auth/signin)，然后[选择你的路径](getting-started/choose-your-path.md)。
 
-[创建或登录 Quandora 账户](https://app.quandora.ai/auth/signin)，然后根据你的经验和目标[选择使用路径](getting-started/choose-your-path.md)。
+## 从你的目标开始
 
-## 我们的观点
+| 你的目标 | 从这里开始 |
+| --- | --- |
+| 测试新的市场想法 | [你的第一个因子](getting-started/quickstart.md) |
+| 使用已有因子或策略 | [构建策略](guides/strategy-tutorial.md)或[构建组合](guides/portfolio-building.md) |
+| 探索其他人的组合 | [社区与分享](guides/community-and-sharing.md) |
+| 理解研究结果 | 导航中的因子分析、策略分析或组合分析 |
+| 观察启动后的账户表现 | [分析模拟盘与实盘](guides/portfolio-trading-analysis.md) |
 
-当交易越来越依赖 Agent，严肃的 Agent 也会越来越接近量化研究。它需要数据、验证、反馈循环、风险控制和可复查的证据，才能形成可靠判断。
+## 七个工作流，两类证据
 
-金融市场不缺另一个聊天机器人，缺的是：
+**历史研究：** 因子挖掘 → 因子分析 → 策略构建 → 策略分析 → 组合构建 → 组合分析。
 
-* 信号验证；
-* 过拟合检查；
-* 微观结构与流动性分析；
-* 真实的成本与换手评估；
-* 回测与滚动验证；
-* 可复查的因子研究记录；
-* 报告与审计轨迹；
-* 具备安全边界的工作流。
+**前向验证：** 组合交易分析观察模拟盘与实盘运行，并按用户要求管理模拟账户和运行。
 
-真正稀缺的是一套证据系统：它能记录一个想法是否通过当前检查、交易成本是否过高、是否重复了已有尝试，以及是否需要进一步分析，同时不会把分析意见自动变成新的提交。
+已有所需研究时，可以从任意阶段进入。单个策略也可以组成单成员组合。各阶段的输入与产出见[工作流总览](understanding-quandora/quandora-workflow.md)。
 
-{% hint style="info" %}
-因子研究与分析、策略回测与分析、使用模拟订单的模拟盘都对公众用户开放。实盘交易不属于当前公开产品。Quandora 不承诺收益，也不提供跟单服务。目前首先支持加密市场。
-{% endhint %}
+回测重放历史条件。前向验证从运行启动后积累观察。历史样本外结果仍属于回测。模拟盘使用模拟成交；实盘使用真实资金，需要单独的访问权限。插件对实盘仅提供只读能力。
+
+分析负责解释证据、提出实验。仅请求分析，不会授权新的回测、分享或账户操作。明确要求“构建并回测”时，授权可以覆盖完整流程，无需仅因切换 Skill 再次确认。
+
+访问边界见[功能可用性](trust/product-availability.md)。Quandora 不保证收益；成功的回测是研究结果，不代表已获准实盘交易。

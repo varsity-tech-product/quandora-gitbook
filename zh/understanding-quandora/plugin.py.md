@@ -1,5 +1,5 @@
 ---
-translation_status: reviewed
+translation_status: draft
 description: >-
   plugin.py 是 AI Agent 交给 Quandora 验证并回测的契约化因子源码。
 ---
@@ -74,7 +74,7 @@ Agent 应当：
 * 收益保证；
 * 让服务端读取的文件系统路径。
 
-它是一份可测试的因子定义，在通过验证和明确确认后以内联源码形式提交。
+它是一份可测试的因子定义，在验证通过后，按已授权的因子挖掘请求以内联源码形式提交。
 
 ## 已接受源码的导出位置
 

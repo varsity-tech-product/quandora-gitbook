@@ -1,33 +1,43 @@
----
-description: >-
-  What Quandora is in plain English — an open, agent-native way to test trading
-  ideas with evidence instead of vibes.
-icon: user-vneck
----
+# Quandora 101
 
-# Quandora 101 (For Non-Quants)
+Quandora helps you test a trading idea, understand its evidence, and observe it
+under new conditions. You can work in the web app, through an AI Agent, or both.
 
-Quandora is an open infrastructure designed to make quant-style trading research more accessible, transparent, and agent-native. For decades, the serious trading research workflow lived inside hedge funds, prop shops, expensive platforms, and private notebooks. Market data, backtesting, overfit checks, cost modeling, signal memory, and research reports were treated as gated infrastructure. Quandora opens that workflow up.
+## Four Objects To Understand
 
-Quandora makes systematic trading research more inspectable and repeatable. The product is not the “magic alpha.” The product is the validation layer: the process that shows whether an idea worked historically, whether it survived costs, whether it was overfit, whether it duplicated something already tested, and what should be improved next.
+| Object | Plain-language meaning | Example |
+| --- | --- | --- |
+| Factor | A rule that gives markets scores | Rank markets using a liquidity-related signal |
+| Strategy | A trading rule built from factor scores | Combine two eligible factors and select top/bottom-ranked markets |
+| Portfolio | One or more Strategies with initial capital allocations | Allocate 70% to a core Strategy and 30% to a complementary one |
+| Account and run | Where a Portfolio is observed forward | Start a Simulation and inspect its positions and fills |
 
-Quandora modernizes quant trading through:
+Examples explain the objects, not recommended investments or optimal settings.
+A name is only a label: different objects can share a name. A saved definition
+and a particular run let you identify exactly what was tested.
 
-**Transparency:** Users can see the research process behind an idea: the assumptions, metrics, caveats, and verdict. The goal is to replace black-box signals with visible evidence.
+## Three Different Questions
 
-**Open access:** The agent workflow — plugins, skills, and task templates — is open source under Apache 2.0, so serious traders, coders, and AI-agent users can inspect, run, and modify how research is generated. Market-data binding and backtest evaluation run on Quandora's hosted servers, which keeps the changing market data controlled and makes results comparable across everyone's runs.
+**Does the idea show useful historical evidence?** Mine and analyze a Factor.
 
-**Agent-native research:** AI agents are good at generating ideas and code. Quandora gives them the missing finance infrastructure: data, backtests, validation, memory, error feedback, and result cards.
+**Does a complete rule or combination work under its test assumptions?** Build
+and analyze a Strategy, then a Portfolio when appropriate.
 
-**Risk awareness:** A backtest is only useful if it survives real-world questions. Quandora checks for costs, drawdowns, turnover, liquidity, duplicated ideas, and overfitting risk.
+**What has happened since the run started?** Analyze Simulation or authorized
+Live evidence through Portfolio Trading Analysis.
 
-For non-systematic traders, Quandora is a bridge from intuition to discipline. You do not need to stop having market instincts. The point is to test them. If you believe a breakout pattern works, a funding signal matters, or a market setup repeats, Quandora helps you ask the serious question: did this actually work before, and is it still worth testing?
+These questions use different evidence. A Factor grade does not establish that
+a Portfolio is useful. A backtest does not prove future performance. Simulation
+execution and actual Live execution are also different observations.
 
-Quandora’s larger vision is to open up the gated infrastructure behind systematic trading research. Backtesting, overfit checks, liquidity awareness, cost realism, repeatable workflows, and research reports should not only belong to closed institutions. Quandora makes that validation layer open, transparent, and accessible to the next generation of AI-powered market participants.
+## What An Agent Adds
 
-{% hint style="info" %}
-Quandora is finance-agent infrastructure. It is not a guaranteed-profit tool or
-copy-trading product. Public users can research and analyze factors, build and
-analyze cross-sectional Strategies, and Paper trade with simulated orders.
-Live trading is not part of the public product.
-{% endhint %}
+An Agent can turn a hypothesis into factor code, run authorized research,
+explain saved results, and carry out supported account operations when asked.
+It should identify the exact evidence, preserve missing data as missing, and
+separate its interpretation from what the product actually recorded.
+
+You can use the web app to browse results and build Strategies or Portfolios
+without writing code. Tutorials offer both routes where supported. Start with
+[Choose Your Path](choose-your-path.md) or the
+[Workflow Map](../understanding-quandora/quandora-workflow.md).

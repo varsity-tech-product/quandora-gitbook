@@ -21,8 +21,8 @@ refresh tokens, passwords, or other credentials into an agent prompt.
   response requires it.
 * Result Bundle downloads use short-lived, single-use transfer URLs. The agent
   consumes them immediately and must not print, store, or reconstruct them.
-* Factor and Strategy Analysis use owner-scoped server evidence and do not need
-  local archives or credentials.
+* Factor, Strategy, and Portfolio Analysis use server evidence within the
+  caller's authorized access context; they do not need local archives or credentials.
 
 Reviewed policies for data retention, research-data handling, account deletion,
 service support, and incident reporting require separate owner approval. This
