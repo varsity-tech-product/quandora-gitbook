@@ -23,7 +23,9 @@ The first six workflows use historical backtests. Portfolio Trading Analysis
 covers forward evidence, Simulation account/run management, and read-only Live
 analysis. Each task guide provides web steps and an Agent example where the
 product supports them; do not invent web controls to make the paths symmetric.
-Keep existing page paths stable when titles or navigation placement change.
+Keep existing source paths stable when titles or navigation placement change.
+GitBook page groups also affect published URLs. Preserve moved public routes in
+each language's `.gitbook.yaml` redirects and check them in the PR preview.
 
 Page responsibilities:
 

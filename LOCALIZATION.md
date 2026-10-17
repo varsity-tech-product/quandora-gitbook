@@ -54,3 +54,18 @@ follow-up issue and PR to:
 - remove `compatibility` and `compatibility_mirror` from `docs-policy.json`;
 - simplify CI to validate only `en/` and `zh/`;
 - add redirects for any URL changed during the migration.
+
+## Navigation URL compatibility
+
+GitBook can derive published URLs from `SUMMARY.md` page groups even when the
+Markdown file path stays unchanged. The seven-workflow navigation therefore
+keeps the previous public routes in `en/.gitbook.yaml` and `zh/.gitbook.yaml`.
+Each redirect maps a former space-relative URL (without a leading slash) to the
+current Markdown file relative to that language root. This follows GitBook's
+[maintained Git Sync configuration example](https://github.com/GitbookIO/demo-docs-gitbook/blob/main/.gitbook.yaml).
+
+When moving a page, compare the published navigation with the PR preview, add
+any missing old routes, and check that redirect destinations exist. Test an old
+URL in the new preview before merging. The existing main-branch site remains
+unchanged until publication; include these configuration files in any rollback
+of the corresponding navigation change.
