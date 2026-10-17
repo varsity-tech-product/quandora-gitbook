@@ -5,16 +5,23 @@ icon: bolt
 
 # Installation Guide
 
-Quandora is distributed as the `quandora@quandora` plugin. One authenticated
-connection provides five skills:
+The web app can be used without installing an Agent plugin. To work through an
+Agent, install `quandora@quandora` and connect your Quandora account. The seven
+workflow skills are:
 
 | Skill | What it does |
 | --- | --- |
-| Factor Mining | Creates and backtests a factor, then retrieves one verified Result Bundle ZIP. |
-| Factor Analysis | Diagnoses one exact factor result from server-persisted evidence. |
-| Strategy Building | Selects eligible factors, composes a strategy, and runs its backtest. |
-| Strategy Analysis | Diagnoses one exact strategy result and its numerical chart evidence. |
-| Paper Trading | Starts, monitors, inspects, or stops simulated Paper runs after confirmation. |
+| Factor Mining | Creates, validates, and backtests factors. |
+| Factor Analysis | Reads saved factor IS evidence. |
+| Strategy Building | Builds and backtests a Strategy from eligible factors. |
+| Strategy Analysis | Diagnoses one exact Strategy backtest. |
+| Portfolio Building | Selects Strategies, allocates capital, backtests Portfolios, and handles requested discovery, favorites, and sharing. |
+| Portfolio Analysis | Evaluates a Portfolio's historical incremental value. |
+| Portfolio Trading Analysis | Analyzes forward Simulation/Live evidence and manages Simulation accounts and runs when requested. |
+
+The first six workflows concern backtests. The seventh concerns forward tests.
+Live inspection is read-only in the plugin; execution controls remain in the
+web app for eligible accounts.
 
 Quandora uses browser OAuth. Never paste an API key, bearer token, authorization
 code, password, or other credential into an agent prompt.
@@ -138,24 +145,30 @@ Start a new session, authorize the plugin connection, and verify it:
 Complete browser authorization, then start another new session before using a
 Quandora skill.
 
-## Verify The Five Skills
+## Verify The Seven Skills
 
-Ask your host to show the installed Quandora skills. You should see Factor
-Mining, Factor Analysis, Strategy Building, Strategy Analysis, and Paper
-Trading.
+Ask your host to show the installed Quandora skills and check all seven names
+above. If it shows the older five-skill layout, update the plugin using the
+host's plugin manager, reconnect if needed, and start a fresh session. A tool
+connection alone does not necessarily install skill instructions; follow the
+host-specific installation guide.
 
-Use a namespaced skill command when the host supports it:
+Natural-language examples are portable across hosts:
 
 ```text
-/quandora:factor-mining show public tasks
-/quandora:factor-analysis analyze my latest factor result
-/quandora:strategy-building list available factors
-/quandora:strategy-analysis analyze my latest strategy result
-/quandora:paper-trading show my current Paper PnL
+Use Quandora Factor Mining to show available research tasks.
+Use Quandora Factor Analysis to explain this factor result without rerunning it.
+Use Quandora Strategy Building to list eligible factors.
+Use Quandora Strategy Analysis to analyze this exact Strategy backtest.
+Use Quandora Portfolio Building to propose a Portfolio without creating it.
+Use Quandora Portfolio Analysis to compare this result with its actual members.
+Use Quandora Portfolio Trading Analysis to inspect my selected Simulation run.
 ```
 
-Natural-language requests work too, for example: `Use Quandora Factor Mining
-to show public tasks.`
+When a host supports explicit skill commands, use the names it actually lists.
+Do not substitute an old Paper Trading command for the new Portfolio Trading
+Analysis workflow. The [workflow map](../understanding-quandora/quandora-workflow.md)
+explains the boundaries between the skills.
 
 ## Result Files
 
@@ -180,9 +193,10 @@ task. If they remain hidden, fully quit and reopen the host.
 **Authorization failed.** Use the host-native connection flow above and
 complete browser consent. Do not substitute an API key or local MCP server.
 
-**Paper tools are missing after an older authorization.** Reconnect Quandora
-and complete fresh browser consent. Refreshing an older token does not add newly
-granted Paper permissions.
+**New tools are missing after an update.** Confirm the installed plugin version,
+then reconnect through the host and review any requested permissions. Start a
+fresh session so tools and skills are rediscovered. Repeatedly refreshing an
+older connection does not by itself grant new permissions.
 
 **No Result Bundle was saved.** Chat-only hosts may return a download instead
 of writing to disk. A bundle can also still be materializing; ask the agent to

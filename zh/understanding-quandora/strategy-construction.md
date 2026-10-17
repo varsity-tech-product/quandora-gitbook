@@ -1,61 +1,34 @@
 ---
-translation_status: reviewed
-description: 符合条件的因子如何进入公开截面策略回测。
+translation_status: draft
 ---
 
-# 策略构建
+# 策略构建概念
 
-因子是一种排序信号。策略会组合一个或多个符合条件的因子，加入截面组合配置，并在模拟费用和再平衡条件下评估组合结果。
+因子产生分数。策略把 **1–20 个可用因子**与排名、方向和权重规则结合起来。策略回测评估完整交易规则，包括适用的建模执行成本。
 
-## 符合条件的因子来源
+## 可用因子
 
-策略构建可以使用：
+从策略因子选择器或 Agent 返回的可用因子列表中选择。所有权、可见性、因子等级和可用资格是不同属性。能够阅读的官方或共享结果不一定可以用于构建策略，以账户返回的资格为准。
 
-* **Official**：只读的产品因子库；
-* **Mine**：属于当前用户并进入策略因子池的因子；
-* **Shared**：已经加入当前用户策略因子池的共享因子。
+新的因子源码需要先经过因子挖掘、验证和评估，符合条件后才能选择。不要直接把任意 `plugin.py` 传给策略创建来绕过此流程。
 
-三类来源在提交策略时使用相同的 Selector 路径。外部 `plugin.py` 属于单独的显式导入流程，不会因为由用户提供就自动归类为 Mine。
+## 配置边界
 
-## 当前公开配置
+| 选择 | 操作方式 |
+| --- | --- |
+| 因子 | 选择准确的可用条目，数量为 1–20 个 |
+| 权重 | 等权，或工具支持的正数自定义权重，总和为一 |
+| 方向 | 多空中性、只做多或只做空 |
+| 排名 | 明确头部/尾部百分比或数量 |
+| 流动性阈值 | 使用网页表单提供的选项，不假定 Agent 具有相同控件 |
+| 回测假设 | 阅读展示的执行参数和保存的运行配置 |
 
-公开 Strategy Contract 支持 1–20 个因子，当前配置边界包括：
+网页表单展示用于可比性评估的统一产品级执行参数。Agent 回测可能提供日期范围，但只能使用当前契约包含的字段。初始资金、Maker/Taker 手续费、归因和自定义标的池覆盖项，不属于调用者可配置的 Agent 回测输入。
 
-* 策略名称；
-* 因子选择或明确的因子权重；
-* ranking；
-* 截面 strategy type；
-* start 和 end dates；
-* initial cash；
-* maker 和 taker fee rates；
-* rebalance interval；
-* attribution request。
+## 定义与结果
 
-省略 ranking 和 strategy type 时，当前默认值是 neutral top/bottom 20%。提交前，应始终检查当前 Session 返回的 contract 和 product defaults。
+策略定义不可变。修改因子或配置，会在同一文件夹下创建新策略。对不变策略再次回测，会产生新运行。旧定义与旧结果保持独立，详见[版本、运行与账户](versions-and-runs.md)。
 
-Custom universe、entry/exit rules、liquidity filters、live risk limits 或 deployment target 等概念不属于当前公开提交字段，不应描述为 Agent 可选择的控制项。
+[策略构建](../guides/strategy-tutorial.md)创建或修订研究；[策略分析](../guides/strategy-analysis.md)读取已有结果并提出实验，不会静默提交修订。
 
-## 策略评估
-
-回测会评估完整的提交配置。根据产物可用性，证据可以包括：
-
-* net 和 gross performance；
-* NAV 与 drawdown 路径；
-* turnover 与模拟成本；
-* funding；
-* exposure 与 neutrality；
-* per-symbol PnL 与 attribution；
-* position 或 trade history；
-* 留存六图分析界面的有界数值数据。
-
-规范运行快照是判断明确因子组合和参数的权威依据。缺失产物应保持不可用，不能根据文件名或本地文件进行推断。
-
-## 构建与分析是两个独立步骤
-
-**策略构建**负责列出因子、组合、提交、恢复、导出和归档受支持的策略结果。**策略分析**保持只读，诊断一条明确的已完成结果并提出受控实验。
-
-分析建议不会改变策略。用户必须明确确认新的策略构建提交。
-
-## 下一步
-
-一条已完成的来源可能符合模拟盘条件。选择来源时还会再次检查 eligibility；等级或回测状态本身不能保证可用。下一步可阅读[策略使用教程](../guides/strategy-tutorial.md)或[模拟盘使用教程](../guides/paper-trading-tutorial.md)。
+进行前向验证时，先把已评估策略放入单成员或多成员[组合](../guides/portfolio-building.md)。策略回测成功本身不会启动账户。

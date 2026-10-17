@@ -4,3 +4,21 @@ structure:
   readme: README.md
   summary: SUMMARY.md
 
+# Preserve published URLs when SUMMARY.md page groups change.
+redirects:
+  test-your-first-idea/quickstart: getting-started/quickstart.md
+  test-your-first-idea/research-tasks: understanding-quandora/research-tasks.md
+  test-your-first-idea/task-card: understanding-quandora/task-card.md
+  test-your-first-idea/plugin.py: understanding-quandora/plugin.py.md
+  understand-the-result/factor-card: understanding-quandora/factor-card.md
+  understand-the-result/how-factors-are-judged: understanding-quandora/how-factors-are-judged.md
+  improve-and-rerun/improve-and-rerun: guides/improve-and-rerun.md
+  build-and-evaluate-a-strategy/strategy-construction: understanding-quandora/strategy-construction.md
+  build-and-evaluate-a-strategy/strategy-tutorial: guides/strategy-tutorial.md
+  paper-trade-a-strategy/paper-trading-and-monitoring: understanding-quandora/paper-trading-and-monitoring.md
+  paper-trade-a-strategy/paper-trading-tutorial: guides/paper-trading-tutorial.md
+  availability-and-limitations/product-availability: trust/product-availability.md
+  availability-and-limitations/deployment-and-live-trading: understanding-quandora/deployment-and-live-trading.md
+  availability-and-limitations/safety-risk-limits-and-kill-switch: understanding-quandora/safety-risk-limits-and-kill-switch.md
+  concepts-and-reference/quandora-workflow: understanding-quandora/quandora-workflow.md
+  security-privacy-and-support/security-privacy-and-support: trust/security-privacy-and-support.md

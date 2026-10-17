@@ -1,103 +1,84 @@
 ---
-description: Start, monitor, inspect, and stop a Quandora simulated Paper run.
 content_status: handoff
 content_owner: plugin-and-product-backend
 ---
 
-# Paper Trading Tutorial
+# Simulation Accounts And Runs
 
-Paper Trading uses simulated orders and never places live-money trades. It
-starts from an existing eligible Strategy result; factor selection and Strategy
-backtesting remain in Strategy Building.
+Use Portfolio Trading Analysis to manage Simulation accounts and observe
+Portfolio behavior after a run starts. Some web controls use **Paper** for
+Simulation. These runs use simulated execution, not real funds.
 
-## 1. Select An Eligible Source
+## Before You Start
 
-```text
-/quandora:paper-trading start a paper run
-```
+Select an eligible owned Portfolio or an authorized Community publication/share.
+For one Strategy, first create and backtest a one-member Portfolio. Check for
+an existing automatic Simulation association before creating another account.
 
-If you did not specify an exact source, the agent lists your eligible Paper
-sources. Select one returned source instead of guessing an identifier.
+An account and its run are different objects. Decide whether you want to inspect
+an existing run, start a run in an existing account, or create an additional
+named account. Account quotas and starting settings are enforced by the product.
 
-A source must be owner-scoped, completed, successfully submitted,
-cross-sectional, and reconstructable by the service. A preflight result can be:
+## In The Web App
 
-* **eligible** — safe checks passed, with final validation still performed at submission;
-* **provider validation required** — eligibility could not yet be confirmed;
-* **ineligible** — the returned reason explains why the source cannot be used.
+1. Open **Trading** and select **Paper**. Use the account list to open an existing
+   account and inspect its active run or run history.
+2. To create an additional account, select **Create Paper account**, enter a
+   name, and submit **Create account**. Creating the account alone does not
+   choose a Portfolio or prove that a run is executing.
+3. Choose an eligible Portfolio through the account's selection flow. Review
+   the displayed settings and submit the start action when ready.
+4. Check the resulting run state. Read **Current Position**, **Closed positions**,
+   **Filled Record**, and the net-account details as applicable.
+5. Use **Pause**, **Resume**, or **Stop** only for the specific run you intend to
+   change. Account management and run execution are separate actions.
 
-If no eligible source exists, return to [Strategy Building](strategy-tutorial.md).
+## Ask Your Agent
 
-## 2. Confirm The Paper Run
-
-Before submission, review and explicitly confirm:
-
-* the exact source and safe Strategy label;
-* optional initial balance;
-* optional start date;
-* optional leverage.
-
-The Paper skill does not accept a custom symbol list or universe policy.
-Quandora selects and freezes the simulation universe downstream.
-
-## 3. Monitor Lifecycle From Run Detail
-
-After submission, monitor the same run through its detail state. Do not create a
-second run because an early portfolio or equity response is still preparing.
-
-Ask naturally or use:
+Inspect first without starting anything:
 
 ```text
-/quandora:paper-trading show my current Paper PnL
+Use Quandora Portfolio Trading Analysis to find the Simulation already associated
+with this Portfolio. Show its account, exact run, source, and current state.
+Do not create or start another account.
 ```
 
-Available reads can include:
-
-* current portfolio, assets, PnL, and open positions;
-* closed net-position lifecycles;
-* simulated fills;
-* funding records;
-* fixed-lookback equity curves;
-* bounded strategy code for inspection.
-
-Open or partially open positions belong to the current portfolio snapshot. The
-position-history view contains only closed net-position lifecycles.
-
-## 4. Read Equity Curves Carefully
-
-Current fixed lookbacks are `7D`, `30D`, `90D`, `180D`, `1Y`, and `3Y`. Before
-the Paper run's live simulation period begins, the curve can contain explicit
-zero padding. That padding means “before this run,” not zero historical loss or
-missing market data.
-
-## 5. Stop Only When You Mean It
-
-Stopping is a terminal mutation and requires explicit confirmation. A stopped
-Paper run cannot be resumed. Starting the same source again creates a fresh run
-with separate history.
-
-The current public agent workflow does not expose Paper archive, unarchive, or
-resume actions. Do not describe hiding history as a way to stop execution.
-
-## Strategy Portfolio Paper
-
-Paper Trading also supports a Strategy Portfolio made from static,
-independently allocated Strategy sleeves. The workflow is:
+For an additional account when that is what you want:
 
 ```text
-create or revise the Portfolio definition
--> backtest the Portfolio
--> inspect the result
--> explicitly confirm a Portfolio Paper run
--> monitor or stop that exact run
+Create a Simulation account named Core Observation and start the exact Portfolio
+we selected. Use the starting leverage we agreed. Follow the same operation to
+its final state and report the account and run. Do not create a replacement if
+the initial response is delayed.
 ```
 
-Creating factors or individual Strategy backtests still belongs to Strategy
-Building.
+If required settings are missing, the Agent asks for them. It must recover the
+same operation after a timeout or uncertain response. **Accepted** means the
+request was accepted, not that execution is already running. A failed start can
+leave an account that still needs to be reported and managed.
 
-## No Automatic Repairs
+## Lifecycle And Account Actions
 
-Losses, drawdown, or suspected decay never authorize the agent to stop a run,
-mine another factor, revise a Strategy, or start another workflow. The agent can
-report evidence and propose a handoff; the user decides and confirms the next
-action.
+| Action | Meaning |
+| --- | --- |
+| Rename account | Changes the account label; preserves its history |
+| Archive / restore account | Changes account visibility or availability under eligibility and quota rules; does not stop, reset, or delete history |
+| Start | Starts a new eligible Portfolio run in the chosen account |
+| Pause | Requests a pause of the current run; read the returned state |
+| Resume | Continues an eligible paused run after current plan and sharing checks |
+| Stop | Ends that run; a stopped run cannot be resumed |
+
+Starting again after a stop creates a new run. Account reset, history deletion,
+and editing active capital are not plugin capabilities. An archived account is
+not a substitute for a stopped run. During settlement or another transition,
+wait for the same operation's outcome instead of forcing a new start.
+
+## Done When
+
+The account and exact run are identified, the final returned state is clear,
+and the source Portfolio matches your intent. A request to analyze performance
+alone never authorizes pause, stop, a new version, or a new account.
+
+Continue with [Analyze Simulation and Live](portfolio-trading-analysis.md).
+Real Live execution controls belong to the web app for eligible accounts;
+Simulation authorization never authorizes a Live action.

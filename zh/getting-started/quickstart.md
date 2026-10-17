@@ -1,78 +1,50 @@
 ---
-translation_status: reviewed
-description: 大约 15 分钟，从零获得并分析第一份有证据支持的因子结果。
-icon: forward
+translation_status: draft
 ---
 
-# 快速开始
+# 你的第一个因子
 
-目标：把 Quandora 连接到你的 AI Agent，运行一个研究任务，并分析一份有证据支持的因子结果。
+测试一个市场想法，并理解一份准确的结果。此流程产生历史证据，不会下单交易。
 
-## 适合谁
+## 开始之前
 
-已经使用 Codex、Claude、Cursor、CodeBuddy、WorkBuddy 中国版或 Kimi Code，并希望 Agent 根据市场证据开展研究的系统化交易者、AI 工具用户和市场研究者。
+[创建或登录 Quandora 账户](https://app.quandora.ai/auth/signin)，并在 Agent 宿主中[连接插件](installation-guide.md)。你可以选择公开研究任务、描述自己的假设，或提供因子代码。此研究流程不需要交易所凭据。
 
-## 开始前准备
+## 向 Agent 提问
 
-* 一个受支持的 Agent Host；
-* 一个 [Quandora 账户](https://app.quandora.ai/auth/signin)；
-* 10–15 分钟；
-* 不需要交易所 API Key，这套研究流程不会下单。
-
-## 1. 安装并连接
-
-根据你的 Host 阅读[安装指南](installation-guide.md)。完成浏览器 OAuth 后，开始一个新对话或新任务，让 Host 发现全部五项 Quandora Skill。
-
-## 2. 运行第一个因子任务
-
-列出公开研究任务：
+如果想先选择任务：
 
 ```text
-/quandora:factor-mining show public tasks
+使用 Quandora Factor Mining 列出可用研究任务，解释各自测试什么，先让我选择。
 ```
 
-选择一个任务，或者让 Agent 选择：
+也可以直接授权完成一次实验：
 
 ```text
-Use Quandora Factor Mining to pick a public research task, generate a factor,
-run the backtest, and give me a short result summary.
+使用 Quandora Factor Mining 选择一个公开研究任务，解释假设，验证因子并运行回测。总结准确的结果和缺失证据。
 ```
 
-Agent 会读取[任务卡](../understanding-quandora/task-card.md)、检查是否存在核心机制高度相似的研究、编写 [`plugin.py`](../understanding-quandora/plugin.py.md)、验证完整源码并提交。Quandora 会在服务端绑定市场数据并运行评估。
+Agent 会读取当前[任务要求](../understanding-quandora/task-card.md)、检查相关研究、编写并验证完整因子源码，再提交并跟进同一次运行。验证检查代码契约，本身不等于已保存的回测结果。你无需亲自编写 `plugin.py`。
 
-## 3. 分析这一次明确的结果
+## 网页操作
 
-运行进入终态后，发起只读分析：
+1. 打开 **Research → Factors**。
+2. 在自己的库中找到因子并打开结果。侧栏的 **New** 用于创建文件夹；因子编写使用上面的 Agent 流程。
+3. 确认因子和运行与 Agent 返回的结果一致，再阅读指标。
+4. 查看判定、等级、Health、图表以及可用的研究背景。
+
+也可以直接分析官方因子，无需先挖掘新因子。可见性不会授予读取私有源码的权限。
+
+## 分析结果
 
 ```text
-/quandora:factor-analysis analyze my latest factor result
+使用 Quandora Factor Analysis 解释这次因子运行。区分已观察到的样本内指标与假设，提出一项受控实验，不要提交新运行。
 ```
 
-因子分析会解析一条明确运行，并读取当前用户范围内、由服务端留存的 IS 证据。它不依赖本地 ZIP、Python 运行时、Notebook 或解压后的图表目录。
-
-阅读[因子卡](../understanding-quandora/factor-card.md)中的结论、Health 证据、等级、指标、风险和受控实验建议。参考[Quandora 如何评估因子](../understanding-quandora/how-factors-are-judged.md)了解当前 Success 与等级语义。
-
-## 4. 查找可选导出文件
-
-当 Host 可以写入本地文件，并且已完成运行的 Result Bundle 已准备好时，因子挖掘会保存一个经过校验的 ZIP：
-
-```text
-Quandora result/factor/<factor_slug>.zip
-```
-
-该压缩包不会自动解压。它的 manifest 是判断已包含、等待中和省略项目的权威依据。`partial` 状态的包仍可能可读；处于 materializing 状态时，可以稍后请求同一结果。
+计算结果、图表和可选导出可能在不同时间就绪。证据准备中时，继续查看同一结果。缺失证据不等于零，也不构成重复提交的理由。
 
 ## 完成标准
 
-你的 Agent 已完成一次任务，并根据服务端证据解释了一条明确结果。失败因子同样有价值：负面证据可以帮助你确定下一项值得测试的实验。
+你已经定位一份因子结果，并理解已有证据支持哪些判断。失败的因子也能提供有用信息。选择下一项实验或策略因子之前，先阅读[分析因子](../guides/factor-analysis.md)和[因子如何评定](../understanding-quandora/how-factors-are-judged.md)。
 
-{% hint style="info" %}
-因子挖掘和因子分析不会下单。策略模拟盘使用模拟订单。实盘交易不属于当前公开产品。回测只说明已测试条件下的证据，不承诺未来表现。
-{% endhint %}
-
-## 下一步
-
-* 浏览[研究任务类别](../understanding-quandora/research-tasks.md)；
-* 学习如何经过明确确认后[改进并重新运行](../guides/improve-and-rerun.md)；
-* 使用[策略使用教程](../guides/strategy-tutorial.md)构建截面策略；
-* 遇到陌生术语时查看[术语表](../understanding-quandora/glossary.md)。
+分析读取服务端保存的证据。需要本地结果时，可以请求导出已验证的结果包 ZIP；参见[安装指南](installation-guide.md)。

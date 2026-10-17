@@ -9,14 +9,23 @@ independent of internal deployment topology.
 Canonical navigation lives in `SUMMARY.md` and follows this order:
 
 1. Start here
-2. Test your first idea
-3. Understand the result
-4. Improve and rerun
-5. Build and evaluate a strategy
-6. Paper trade a strategy
-7. Availability and limitations
-8. Concepts and reference
-9. Security, privacy and support
+2. Factor Mining
+3. Factor Analysis
+4. Strategy Building
+5. Strategy Analysis
+6. Portfolio Building
+7. Portfolio Analysis
+8. Portfolio Trading Analysis
+9. Concepts and reference
+10. Availability and support
+
+The first six workflows use historical backtests. Portfolio Trading Analysis
+covers forward evidence, Simulation account/run management, and read-only Live
+analysis. Each task guide provides web steps and an Agent example where the
+product supports them; do not invent web controls to make the paths symmetric.
+Keep existing source paths stable when titles or navigation placement change.
+GitBook page groups also affect published URLs. Preserve moved public routes in
+each language's `.gitbook.yaml` redirects and check them in the PR preview.
 
 Page responsibilities:
 
@@ -44,9 +53,17 @@ must be translated before appearing here:
 
 ## Public Language
 
-- Factor Mining, strategy composition/backtesting, and strategy paper trading
-  are available to public users.
-- Live trading is invite-only and is not open to general public users.
+- Document Factor, Strategy, and Portfolio research separately from Simulation
+  and real Live execution. Use the seven workflow names consistently.
+- Simulation may appear as Paper in interface labels. Explain that alias once
+  in relevant guides without presenting it as a different product.
+- Live access remains invite-only; access and actions depend on account
+  eligibility. The plugin analyzes existing Live evidence read-only. Live
+  setup and execution controls belong to the web interface.
+- Do not describe a capability as generally available before the matching
+  public product and plugin support it.
+- Preserve existing authorization across workflow handoffs. Analysis alone is
+  read-only; an explicit build-and-backtest request covers both steps.
 - Do not expose internal environment names, rollout mechanics, private
   endpoints, credentials, or infrastructure in public pages.
 - Do not invent security, privacy, retention, pricing, support, or operational

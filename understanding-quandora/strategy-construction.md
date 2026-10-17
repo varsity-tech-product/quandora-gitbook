@@ -1,78 +1,47 @@
----
-description: How eligible factors become a public cross-sectional Strategy backtest.
----
-
 # Strategy Construction
 
-A factor is a ranked signal. A Strategy combines one or more eligible factors
-with a cross-sectional portfolio configuration and evaluates the combined
-result after modeled fees and rebalancing.
+A Factor produces a score. A Strategy combines **1–20 eligible factors** with
+ranking, direction, and weighting rules. Its backtest evaluates the complete
+trading rule, including the applicable modeled execution costs.
 
-## Eligible Factor Sources
+## Eligible Factors
 
-Strategy Building can use:
+Select from the Strategy factor picker or the Agent's eligible-factor list.
+Ownership, visibility, a Factor grade, and eligibility are different properties.
+An Official or shared result that you can read is not automatically selectable.
+Use the eligibility returned for your account.
 
-* **Official** factors from read-only product inventory;
-* **Mine** factors that belong to your eligible Strategy pool;
-* **Shared** factors admitted to your Strategy pool.
+A new factor source goes through Factor Mining, validation, and evaluation
+before it can be selected when eligible. Do not bypass that process by passing
+an arbitrary `plugin.py` directly into Strategy creation.
 
-All three use the same selector path when a Strategy is submitted. An external
-`plugin.py` is a separate explicit import workflow and is not automatically
-classified as Mine.
+## Configuration Boundaries
 
-## Current Public Configuration
+| Choice | How to handle it |
+| --- | --- |
+| Factors | Select exact eligible entries; 1–20 factors |
+| Weighting | Equal weights or supported positive custom weights summing to one |
+| Direction | Long-short neutral, long only, or short only |
+| Ranking | State the top/bottom percentage or count |
+| Liquidity threshold | Select the option exposed in the web form; do not assume the Agent exposes the same control |
+| Backtest assumptions | Read the displayed execution parameters and the saved run configuration |
 
-The public Strategy contract supports 1–20 factors and exposes the following
-configuration boundary:
+The web form shows uniform product-level execution parameters for comparison.
+The Agent may expose a date range for a backtest; it must use only fields in its
+current contract. Initial cash, maker/taker fees, attribution, and custom
+universe overrides are not caller-configurable Agent backtest inputs.
 
-* Strategy name;
-* factor selection or explicit factor weights;
-* ranking;
-* cross-sectional strategy type;
-* start and end dates;
-* initial cash;
-* maker and taker fee rates;
-* rebalance interval;
-* attribution request.
+## Definitions And Results
 
-If ranking and strategy type are omitted, the current default is a neutral
-top/bottom 20% configuration. Always review the effective contract and defaults
-returned in the current session before submitting.
+A Strategy definition is immutable. Changing factors or configuration creates a
+new Strategy in the same folder. An additional backtest of an unchanged
+Strategy creates a new run. Older definitions and results remain distinct.
+See [Versions, Runs, and Accounts](versions-and-runs.md).
 
-Concepts such as a custom universe, bespoke entry/exit rules, liquidity
-filters, live risk limits, or a deployment target are not current public submit
-fields and should not be presented as selectable agent controls.
+[Strategy Building](../guides/strategy-tutorial.md) creates or revises research.
+[Strategy Analysis](../guides/strategy-analysis.md) reads an existing result and
+proposes experiments. Analysis does not silently submit a revision.
 
-## Strategy Evaluation
-
-The backtest evaluates the complete submitted configuration. Depending on
-available artifacts, evidence can include:
-
-* net and gross performance;
-* NAV and drawdown paths;
-* turnover and modeled costs;
-* funding;
-* exposure and neutrality;
-* per-symbol PnL and attribution;
-* position or trade history;
-* bounded numerical data for the retained six-chart analysis surface.
-
-The canonical run snapshot is the authority for the exact factor composition
-and parameters. Missing artifacts stay unavailable rather than being inferred
-from filenames or local files.
-
-## Building And Analyzing Are Separate
-
-**Strategy Building** lists factors, composes, submits, resumes, exports, and
-archives supported Strategy results. **Strategy Analysis** is read-only: it
-diagnoses one exact completed result and proposes controlled experiments.
-
-An analysis proposal does not change a strategy. The user must explicitly
-confirm a new Strategy Building submission.
-
-## Where This Leads
-
-A completed source may be eligible for simulated Paper Trading. Eligibility is
-checked again when the source is selected; it is not guaranteed by a grade or
-backtest status alone. Continue with the [Strategy Tutorial](../guides/strategy-tutorial.md)
-or [Paper Trading Tutorial](../guides/paper-trading-tutorial.md).
+For forward testing, place the evaluated Strategy in a one-member or multi-member
+[Portfolio](../guides/portfolio-building.md). A successful Strategy backtest by
+itself does not start an account.

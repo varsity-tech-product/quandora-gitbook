@@ -1,106 +1,51 @@
----
-description: >-
-  Five public Quandora skills, their evidence boundaries, and the explicit
-  confirmations between them.
----
+# Workflow Map
 
-# Quandora Workflow
+The seven workflows follow the same research objects in the web app and the
+Agent plugin. Building creates evidence; analysis explains the evidence already
+available. You can stop, revisit an earlier stage, or start from an existing
+object.
 
-Quandora separates creation from analysis and historical testing from
-simulation. The public workflow is implemented through five skills:
+| Workflow | Input | Outcome | Evidence type |
+| --- | --- | --- | --- |
+| [Factor Mining](../getting-started/quickstart.md) | Hypothesis, task, or factor source | Validated factor and evaluated run | Backtest |
+| [Factor Analysis](../guides/factor-analysis.md) | Exact factor result | IS diagnosis and proposed experiments | Backtest |
+| [Strategy Building](../guides/strategy-tutorial.md) | 1–20 eligible factors | Immutable Strategy and backtest | Backtest |
+| [Strategy Analysis](../guides/strategy-analysis.md) | Exact Strategy run | Diagnosis of the combined trading rule | Backtest |
+| [Portfolio Building](../guides/portfolio-building.md) | 1–5 distinct Strategies | Immutable Portfolio, weights, and backtest; sharing when requested | Backtest |
+| [Portfolio Analysis](../guides/portfolio-analysis.md) | Exact Portfolio backtest | Evidence of incremental value against declared baselines | Backtest |
+| [Portfolio Trading Analysis](../guides/portfolio-trading-analysis.md) | Simulation or Live account and run | Ledger-based forward diagnosis; Simulation management when requested | Forward test |
 
-```text
-Factor Mining -> Factor Analysis -> Strategy Building
-      ^                |                   |
-      +-- user-approved factor experiment-+
+## Web And Agent Entry Points
 
-Strategy Building -> Strategy Analysis -> Paper Trading
-        ^                    |
-        +-- user-approved strategy experiment
-```
+**Research** contains Factors and Strategies. **Portfolio Center** contains
+Markets, Mine, and Favorite. **Trading** contains Simulation and Live accounts.
+Some Trading controls still use the label **Paper** for Simulation.
 
-Analysis is read-only. A proposed factor experiment returns to Factor Mining; a
-composition or configuration experiment returns to Strategy Building. Paper
-Trading begins only after a separate explicit confirmation.
+The Agent routes a natural-language request to the matching skill. A request to
+analyze remains read-only. A request to build and backtest authorizes those
+steps; changing skills does not erase that authorization. Ask a follow-up only
+when an important choice or required authorization is missing.
 
-{% hint style="info" %}
-All five skills are available to public users. Paper Trading is simulated.
-Live trading is not part of the public product. See
-[Product Availability](../trust/product-availability.md).
-{% endhint %}
+## Keep The Object And Run Clear
 
-## 1. Factor Mining
+A Strategy defines a combination of factors. A Portfolio defines a combination
+of Strategies and their initial capital weights. Editing either creates a new
+definition in the same folder. Rerunning an unchanged definition produces a new
+backtest. Account observations belong to a particular forward run.
 
-Factor Mining starts from a public [Research Task](research-tasks.md) or a
-custom idea. The agent reads the server contract, creates and validates a
-contract-compliant [`plugin.py`](plugin.py.md), checks for materially similar
-work, submits the exact validated source, and follows the returned run.
+Names help you find objects, but two objects can share a name. Comparisons,
+revisions, and simulations must use the exact selected definition and run. See
+[Versions, Runs, and Accounts](versions-and-runs.md).
 
-Output: one factor result and, when requested and available, one verified
-Result Bundle ZIP.
+## Moving Into Forward Testing
 
-## 2. Factor Analysis
+A completed Portfolio backtest can have an automatically associated Simulation
+observation. Check that association and its source before creating another
+account or run. A single Strategy follows the same path through a one-member
+Portfolio. Creating an additional named Simulation account is a separate choice.
 
-Factor Analysis selects one exact run and reads owner-scoped,
-server-persisted IS evidence. It diagnoses the [Factor Card](factor-card.md),
-Health, rating fields, chart data, and inert source when needed.
-
-Output: observations, inferences, alternatives, risks, and controlled
-experiments. It does not submit or modify anything.
-
-## 3. Strategy Building
-
-Strategy Building lists eligible Official, Mine, and Shared factors. It composes
-a public cross-sectional Strategy, shows the effective configuration, obtains
-confirmation, submits the backtest, follows the same run, and can explicitly
-export its verified Result Bundle.
-
-Output: one canonical Strategy run with its exact factors and parameters.
-
-## 4. Strategy Analysis
-
-Strategy Analysis selects one exact run, reads its canonical configuration and
-retained artifacts, and uses bounded numerical chart evidence for diagnosis.
-
-Output: performance, risk, turnover, exposure, attribution, factor-combination,
-and Paper-readiness analysis. It does not submit a new Strategy or Paper run.
-
-## 5. Paper Trading
-
-Paper Trading selects an eligible completed Strategy source and obtains a
-separate confirmation before starting simulated execution. It can inspect the
-current portfolio, closed positions, fills, funding, equity, and bounded code,
-and it can stop the run after explicit confirmation.
-
-Output: simulated execution evidence. A stopped run is terminal and cannot be
-resumed.
-
-## Explicit Handoffs
-
-| From | To | Required user decision |
-| --- | --- | --- |
-| Factor Analysis | Factor Mining | Choose a proposed factor experiment and confirm a new run |
-| Factor or Strategy evidence | Strategy Building | Choose eligible factors and confirm the exact configuration |
-| Strategy Analysis | Strategy Building | Choose a proposed composition/configuration experiment |
-| Eligible Strategy source | Paper Trading | Confirm the exact source and simulation settings |
-| Paper evidence | Any research skill | Choose the next action; no automatic restart or repair |
-
-## Local Outputs
-
-Analysis does not depend on local files. In writable hosts, explicit completed
-exports use:
-
-```text
-Quandora result/factor/<factor_slug>.zip
-Quandora result/strategy/<strategy_slug>.zip
-```
-
-Each verified ZIP remains intact and is not automatically extracted or rebuilt.
-Its runtime manifest is the authority for included, pending, and omitted items.
-
-## Safety Boundary
-
-Backtests and simulated Paper runs are evidence under defined conditions. They
-are not future-return guarantees, financial advice, or permission for
-real-money execution. Missing evidence remains missing, analysis remains
-read-only, and mutations require explicit confirmation.
+Analysis may recommend an experiment, but does not automatically change a
+Portfolio or stop a running account. Live account setup and execution actions
+are handled in the web app for eligible users; the Agent reads existing Live
+evidence only. See [Simulation Accounts and Runs](../guides/paper-trading-tutorial.md)
+and [Live Trading Access](deployment-and-live-trading.md).

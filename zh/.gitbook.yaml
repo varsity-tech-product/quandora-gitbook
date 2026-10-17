@@ -4,3 +4,21 @@ structure:
   readme: README.md
   summary: SUMMARY.md
 
+# Preserve published URLs when SUMMARY.md page groups change.
+redirects:
+  ce-shi-ni-de-di-yi-ge-xiang-fa/quickstart: getting-started/quickstart.md
+  ce-shi-ni-de-di-yi-ge-xiang-fa/research-tasks: understanding-quandora/research-tasks.md
+  ce-shi-ni-de-di-yi-ge-xiang-fa/task-card: understanding-quandora/task-card.md
+  ce-shi-ni-de-di-yi-ge-xiang-fa/plugin.py: understanding-quandora/plugin.py.md
+  li-jie-ce-shi-jie-guo/factor-card: understanding-quandora/factor-card.md
+  li-jie-ce-shi-jie-guo/how-factors-are-judged: understanding-quandora/how-factors-are-judged.md
+  gai-jin-bing-chong-xin-yun-xing/improve-and-rerun: guides/improve-and-rerun.md
+  gou-jian-bing-ping-gu-ce-le/strategy-construction: understanding-quandora/strategy-construction.md
+  gou-jian-bing-ping-gu-ce-le/strategy-tutorial: guides/strategy-tutorial.md
+  yun-xing-ce-le-mo-ni-pan/paper-trading-and-monitoring: understanding-quandora/paper-trading-and-monitoring.md
+  yun-xing-ce-le-mo-ni-pan/paper-trading-tutorial: guides/paper-trading-tutorial.md
+  gong-neng-ke-yong-xing-yu-xian-zhi/product-availability: trust/product-availability.md
+  gong-neng-ke-yong-xing-yu-xian-zhi/deployment-and-live-trading: understanding-quandora/deployment-and-live-trading.md
+  gong-neng-ke-yong-xing-yu-xian-zhi/safety-risk-limits-and-kill-switch: understanding-quandora/safety-risk-limits-and-kill-switch.md
+  gai-nian-yu-can-kao-zi-liao/quandora-workflow: understanding-quandora/quandora-workflow.md
+  an-quan-yin-si-yu-zhi-chi/security-privacy-and-support: trust/security-privacy-and-support.md

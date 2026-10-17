@@ -1,52 +1,41 @@
----
-description: Choose the shortest route into Quandora for your background and goal.
-icon: route
----
-
 # Choose Your Path
 
-You do not need to learn every part of Quandora before using it. Start with the
-path that matches what you want to do.
+Start from what you already have. You do not need to mine a new factor to use an
+existing Strategy or explore a Community Portfolio.
+
+| Starting point | Next step | What you should have afterward |
+| --- | --- | --- |
+| A market hypothesis or factor code | [Factor Mining](quickstart.md) | One evaluated factor result |
+| An existing factor result | [Factor Analysis](../guides/factor-analysis.md) | A diagnosis and a controlled next experiment |
+| Eligible factors | [Strategy Building](../guides/strategy-tutorial.md) | A Strategy definition and its backtest |
+| A completed Strategy backtest | [Strategy Analysis](../guides/strategy-analysis.md) | Evidence about the complete trading rule |
+| One to five evaluated Strategies | [Portfolio Building](../guides/portfolio-building.md) | A weighted Portfolio and its backtest |
+| An existing Portfolio result | [Portfolio Analysis](../guides/portfolio-analysis.md) | A comparison against members and stated baselines |
+| A running Simulation or Live account | [Portfolio Trading Analysis](../guides/portfolio-trading-analysis.md) | A diagnosis grounded in that run's actual ledger |
+
+## I Prefer The Web App
+
+Use **Research → Factors / Strategies** to browse research, **Portfolios** to
+open Portfolio Center, and **Trading** to open accounts. Each tutorial names the
+relevant controls. Factor authoring and submission use the Agent workflow;
+the Factors page is where you browse and inspect the results.
+
+## I Prefer An Agent
+
+Follow the [Installation Guide](installation-guide.md). Describe your goal and
+the object you mean. If several items have the same name, provide a result link
+or select the exact version and run when asked. You do not need to memorize
+commands or tool names.
+
+## I Want To Explore Community Portfolios
+
+Open **Portfolio Center → Markets → Community**, inspect a Portfolio, and
+favorite it for later. Read [Community and Sharing](../guides/community-and-sharing.md)
+before starting an authorized Simulation in your own account. Viewing or
+favoriting a Portfolio does not transfer its ownership.
 
 ## I Am New To Quant Research
 
-Start with [Quandora 101](quandora-101-for-non-quants.md), then follow the
-[Quickstart](quickstart.md). You will learn what a factor is by running one
-guided research task and reading its evidence.
-
-## I Have A Market Idea To Test
-
-Go directly to the [Quickstart](quickstart.md). Choose a public research task or
-describe your own idea to your agent. After the run, use
-[Factor Analysis](../understanding-quandora/factor-card.md) and
-[How Factors Are Judged](../understanding-quandora/how-factors-are-judged.md)
-to diagnose the exact result.
-
-## I Already Have Factor Code
-
-Follow the [Installation Guide](installation-guide.md), then ask your agent to
-validate your `plugin.py` before starting a backtest. Validation checks whether
-the code matches the selected research task and supported factor contract; it
-does not run or save the factor by itself.
-
-## I Use AI Agents Or Build Integrations
-
-Follow the [Installation Guide](installation-guide.md) for Codex, Claude,
-Cursor, CodeBuddy, WorkBuddy China, or Kimi Code. The
-[plugin.py reference](../understanding-quandora/plugin.py.md) explains the
-executable factor contract used by Factor Mining.
-
-## I Want To Build A Strategy
-
-Read [Strategy Construction](../understanding-quandora/strategy-construction.md)
-to understand how evaluated factors become a strategy. Then continue to the
-[Strategy Tutorial](../guides/strategy-tutorial.md), including the separate
-read-only Strategy Analysis step.
-
-## I Want To Monitor A Strategy Forward
-
-Start with a completed strategy backtest, then continue to the
-[Paper Trading Tutorial](../guides/paper-trading-tutorial.md). Paper trading
-reuses that exact evaluated strategy with simulated orders; you do not rebuild
-its factor composition when starting the run. Starting and stopping both require
-explicit confirmation.
+Read [Quandora 101](quandora-101-for-non-quants.md), then choose one of the paths
+above. Keep the [Glossary](../understanding-quandora/glossary.md) nearby; you can
+ask the Agent to explain each metric using the result you are looking at.

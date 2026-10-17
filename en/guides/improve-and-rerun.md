@@ -1,79 +1,56 @@
 ---
-description: Diagnose one tested factor and run a user-approved controlled experiment.
 content_status: handoff
 content_owner: plugin-and-product-backend
 ---
 
 # Improve And Rerun A Factor
 
-A failed or fragile factor is useful evidence. The safest improvement workflow
-diagnoses one exact run, changes one mechanism at a time, and preserves the
-original result.
+Use the diagnosis of one exact factor run to test one controlled change. Preserve
+the original evidence so you can tell whether the change helped.
 
-## 1. Analyze The Exact Run
+## In The Web App
 
-Use Factor Analysis for read-only diagnosis:
+Open the original result under **Research → Factors** and record its run, task,
+horizon, and evidence scope. After the new experiment completes, return to the
+new result and compare compatible metrics. Factor source revisions are handled
+through the Agent workflow.
 
-```text
-/quandora:factor-analysis analyze my latest factor result
-```
+## Ask Your Agent
 
-If more than one run could match, select the exact factor and run instead of
-letting the agent guess. Factor Analysis reads server-persisted IS evidence and
-should separate:
-
-* observed metrics and Health fields;
-* inferences about the mechanism;
-* plausible alternative explanations;
-* controlled experiments that could distinguish them.
-
-It does not submit, resume, archive, or modify anything.
-
-## 2. Choose One Controlled Change
-
-Prefer a change with a clear reason and measurable expected effect. Examples:
-
-* reduce missing output while preserving the economic idea;
-* smooth a noisy signal and check the autocorrelation/turnover tradeoff;
-* change normalization to improve cross-sectional ranking;
-* remove one weak input instead of adding several new inputs;
-* test whether a filter causes an applicability/Health mismatch.
-
-For each proposal, record the motivating evidence, expected change, metric that
-would confirm it, and main failure mode.
-
-## 3. Confirm Before Creating A New Run
-
-Analysis remains read-only. When you choose an experiment, explicitly ask
-Factor Mining to create and submit it:
+First request a proposal:
 
 ```text
-Use Quandora Factor Mining to run the first proposed experiment. Keep the
-original result unchanged and show me the exact change before submission.
+Use Quandora Factor Analysis to propose one change to this result. State the
+evidence motivating it, the expected effect, and what would disprove it.
 ```
 
-The agent should show the new thesis and source-level change, validate the full
-new `plugin.py`, and obtain confirmation before submission.
+Then authorize the selected experiment when ready:
 
-## 4. Compare Like With Like
+```text
+Use Quandora Factor Mining to implement and backtest that smoothing experiment.
+Keep the original result unchanged. Validate the full revised source and compare
+the resulting run with the original on compatible evidence.
+```
 
-Compare runs only when their task, horizon, evidence scope, active-universe
-basis, and Health thresholds are compatible. Review:
+A clear implementation-and-backtest request authorizes both steps. An Agent
+should not ask again solely because it hands off from analysis to mining. If
+you ask to review the change before submission, it must stop at that review.
 
-* Success failure reasons;
-* Health and missingness;
-* Rank IC, autocorrelation, and Sharpe;
-* path stability, drawdown, and turnover;
-* whether the intended mechanism improved;
-* whether a different risk appeared.
+## Compare Like With Like
 
-## History And Immutability
+Check task, horizon, data/evidence scope, and Health basis before comparing
+Success reasons, coverage, Rank IC, autocorrelation, Sharpe, drawdown, turnover,
+and costs. A different test window or applicability basis can explain a change
+without validating the new mechanism.
 
-Factor Mining can browse caller-owned factor families, versions, and runs.
-Historical source editing is not exposed in the current public agent workflow.
-A terminal result stays unchanged; an approved experiment creates new evidence
-instead of rewriting the old run.
+Useful experiments include smoothing a noisy score, fixing missing outputs,
+changing normalization, or removing one weak input. Avoid changing many
+mechanisms at once or selecting only the best result from repeated trials.
 
-Stop when repeated changes become curve fitting or when the evidence no longer
-supports the original mechanism. Continue to [Strategy Construction](../understanding-quandora/strategy-construction.md)
-only after you deliberately choose a factor for a strategy experiment.
+## Done When
+
+The new run is identified, the original remains available, and the comparison
+states whether the intended effect occurred and what tradeoff appeared.
+A failed or inconclusive experiment should be reported as such. Continue to
+[Strategy Building](strategy-tutorial.md) only when you choose to test eligible
+factors together.

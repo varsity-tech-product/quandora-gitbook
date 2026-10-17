@@ -22,12 +22,30 @@
     {"en": "Fork", "zh-CN": "分叉"},
     {"en": "Rerun", "zh-CN": "重新运行"},
     {"en": "Archive", "zh-CN": "归档"},
-    {"en": "Kill Switch", "zh-CN": "紧急停止"}
+    {"en": "Kill Switch", "zh-CN": "紧急停止"},
+    {"en": "Strategy Building", "zh-CN": "策略构建"},
+    {"en": "Portfolio", "zh-CN": "组合"},
+    {"en": "Portfolio Building", "zh-CN": "组合构建"},
+    {"en": "Portfolio Analysis", "zh-CN": "组合分析"},
+    {"en": "Portfolio Trading Analysis", "zh-CN": "组合交易分析"},
+    {"en": "Simulation", "zh-CN": "模拟盘"},
+    {"en": "Forward test", "zh-CN": "前向验证"},
+    {"en": "Backtest run", "zh-CN": "回测运行"},
+    {"en": "Account", "zh-CN": "账户"},
+    {"en": "Trading run", "zh-CN": "交易运行"},
+    {"en": "Publication", "zh-CN": "发布内容"},
+    {"en": "Share", "zh-CN": "分享"},
+    {"en": "Favorite", "zh-CN": "收藏"},
+    {"en": "Pause", "zh-CN": "暂停"},
+    {"en": "Resume", "zh-CN": "恢复运行"},
+    {"en": "Restore", "zh-CN": "恢复账户"},
+    {"en": "Initial capital weight", "zh-CN": "初始资金权重"}
   ],
   "literal_rules": [
     "Do not translate commands, code, file paths, JSON keys, IDs, metric keys, or URLs.",
     "Keep product and host names such as Quandora, Codex, Claude, and OpenClaw unchanged.",
     "Keep Rank IC in English and explain it in Chinese prose when first introduced.",
-    "Use direct, natural Chinese and avoid unnecessary negative-then-positive constructions such as 不是……而是…… and 并非……而是……."
+    "Use direct, natural Chinese and avoid unnecessary negative-then-positive constructions such as 不是……而是…… and 并非……而是…….",
+    "Use Simulation as the workflow term and explain Paper as an interface alias; do not rename literal UI labels in procedural steps."
   ]
 }
