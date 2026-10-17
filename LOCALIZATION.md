@@ -65,7 +65,12 @@ current Markdown file relative to that language root. This follows GitBook's
 [maintained Git Sync configuration example](https://github.com/GitbookIO/demo-docs-gitbook/blob/main/.gitbook.yaml).
 
 When moving a page, compare the published navigation with the PR preview, add
-any missing old routes, and check that redirect destinations exist. Test an old
-URL in the new preview before merging. The existing main-branch site remains
-unchanged until publication; include these configuration files in any rollback
-of the corresponding navigation change.
+any missing old routes, and check that redirect destinations exist. Exercise
+both old and new URLs in the PR preview and record the result. Preview rendering
+alone does not prove published redirect behavior: in the seven-workflow preview,
+the new pages rendered but the old Quickstart route still returned not found
+with the redirect configuration present. Keep that limitation visible in the PR
+and verify the old public routes when the approved release is published.
+
+The existing main-branch site remains unchanged until publication; include these
+configuration files in any rollback of the corresponding navigation change.
