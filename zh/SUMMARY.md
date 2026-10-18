@@ -48,9 +48,7 @@
 
 ## 概念与参考资料
 
-* [版本、运行与账户](understanding-quandora/versions-and-runs.md)
 * [我们的数据](understanding-quandora/our-data.md)
-* [编写 plugin.py](understanding-quandora/plugin.py.md)
 * [术语表](understanding-quandora/glossary.md)
 
 ## 功能可用性与支持

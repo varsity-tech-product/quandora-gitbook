@@ -48,9 +48,7 @@
 
 ## CONCEPTS AND REFERENCE
 
-* [Versions, Runs, and Accounts](understanding-quandora/versions-and-runs.md)
 * [Our Data](understanding-quandora/our-data.md)
-* [Writing plugin.py](understanding-quandora/plugin.py.md)
 * [Glossary](understanding-quandora/glossary.md)
 
 ## AVAILABILITY AND SUPPORT
