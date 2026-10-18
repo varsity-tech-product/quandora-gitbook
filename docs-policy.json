@@ -49,7 +49,9 @@
   "markdown_exclusions": [
     "AGENTS.md",
     "LOCALIZATION.md",
-    "SUMMARY.md"
+    "SUMMARY.md",
+    "understanding-quandora/versions-and-runs.md",
+    "understanding-quandora/plugin.py.md"
   ],
   "handoffs": {
     "guides/improve-and-rerun.md": "plugin-and-product-backend",
