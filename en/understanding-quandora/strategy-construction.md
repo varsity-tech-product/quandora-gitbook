@@ -23,7 +23,7 @@ an arbitrary `plugin.py` directly into Strategy creation.
 | Weighting | Equal weights or supported positive custom weights summing to one |
 | Direction | Long-short neutral, long only, or short only |
 | Ranking | State the top/bottom percentage or count |
-| Liquidity threshold | Select the option exposed in the web form; do not assume the Agent exposes the same control |
+| Liquidity threshold | By 30-day average daily volume (excluding today), in USD: Low > 10M, Medium > 50M, High > 100M. Updated daily. |
 | Backtest assumptions | Read the displayed execution parameters and the saved run configuration |
 
 The web form shows uniform product-level execution parameters for comparison.
